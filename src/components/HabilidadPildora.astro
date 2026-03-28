@@ -1,0 +1,35 @@
+---
+// Parte 1: Definimos las propiedades (Props) que recibe el componente
+interface Props {
+  nombre: string;
+}
+
+const { nombre } = Astro.props;
+---
+
+<span class="skill-badge">
+  {nombre}
+</span>
+
+<style>
+  .skill-badge {
+    display: inline-block;
+    padding: 0.35rem 0.8rem;
+    background-color: #f1f5f9; /* Color gris suave de fondo */
+    color: #1e293b;           /* Color de texto oscuro */
+    border: 1px solid #e2e8f0; /* Borde sutil */
+    border-radius: 9999px;    /* Bordes totalmente redondeados (píldora) */
+    font-size: 0.875rem;      /* Tamaño de fuente ligeramente menor */
+    font-weight: 500;
+    margin-right: 0.5rem;     /* Espacio entre píldoras */
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease; /* Animación suave al pasar el mouse */
+  }
+
+  /* Efecto visual al pasar el mouse */
+  .skill-badge:hover {
+    background-color: #e2e8f0;
+    transform: translateY(-1px); /* Pequeño levantamiento */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+</style>

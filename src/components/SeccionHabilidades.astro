@@ -1,0 +1,71 @@
+---
+// Importamos el componente de píldora y los datos de tu CV
+import HabilidadPildora from './HabilidadPildora.astro';
+import cv from '../data/cv.json';
+
+// Obtenemos el objeto de tecnologías
+const { tecnologias } = cv;
+
+// Definimos los títulos amigables para cada categoría
+const titulosCategorias = {
+  backend: "Tecnologías Backend",
+  frontend: "Frontend & UI",
+  basesDeDatos: "Bases de Datos",
+  herramientas: "Herramientas & DevOps"
+};
+---
+
+<section class="skills-section">
+  <h2>Habilidades Técnicas</h2>
+  
+  <div class="skills-grid">
+    {/* Convertimos el objeto tecnologias en un array para iterar */}
+    {Object.entries(tecnologias).map(([categoria, listaHabilidades]) => (
+      <div class="skill-category">
+        {/* Usamos el título amigable o el nombre de la clave por defecto */}
+        <h3>{titulosCategorias[categoria as keyof typeof titulosCategorias] || categoria}</h3>
+        
+        <div class="badges-container">
+          {listaHabilidades.map((habilidad) => (
+            <HabilidadPildora nombre={habilidad} />
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .skills-section {
+    max-width: 850px; /* Ajusta según el diseño de tu CV */
+    margin: 3rem auto;
+    padding: 0 1rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    color: #1a1a1a;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Diseño responsivo */
+    gap: 2rem;
+  }
+
+  .skill-category h3 {
+    font-size: 1.1rem;
+    color: #475569;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .badges-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las píldoras bajen de línea */
+    margin-bottom: 1rem;
+  }
+</style>

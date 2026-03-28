@@ -1,0 +1,33 @@
+---
+// Importamos los datos directamente
+import cvData from '../data/cv.json';
+const { sobreMi } = cvData;
+---
+<section class="experience-section">
+  <h2>Sobre Mi</h2>
+    <div class="job-card">
+      <div class="header">
+        
+        <span>{sobreMi}</span>
+      </div>      
+    </div>
+</section>
+
+<style>
+  .experience-section {
+    max-width: 800px;
+    margin: 2rem auto;
+  }
+  .job-card {
+    margin-bottom: 2rem;
+    border-left: 2px solid #007acc;
+    padding-left: 1.5rem;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  h3 { margin: 0; color: #1a1a1a; }
+  .company { font-weight: bold; color: #555; }
+</style>

@@ -1,17 +1,27 @@
 ---
-
+import Experiencia from '../components/Experience.astro';
+import Hero from '../components/Hero.astro';
+import SeccionHabilidades from '../components/SeccionHabilidades.astro';
+import cvData from '../data/cv.json';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>CV - {cvData.nombre}</title>
+    <style>
+      body { font-family: system-ui, sans-serif; line-height: 1.6; color: #333; background: #f9f9f9; }
+    </style>
+  </head>
+  <body>
+    <header style="text-align: center; padding: 4rem 1rem; background: #fff;">
+      <h1>{cvData.nombre}</h1>
+      <p>{cvData.puesto} | {cvData.ubicacion}</p>
+    </header>
+    <main>
+	  <Hero />
+      <Experiencia />
+	  <SeccionHabilidades />
+    </main>
+  </body>
 </html>

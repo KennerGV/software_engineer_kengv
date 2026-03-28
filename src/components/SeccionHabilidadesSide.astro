@@ -1,0 +1,77 @@
+---
+import cv from '../data/cv.json';
+
+// Definimos niveles para tus habilidades (puedes ajustar esto)
+const skillsConNivel = [
+  { nombre: "ASP.NET Core", nivel: 90 },
+  { nombre: "C#", nivel: 95 },
+  { nombre: "SQL Server", nivel: 85 },
+  { nombre: "Docker", nivel: 80 },
+  { nombre: "Kubernetes", nivel: 70 },
+  { nombre: "React (Frontend)", nivel: 75 }
+];
+---
+
+<section class="sidebar-section">
+  <h2>POWER CHARGE</h2>
+  <div class="skills-list">
+    {skillsConNivel.map(skill => (
+      <div class="skill-item">
+        <span class="skill-name">{skill.nombre}</span>
+        <div class="skill-bar-bg">
+          <div class="skill-bar-fill" style={`width: ${skill.nivel}%`}></div>
+          <div class="skill-bar-dot" style={`left: ${skill.nivel}%`}></div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .skills-list {
+    width: 100%;
+  }
+
+  .skill-item {
+    margin-bottom: 1.2rem;
+    text-align: center; /* Nombres centrados como en la imagen */
+  }
+
+  .skill-name {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    color: #ffffff;
+  }
+
+  .skill-bar-bg {
+    width: 100%;
+    height: 6px; /* Altura de la barra */
+    background-color: rgba(255, 255, 255, 0.3); /* Fondo blanco sutil */
+    border-radius: 3px;
+    position: relative;
+    overflow: visible; /* Para que el punto se vea */
+  }
+
+  .skill-bar-fill {
+    height: 100%;
+    background-color: #ffffff; /* Relleno blanco */
+    border-radius: 3px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: width 0.5s ease-out; /* Animación de carga */
+  }
+
+  .skill-bar-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    position: absolute;
+    top: -3px; /* Centrado verticalmente sobre la barra */
+    transform: translateX(-50%); /* Centrado horizontalmente en el final de la barra */
+    box-shadow: 0 0 5px rgba(255,255,255,0.5);
+  }
+</style>

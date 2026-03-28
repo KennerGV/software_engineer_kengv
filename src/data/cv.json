@@ -1,0 +1,82 @@
+{
+  "nombre": "Kener Gutiérrez Vásquez",
+  "puesto": "Software Engineer | Backend Engineer | Full-stack Developer",
+  "ubicacion": "Montevideo, Uruguay",
+  "sobreMi": "Ingeniero en Sistemas con 4 años de experiencia, especializado en desarrollo backend y modernización de arquitecturas. Experto en migraciones de sistemas legados (Oracle Forms) a ecosistemas .NET modernos, construcción de APIs robustas y contenedorización con Docker. Enfocado en la calidad de código (SonarQube) y observabilidad (Serilog).",
+  "tecnologias": {
+    "backend": ["ASP.NET Core", ".NET 6/8", "C#", "Web Services", "Entity Framework", "LINQ"],
+    "frontend": ["Blazor WebAssembly", "Tailwind CSS", "JavaScript", "HTML", "Razor"],
+    "basesDeDatos": ["Oracle 11g", "SQL Server", "Sybase", "Redis"],
+    "herramientas": ["Docker", "Kubernetes", "Git", "SonarQube", "Serilog", "LLMs (Gemini/Llama)", "BPM Ultimus"]
+  },
+  "experiencia": [
+    {
+      "empresa": "CR Atesa Software",
+      "puesto": "Programmer Analyst",
+      "periodo": "2022 - Actualidad",
+      "proyectos": [
+        {
+          "cliente": "AyA (Proyecto Actual)",
+          "periodo": "2024 - Actualidad",
+          "detalles": [
+            "Migración integral de .NET Framework 4.5 a .NET 6 (MVC y API).",
+            "Diseño de base de datos SQL Server: vistas, funciones y procedimientos almacenados.",
+            "Implementación de lógica de negocio avanzada con LINQ y Entity Framework.",
+            "Desarrollo de interfaces dinámicas con Razor en el Frontend."
+          ]
+        },
+        {
+          "cliente": "Banco Davivienda",
+          "periodo": "2023 - 2024",
+          "detalles": [
+            "Actualización de flujos bancarios críticos utilizando BPM Ultimus.",
+            "Arquitectura de APIs en .NET 6 (C#) bajo patrón de capas.",
+            "Migración de Web Services (VB) a servicios modernos con integración Sybase.",
+            "Implementación de Docker con Redis, Serilog y SonarQube para calidad y caché.",
+            "Seguridad mediante firmas canónicas y monitoreo con HealthChecks."
+          ]
+        },
+        {
+          "cliente": "AyA (Modernización)",
+          "periodo": "2022 - 2023",
+          "detalles": [
+            "Migración de Oracle Forms a Aplicación Web MVC y Web Services (.NET 4.5).",
+            "Gestión de base de datos Oracle 11g (Packages, Store Procedures).",
+            "Reconstrucción de reportes complejos desde Oracle Reports hacia Reporting Services."
+          ]
+        }
+      ],
+      "logros": [
+        "Modernización exitosa de sistemas bancarios y gubernamentales legacy.",
+        "Optimización de flujos de trabajo mediante automatización con modelos de IA (Gemini/Llama).",
+        "Reducción de deuda técnica mediante la implementación de SonarQube y Serilog."
+      ]
+    }
+  ],
+  "certificaciones": [
+    {
+      "nombre": "Azure AZ-900",
+      "institucion": "Microsoft"
+    },
+    {
+      "nombre": "Scrum Master",
+      "institucion": "Scrum Institute"
+    },
+    {
+      "nombre": "Net Core Avanzado",
+      "institucion": "CPIC"
+    },
+    {
+      "nombre": "Cybersecurity Essentials",
+      "institucion": "Cisco"
+    },
+    {
+      "nombre": "Oracle 11g",
+      "institucion": "Udemy"
+    },
+    {
+      "nombre": "Operador de Aplicaciones Ofimáticas",
+      "institucion": "INA"
+    }
+  ]
+}

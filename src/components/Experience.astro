@@ -1,0 +1,44 @@
+---
+// Importamos los datos directamente
+import cvData from '../data/cv.json';
+const { experiencia } = cvData;
+---
+
+<section class="experience-section">
+  <h2>Experiencia Profesional</h2>
+  {experiencia.map((job) => (
+    <div class="job-card">
+      <div class="header">
+        <h3>{job.puesto}</h3>
+        <span>{job.periodo}</span>
+      </div>
+      <p class="company">{job.empresa}</p>
+      <ul>
+        {job.proyectos.map((proyecto) => (
+          <h4 class="cliente">{proyecto.cliente} {proyecto.periodo}</h4>
+          <ul>{proyecto.detalles.map(item => <li>{item}</li>)}</ul>
+        ))}
+      </ul>
+    </div>
+  ))}
+</section>
+
+<style>
+  .experience-section {
+    max-width: 800px;
+    margin: 2rem auto;
+  }
+  .job-card {
+    margin-bottom: 2rem;
+    border-left: 2px solid #007acc;
+    padding-left: 1.5rem;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  h3 { margin: 0; color: #1a1a1a; }
+  .company { font-weight: bold; color: #555; }
+  .cliente { font-weight: bold; color: #555; }
+</style>
