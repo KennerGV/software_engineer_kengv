@@ -1,0 +1,53 @@
+---
+const whatsappUrl = "https://wa.me/50687355106";
+---
+
+<div class="floating-container">
+  <a href="/public/Kener_CV.pdf" download class="float-btn pdf" title="Descargar PDF">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+    <span>PDF</span>
+  </a>
+  
+  <a href={whatsappUrl} target="_blank" class="float-btn whatsapp" title="WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-10.6 8.38 8.38 0 0 1 3.8.9L21 3z"></path></svg>
+    <span>WhatsApp</span>
+  </a>
+</div>
+
+<style>
+  .floating-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 999;
+  }
+
+  .float-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, background 0.3s;
+  }
+
+  .whatsapp { background-color: #25d366; }
+  .pdf { background-color: #4da4af; }
+
+  .float-btn:hover {
+    transform: scale(1.1);
+  }
+
+  /* En móviles ocultamos el texto para que solo queden los iconos redondos */
+  @media (max-width: 600px) {
+    .float-btn span { display: none; }
+    .float-btn { padding: 15px; border-radius: 50%; }
+  }
+</style>

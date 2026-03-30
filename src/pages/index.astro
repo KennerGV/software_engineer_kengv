@@ -1,27 +1,19 @@
 ---
+import Sidebar from '../components/SideBar.astro';
 import Experiencia from '../components/Experience.astro';
 import Hero from '../components/Hero.astro';
 import SeccionHabilidades from '../components/SeccionHabilidades.astro';
 import cvData from '../data/cv.json';
+import MainLayout from '../layouts/MainLayout.astro';
 ---
-
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <title>CV - {cvData.nombre}</title>
-    <style>
-      body { font-family: system-ui, sans-serif; line-height: 1.6; color: #333; background: #f9f9f9; }
-    </style>
-  </head>
-  <body>
-    <header style="text-align: center; padding: 4rem 1rem; background: #fff;">
-      <h1>{cvData.nombre}</h1>
-      <p>{cvData.puesto} | {cvData.ubicacion}</p>
-    </header>
-    <main>
-	  <Hero />
-      <Experiencia />
+<MainLayout>
+  <section id="sobre-mi">
+    <Hero />
+  </section>
+  <section id="experiencia">
+    <Experiencia />
+  </section>
+  <section id="habilidades">
 	  <SeccionHabilidades />
-    </main>
-  </body>
-</html>
+  </section>
+</MainLayout>

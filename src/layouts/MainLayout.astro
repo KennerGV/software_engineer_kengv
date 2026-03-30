@@ -1,0 +1,32 @@
+---
+import Sidebar from '../components/SideBar.astro';
+import '../styles/global.css'; // Aquí importarás tus estilos generales
+import cvData from '../data/cv.json';
+import FloatingActions from '../components/FloatingActions.astro';
+
+const { title = "Kener Gutiérrez | Software Engineer" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <head>
+    <meta charset="utf-8" />
+    <title>CV - {cvData.nombre}</title>
+    <style>
+      body { font-family: system-ui, sans-serif; line-height: 1.6; color: #333; background: #f9f9f9; }
+    </style>
+  </head>
+</head>
+<body>
+    <Sidebar nombre={cvData.nombre} puesto={cvData.puesto} />
+    <header style="text-align: center; padding: 4rem 1rem; background: #fff;">
+      <h1>{cvData.nombre}</h1>
+      <p>{cvData.puesto} | {cvData.ubicacion}</p>
+    </header>
+    <main>
+        <slot />
+        <FloatingActions />
+    </main>
+  </body>
+</html>

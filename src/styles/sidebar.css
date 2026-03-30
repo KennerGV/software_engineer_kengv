@@ -1,0 +1,161 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px; /* Ajustado para mejor balance */
+    height: 100vh;
+    background-color: #4da4af; /* Tu color turquesa */
+    border-right: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebar-content {
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: white;
+  }
+
+  /* Perfil */
+  .avatar {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    border: 4px solid rgba(255,255,255,0.3);
+    margin: 0 auto 1.5rem;
+    display: block;
+    object-fit: cover;
+  }
+
+  .profile-section h2 {
+    font-size: 1.4rem;
+    color: white;
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .profile-section p {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.8);
+    margin-top: 5px;
+  }
+
+  .separator {
+    border: 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin: 2rem 0;
+  }
+
+  /* Links */
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    flex-grow: 1;
+  }
+
+  .nav-item {
+    padding: 12px 15px;
+    text-decoration: none;
+    color: rgba(255,255,255,0.9);
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .nav-item:hover {
+    background: rgba(255,255,255,0.15);
+    padding-left: 20px;
+    color: white;
+  }
+
+  /* Botón Hamburguesa "Viajero" */
+  .menu-btn {
+    position: absolute;
+    top: 20px;
+    right: -60px; /* Se queda afuera cuando el sidebar se oculta */
+    width: 50px;
+    height: 50px;
+    background: #4da4af;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+    transition: all 0.4s ease;
+  }
+
+  /* Cuando el sidebar se abre, el botón se mete */
+  .sidebar.is-open .menu-btn {
+    right: 15px;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .hamburger-icon span {
+    display: block;
+    width: 26px;
+    height: 3px;
+    background: white;
+    margin: 5px 0;
+    transition: 0.3s;
+    border-radius: 2px;
+  }
+
+  /* Animación a X */
+  .sidebar.is-open .hamburger-icon span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+  .sidebar.is-open .hamburger-icon span:nth-child(2) { opacity: 0; }
+  .sidebar.is-open .hamburger-icon span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+
+  /* Acciones */
+  .contact-actions {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn {
+    padding: 14px;
+    text-align: center;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: transform 0.2s;
+  }
+
+  .whatsapp { background: #25d366; color: white; box-shadow: 0 4px 12px rgba(37,211,102,0.3); }
+  .download { background: white; color: #4da4af; }
+  .btn:hover { transform: translateY(-2px); }
+
+  .sidebar-footer {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .sidebar-footer a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+
+  /* MOBILE LOGIC */
+  @media (max-width: 1024px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.is-open { transform: translateX(0); }
+  }
+
+  /* DESKTOP LOGIC */
+  @media (min-width: 1025px) {
+    .sidebar { transform: translateX(0); }
+    .menu-btn { display: none; } /* En PC suele estar siempre visible */
+  }
