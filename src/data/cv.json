@@ -1,6 +1,7 @@
 {
   "nombre": "Kener Gutiérrez Vásquez",
-  "puesto": "Software Engineer | Backend Engineer | Full-stack Developer",
+  "edad" : "29 años",
+  "puesto": "Software Engineer | Full-stack Developer",
   "ubicacion": "Montevideo, Uruguay",
   "sobreMi": "Ingeniero en Sistemas con 4 años de experiencia, especializado en desarrollo backend y modernización de arquitecturas. Experto en migraciones de sistemas legados (Oracle Forms) a ecosistemas .NET modernos, construcción de APIs robustas y contenedorización con Docker. Enfocado en la calidad de código (SonarQube) y observabilidad (Serilog).",
   "tecnologias": {
@@ -77,6 +78,18 @@
     {
       "nombre": "Operador de Aplicaciones Ofimáticas",
       "institucion": "INA"
+    }
+  ],
+  "educacion": [
+    {
+      "titulo":"Ingeniero en sistemas",
+      "institución":"Universidad Latina de Costa Rica",
+      "nivel":"Universitario"
+    },
+    {
+      "titulo":"Bachiller Educación Media",
+      "institución":"Liceo Sta Cruz Climaco A. Perez",
+      "nivel":"Secundaria"
     }
   ]
 }

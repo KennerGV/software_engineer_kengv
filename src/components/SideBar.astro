@@ -1,8 +1,8 @@
 ---
 // Datos dinámicos
 import '../styles/sidebar.css';
-const { nombre = "Kener Gutiérrez", puesto = "Backend Engineer" } = Astro.props;
-const whatsappUrl = "https://wa.me/5989XXXXXXX?text=Hola%20Kener...";
+import cvData from '../data/cv.json';
+const { nombre, edad, puesto, tecnologias, educacion, ubicacion} = cvData;
 ---
 
 <header class="sidebar" id="sidebar">
@@ -18,20 +18,47 @@ const whatsappUrl = "https://wa.me/5989XXXXXXX?text=Hola%20Kener...";
     <div class="profile-section">
       <img src="/software_engineer_kengv/FotoPerfil.jpg" alt={nombre} class="avatar" />
       <h2>{nombre}</h2>
+      <h4>{edad}</h4>
       <p>{puesto}</p>
     </div>
 
     <hr class="separator" />
 
-    <nav class="nav-links">
+    <nav class="nav-links desktop-nav">
+      <span class="sidebar-label">Navegación</span>
       <a href="#sobre-mi" class="nav-item">Sobre Mí</a>
       <a href="#experiencia" class="nav-item">Experiencia</a>
       <a href="#habilidades" class="nav-item">Habilidades</a>
     </nav>
+
+    <div class="mobile-info">
+      <div class="info-section">
+        <span class="sidebar-label">Core Stack</span>
+        {tecnologias.backend.map((backend) =>(
+          <div class="tags-mini">
+          <span>{backend}</span>
+          </div>
+        ))}        
+      </div>
+
+      <div class="info-section">
+        <span class="sidebar-label">Educación</span>
+        {educacion.filter(item => item.nivel === "Universitario")
+          .map((item) => (
+            <p>{item.titulo} - {item.institución}</p>
+          ))
+        }
+      </div>
+
+      <div class="info-section">
+        <span class="sidebar-label">Ubicación</span>
+        <p>{ubicacion}</p>
+      </div>
+    </div>
     
     <div class="sidebar-footer">
         <a href="https://github.com/KennerGV" target="_blank">GitHub</a>
-        <a href="https://linkedin.com/in/tu-user" target="_blank">LinkedIn</a>
+        <a href="https://linkedin.com/in/kener-gutierrez-vasquez-3b0479174" target="_blank">LinkedIn</a>
     </div>
   </div>
 </header>
@@ -44,7 +71,6 @@ const whatsappUrl = "https://wa.me/5989XXXXXXX?text=Hola%20Kener...";
     sidebar?.classList.toggle('is-open');
   });
 
-  // Cerrar al hacer clic en un link (crucial para móviles)
   document.querySelectorAll('.nav-item').forEach(link => {
     link.addEventListener('click', () => {
       sidebar?.classList.remove('is-open');
