@@ -124,7 +124,25 @@
 }
 
 @media (max-width: 1024px) {
+  /* Forzamos que el contenido sea visible SIEMPRE */
+  details.contact-accordion .accordion-content {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  details.education-accordion .accordion-content {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
   .contact-accordion {
+    pointer-events: none; /* Desactiva el click para que no se pueda cerrar */
+  }
+  .education-accordion {
     pointer-events: none; /* Desactiva el click para que no se pueda cerrar */
   }
   
@@ -133,13 +151,24 @@
     opacity: 1 !important;
     transform: none !important;
   }
+  .education-accordion .accordion-content {
+    display: block !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 
-  .contact-accordion .chevron {
+  .contact-accordion .chevronContact {
+    display: none; /* Ocultamos la flecha ya que no es interactivo */
+  }
+  .education-accordion .chevronEducation {
     display: none; /* Ocultamos la flecha ya que no es interactivo */
   }
 
   /* Forzamos el estado abierto visualmente */
   .contact-accordion summary {
+    cursor: default;
+  }
+  .education-accordion summary {
     cursor: default;
   }
   .sidebar { transform: translateX(-100%); }
@@ -248,10 +277,10 @@
   opacity: 0.6;
 }
 
-.contact-accordion[open] .chevron {
+.contact-accordion[open] .chevronContact {
   transform: rotate(180deg);
 }
-.education-accordion[open] .chevron {
+.education-accordion[open] .chevronEducation {
   transform: rotate(180deg);
 }
 

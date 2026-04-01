@@ -28,7 +28,7 @@ const { nombre, edad, puesto, tecnologias, educacion, ubicacion } = cvData;
 
     <hr class="separator" />
       <div class="info-section">
-    <details class="contact-accordion">
+    <details class="contact-accordion" id="contact-details">
     <summary class="sidebar-label">
       Datos de contacto
       <svg class="chevronContact" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -42,7 +42,7 @@ const { nombre, edad, puesto, tecnologias, educacion, ubicacion } = cvData;
     </div>
     <hr class="separator" />
     <div class="info-section">
-    <details class="education-accordion">
+    <details class="education-accordion" id="education-details">
     <summary class="sidebar-label">
       Educación
       <svg class="chevronEducation" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -99,6 +99,34 @@ const { nombre, edad, puesto, tecnologias, educacion, ubicacion } = cvData;
 </header>
 
 <script>
+  const handleMobileAccordion = () => {
+    const detailsContact = document.getElementById('contact-details');
+    const detailsEducation = document.getElementById('education-details');
+    if (!detailsContact) return;
+    if (!detailsEducation) return;
+    
+    // Si la pantalla es menor a 768px, forzamos el atributo open
+    if (window.innerWidth <= 1024) {
+      detailsContact.setAttribute('open', 'true');
+      detailsEducation.setAttribute('open', 'true');
+    }
+  };
+
+  // Ejecutar al cargar la página
+  handleMobileAccordion();
+
+  // Ejecutar si el usuario cambia el tamaño de la ventana (Resize)
+  window.addEventListener('resize', handleMobileAccordion);
+
+  // IMPORTANTE para el PDF: Forzar antes de imprimir
+  window.addEventListener('beforeprint', () => {
+    const detailsContact = document.getElementById('contact-details');
+    const detailsEducation = document.getElementById('education-details');
+    if (detailsContact) detailsContact.setAttribute('open', 'true');
+    if (detailsEducation) detailsEducation.setAttribute('open', 'true');
+  });
+
+
   const btn = document.getElementById("menu-toggle");
   const sidebar = document.getElementById("sidebar");
   // Buscamos el contenedor que envuelve a Sidebar y Main
