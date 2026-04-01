@@ -1,6 +1,9 @@
 {
   "nombre": "Kener Gutiérrez Vásquez",
   "edad" : "29 años",
+  "telefono":"+506 8735 5106",
+  "telefonoCasa":"+598 2916 9787",
+  "correo":"kenneragv@gmail.com",
   "puesto": "Software Engineer | Full-stack Developer",
   "ubicacion": "Montevideo, Uruguay",
   "sobreMi": "Ingeniero en Sistemas con 4 años de experiencia, especializado en desarrollo backend y modernización de arquitecturas. Experto en migraciones de sistemas legados (Oracle Forms) a ecosistemas .NET modernos, construcción de APIs robustas y contenedorización con Docker. Enfocado en la calidad de código (SonarQube) y observabilidad (Serilog).",

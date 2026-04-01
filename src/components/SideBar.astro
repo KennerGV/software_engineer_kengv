@@ -1,8 +1,8 @@
 ---
 // Datos dinámicos
-import '../styles/sidebar.css';
-import cvData from '../data/cv.json';
-const { nombre, edad, puesto, tecnologias, educacion, ubicacion} = cvData;
+import "../styles/sidebar.css";
+import cvData from "../data/cv.json";
+const { nombre, edad, puesto, tecnologias, educacion, ubicacion } = cvData;
 ---
 
 <header class="sidebar" id="sidebar">
@@ -16,14 +16,52 @@ const { nombre, edad, puesto, tecnologias, educacion, ubicacion} = cvData;
 
   <div class="sidebar-content" id="sidebar-content">
     <div class="profile-section">
-      <img src="/software_engineer_kengv/FotoPerfil.jpg" alt={nombre} class="avatar" />
+      <img
+        src="/software_engineer_kengv/FotoPerfil.jpg"
+        alt={nombre}
+        class="avatar"
+      />
       <h2>{nombre}</h2>
       <h4>{edad}</h4>
       <p>{puesto}</p>
     </div>
 
     <hr class="separator" />
-
+      <div class="info-section">
+    <details class="contact-accordion">
+    <summary class="sidebar-label">
+      Datos de contacto
+      <svg class="chevronContact" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </summary>
+    <div class="accordion-content">
+      <p><strong>Email:</strong> {cvData.correo}</p>
+      <p><strong>Celular:</strong> {cvData.telefono}</p>
+      <p><strong>Casa:</strong> {cvData.telefonoCasa}</p>
+    </div>
+    </details>
+    </div>
+    <hr class="separator" />
+    <div class="info-section">
+    <details class="education-accordion">
+    <summary class="sidebar-label">
+      Educación
+      <svg class="chevronEducation" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </summary>
+    <div class="accordion-content">
+      {
+          educacion
+            .filter((item) => item.nivel === "Universitario")
+            .map((item) => (
+              <p>
+                {item.titulo} - {item.institución}
+              </p>
+            ))
+        }
+    </div>
+    </details>
+    </div>
+    <hr class="separator" />
+      
     <nav class="nav-links desktop-nav">
       <span class="sidebar-label">Navegación</span>
       <a href="#sobre-mi" class="nav-item">Sobre Mí</a>
@@ -33,47 +71,49 @@ const { nombre, edad, puesto, tecnologias, educacion, ubicacion} = cvData;
 
     <div class="mobile-info">
       <div class="info-section">
-        <span class="sidebar-label">Core Stack</span>
-        {tecnologias.backend.map((backend) =>(
-          <div class="tags-mini">
-          <span>{backend}</span>
-          </div>
-        ))}        
-      </div>
-
-      <div class="info-section">
-        <span class="sidebar-label">Educación</span>
-        {educacion.filter(item => item.nivel === "Universitario")
-          .map((item) => (
-            <p>{item.titulo} - {item.institución}</p>
-          ))
-        }
-      </div>
-
-      <div class="info-section">
         <span class="sidebar-label">Ubicación</span>
         <p>{ubicacion}</p>
       </div>
+      <hr class="separator" />
+      <div class="info-section">
+        <span class="sidebar-label">Core Stack</span>
+
+        <div class="tags-container">
+          {
+            tecnologias.backend.map((backend) => (
+              <span class="tag-pill">{backend}</span>
+            ))
+          }
+        </div>
+      </div>
     </div>
-    
+
     <div class="sidebar-footer">
-        <a href="https://github.com/KennerGV" target="_blank">GitHub</a>
-        <a href="https://linkedin.com/in/kener-gutierrez-vasquez-3b0479174" target="_blank">LinkedIn</a>
+      <a href="https://github.com/KennerGV" target="_blank">GitHub</a>
+      <a
+        href="https://linkedin.com/in/kener-gutierrez-vasquez-3b0479174"
+        target="_blank">LinkedIn</a
+      >
     </div>
   </div>
 </header>
 
 <script>
-  const btn = document.getElementById('menu-toggle');
-  const sidebar = document.getElementById('sidebar');
+  const btn = document.getElementById("menu-toggle");
+  const sidebar = document.getElementById("sidebar");
+  // Buscamos el contenedor que envuelve a Sidebar y Main
+  const container = document.querySelector(".app-container");
 
-  btn?.addEventListener('click', () => {
-    sidebar?.classList.toggle('is-open');
+  btn?.addEventListener("click", () => {
+    sidebar?.classList.toggle("is-open");
+    container?.classList.toggle("sidebar-open");
   });
 
-  document.querySelectorAll('.nav-item').forEach(link => {
-    link.addEventListener('click', () => {
-      sidebar?.classList.remove('is-open');
+  // Cerrar al navegar
+  document.querySelectorAll(".nav-item").forEach((link) => {
+    link.addEventListener("click", () => {
+      sidebar?.classList.remove("is-open");
+      container?.classList.remove("sidebar-open");
     });
   });
 </script>

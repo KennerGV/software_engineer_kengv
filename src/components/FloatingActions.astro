@@ -3,17 +3,43 @@ const whatsappUrl = "https://wa.me/50687355106";
 ---
 
 <div class="floating-container">
-  <a href="/public/Kener_CV.pdf" download class="float-btn pdf" title="Descargar PDF">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-    <span>PDF</span>
-  </a>
+  <button onclick="window.print()" class="float-btn pdf" title="Generar PDF del CV" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+    <polyline points="7 10 12 15 17 10" />
+    <line x1="12" y1="15" x2="12" y2="3"></line>
+  </svg>
+  <span>PDF</span>
+  </button>
   
   <a href={whatsappUrl} target="_blank" class="float-btn whatsapp" title="WhatsApp">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-10.6 8.38 8.38 0 0 1 3.8.9L21 3z"></path></svg>
     <span>WhatsApp</span>
   </a>
 </div>
+<script>
+  const prepareForPrint = () => {
+    const detailsContact = document.querySelector('.contact-accordion');
+    const detailsEducation = document.querySelector('.education-accordion');
+    if (detailsContact) {
+      // Forzamos el atributo open para que el motor de PDF lo vea expandido
+      detailsContact.setAttribute('open', '');
+    }
+    if (detailsEducation) {
+      // Forzamos el atributo open para que el motor de PDF lo vea expandido
+      detailsEducation.setAttribute('open', '');
+    }
+  };
 
+  // Escuchamos el evento antes de imprimir
+  window.onbeforeprint = prepareForPrint;
+
+  // Si el usuario usa el botón que creamos antes
+  document.getElementById('print-cv-btn')?.addEventListener('click', () => {
+    prepareForPrint();
+    window.print();
+  });
+</script>
 <style>
   .floating-container {
     position: fixed;
