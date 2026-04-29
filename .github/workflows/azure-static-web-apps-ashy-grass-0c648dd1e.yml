@@ -46,7 +46,7 @@ jobs:
           action: "upload"
           app_location: "/" 
           api_location: "" 
-          output_location: "dist" # Aquí ya están tus archivos con diseño
+          output_location: "./dist" # Aquí ya están tus archivos con diseño
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
