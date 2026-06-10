@@ -3,6 +3,7 @@ import Sidebar from '../components/SideBar.astro';
 import '../styles/global.css'; // Aquí importarás tus estilos generales
 import cvData from '../data/cv.json';
 import FloatingActions from '../components/FloatingActions.astro';
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 
 const { title = "Kener Gutiérrez | Software Engineer" } = Astro.props;
 ---
@@ -16,6 +17,7 @@ const { title = "Kener Gutiérrez | Software Engineer" } = Astro.props;
     <style>
       body { font-family: system-ui, sans-serif; line-height: 1.6; color: #333; background: #f9f9f9; }
     </style>
+    <GoogleAnalytics />
   </head>
 </head>
 <body>
