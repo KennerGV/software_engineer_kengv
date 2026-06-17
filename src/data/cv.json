@@ -94,5 +94,27 @@
       "institución":"Liceo Sta Cruz Climaco A. Perez",
       "nivel":"Secundaria"
     }
+  ],
+  "badges":[
+    {
+      "nombre": "AI Skill Fest 2026",
+      "id": "a568b752-79ea-4a62-b670-f63afb1b165c"
+    },
+    {
+      "nombre": "AI Fundamentals with IBM SkillsBuild",
+      "id": "f9d9ba3b-52df-41b3-9155-c58dd1bd9d31"
+    },
+    {
+      "nombre": "Artificial Intelligence Fundamentals",
+      "id": "aa56f96d-1085-4b72-aa19-4fefbf4456ae"
+    },
+    {
+      "nombre": "Introduction to Modern AI",
+      "id": "7d2c8e2a-e14c-435a-ab36-aa0b74307e35"
+    },
+    {
+      "nombre": "Introduction to Cybersecurity",
+      "id": "2f8e6091-cac9-43d9-ba56-36ce40b81ec3"
+    }
   ]
 }

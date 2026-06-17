@@ -76,4 +76,59 @@ const whatsappUrl = "https://wa.me/50687355106";
     .float-btn span { display: none; }
     .float-btn { padding: 15px; border-radius: 50%; }
   }
+  .floating-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 999;
+  }
+
+  .float-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, background 0.3s;
+  }
+
+  .whatsapp { background-color: #25d366; }
+  .pdf { background-color: #4da4af; }
+
+  .float-btn:hover {
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 600px) {
+    .float-btn span { display: none; }
+    .float-btn { padding: 15px; border-radius: 50%; }
+  }
+
+  /* --- FUERZA BRUTA PARA EL PDF (USANDO ESTILOS GLOBALES) --- */
+  @media print {
+    /* Oculta los botones flotantes */
+    .floating-container {
+      display: none !important;
+    }
+    
+    /* El truco: Le dice a Astro que busque estas clases de forma global en todo el DOM */
+    :global(.badge-section), 
+    :global(.badges-grid), 
+    :global(.badge-container),
+    :global(.badge-item) {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
 </style>

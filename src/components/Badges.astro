@@ -1,0 +1,46 @@
+---
+// src/components/BadgeCredly.astro
+import cv from '../data/cv.json';
+const { badges } = cv;
+---
+<div class="badge-section">
+    <h2>Badges</h2>
+    <div class="badges-grid">
+      {badges.map((badge) => (
+        <div 
+          class="badge-item"
+          data-iframe-width="150" 
+          data-iframe-height="270" 
+          data-share-badge-id={badge.id} 
+          data-share-badge-host="https://www.credly.com"
+        ></div>
+      ))}
+    </div>
+</div>
+
+<script is:inline type="text/javascript" src="https://cdn.credly.com/assets/utilities/embed.js"></script>
+
+<style>
+  /* Contenedor que agrupa todos los badges y controla la separación */
+  .badges-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;          
+    justify-content: flex-start; 
+    margin-top: 1rem;
+  }
+
+  /* Estilos para cada badge individual */
+  .badge-item {
+    display: inline-block;
+    min-width: 150px;
+    min-height: 270px;
+  }
+
+  /* Quitamos la línea de borde del iframe inyectado por Credly */
+  .badge-item :global(iframe) {
+    border: none !important;        
+    outline: none !important;       
+    box-shadow: none !important;    
+  }
+</style>
