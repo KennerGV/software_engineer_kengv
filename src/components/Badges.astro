@@ -1,6 +1,26 @@
 ---
 // src/components/BadgeCredly.astro
-import cv from '../data/cv.json';
+interface CredlyBadge {
+  nombre: string;
+  id: string;
+}
+
+interface MicrosoftBadge {
+  nombre: string;
+  imageUrl: string;
+  credentialUrl: string;
+}
+
+// 2. Especificamos el tipado formal de las Props que recibirá desde el index
+interface Props {
+  cv: {
+    badges?: {
+      credly?: CredlyBadge[];
+      microsoft?: MicrosoftBadge[];
+    };
+  };
+}
+const { cv } = Astro.props;
 
 // Extraemos las colecciones de forma segura usando desestructuración.
 // Asignamos un arreglo vacío por defecto '|| []' por si alguna sección no existe aún.

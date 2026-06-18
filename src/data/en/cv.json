@@ -1,0 +1,129 @@
+{
+  "nombre": "Kener Gutiérrez Vásquez",
+  "edad": "29 years old",
+  "telefono": "+506 8735 5106",
+  "telefonoCasa": "+598 2916 9787",
+  "correo": "kenneragv@gmail.com",
+  "puesto": "Software Engineer | Full-stack Developer",
+  "ubicacion": "Montevideo, Uruguay",
+  "sobreMi": "Systems Engineer with 4 years of experience, specializing in backend development and architecture modernization. Expert in migrating legacy systems (Oracle Forms) to modern .NET ecosystems, building robust APIs, and containerization with Docker. Focused on code quality (SonarQube) and observability (Serilog).",
+  "tecnologias": {
+    "backend": ["ASP.NET Core", ".NET 6/8", "C#", "Web Services", "Entity Framework", "LINQ"],
+    "frontend": ["Blazor WebAssembly", "Tailwind CSS", "JavaScript", "HTML", "Razor"],
+    "basesDeDatos": ["Oracle 11g", "SQL Server", "Sybase", "Redis"],
+    "herramientas": ["Docker", "Kubernetes", "Git", "SonarQube", "Serilog", "LLMs (Gemini/Llama)", "BPM Ultimus"]
+  },
+  "experiencia": [
+    {
+      "empresa": "CR Atesa Software",
+      "puesto": "Programmer Analyst",
+      "periodo": "2022 - Present",
+      "proyectos": [
+        {
+          "cliente": "AyA (Current Project)",
+          "periodo": "2024 - Present",
+          "detalles": [
+            "Comprehensive migration from .NET Framework 4.5 to .NET 6 (MVC and API).",
+            "SQL Server database design: views, functions, and stored procedures.",
+            "Implementation of advanced business logic using LINQ and Entity Framework.",
+            "Development of dynamic user interfaces with Razor on the Frontend."
+          ]
+        },
+        {
+          "cliente": "Davivienda Bank",
+          "periodo": "2023 - 2024",
+          "detalles": [
+            "Upgraded critical banking workflows using BPM Ultimus.",
+            "Designed API architectures in .NET 6 (C#) adhering to the layered pattern.",
+            "Migrated Web Services (VB) to modern services featuring Sybase integration.",
+            "Implemented Docker with Redis, Serilog, and SonarQube for code quality and caching.",
+            "Enhanced security through canonical signatures and monitoring via HealthChecks."
+          ]
+        },
+        {
+          "cliente": "AyA (Modernization)",
+          "periodo": "2022 - 2023",
+          "detalles": [
+            "Migrated Oracle Forms to an MVC Web Application and Web Services (.NET 4.5).",
+            "Managed Oracle 11g database infrastructure (Packages, Stored Procedures).",
+            "Rebuilt complex reporting mechanisms from Oracle Reports to Reporting Services."
+          ]
+        }
+      ],
+      "logros": [
+        "Successfully modernized legacy banking and government enterprise systems.",
+        "Optimized workflows through automation leveraging AI models (Gemini/Llama).",
+        "Reduced technical debt by introducing SonarQube and Serilog into the development pipeline."
+      ]
+    }
+  ],
+  "certificaciones": [
+    {
+      "nombre": "Azure AZ-900",
+      "institucion": "Microsoft"
+    },
+    {
+      "nombre": "Scrum Master",
+      "institucion": "Scrum Institute"
+    },
+    {
+      "nombre": "Advanced .NET Core",
+      "institucion": "CPIC"
+    },
+    {
+      "nombre": "Cybersecurity Essentials",
+      "institucion": "Cisco"
+    },
+    {
+      "nombre": "Oracle 11g",
+      "institucion": "Udemy"
+    },
+    {
+      "nombre": "Office Applications Operator",
+      "institucion": "INA"
+    }
+  ],
+  "educacion": [
+    {
+      "titulo": "Bachelor of Science in Systems Engineering",
+      "institución": "Universidad Latina de Costa Rica",
+      "nivel": "University"
+    },
+    {
+      "titulo": "High School Diploma",
+      "institución": "Liceo Sta Cruz Climaco A. Perez",
+      "nivel": "Secondary Education"
+    }
+  ],
+  "badges": {
+    "credly": [
+      {
+        "nombre": "AI Skill Fest 2026",
+        "id": "a568b752-79ea-4a62-b670-f63afb1b165c"
+      },
+      {
+        "nombre": "AI Fundamentals with IBM SkillsBuild",
+        "id": "f9d9ba3b-52df-41b3-9155-c58dd1bd9d31"
+      },
+      {
+        "nombre": "Artificial Intelligence Fundamentals",
+        "id": "aa56f96d-1085-4b72-aa19-4fefbf4456ae"
+      },
+      {
+        "nombre": "Introduction to Modern AI",
+        "id": "7d2c8e2a-e14c-435a-ab36-aa0b74307e35"
+      },
+      {
+        "nombre": "Introduction to Cybersecurity",
+        "id": "2f8e6091-cac9-43d9-ba56-36ce40b81ec3"
+      }
+    ],
+    "microsoft": [
+      {
+        "nombre": "Azure AZ-900",
+        "imageUrl": "https://images.credly.com/images/54920ebe-9f6a-4cce-b87f-0f552dcbf058/converted20260618-31-40kqx5.png",
+        "credentialUrl": "https://learn.microsoft.com/api/credentials/share/es-es/KenerGutirrezVsquez-5984/FDACF55A3B7E3DEE?sharingId"
+      }
+    ]
+  }
+}

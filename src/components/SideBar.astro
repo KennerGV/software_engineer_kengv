@@ -1,8 +1,42 @@
 ---
 // Datos dinámicos
 import "../styles/sidebar.css";
-import cvData from "../data/cv.json";
-const { nombre, edad, puesto, tecnologias, educacion, ubicacion } = cvData;
+
+interface Props {
+  cv: {
+    nombre: string;
+    edad: string;
+    puesto: string;
+    tecnologias: {
+      backend: string[];
+      frontend: string[];
+      basesDeDatos: string[];
+      herramientas: string[];
+    };
+    educacion: {
+      nivel: string;
+      titulo: string;
+      institución: string;
+    }[];
+    ubicacion: string;
+    correo: string;
+    telefono: string;
+    telefonoCasa: string;
+  };
+}
+const { cv } = Astro.props;
+const { currentLocale } = Astro;
+const nivel = currentLocale === 'es' ? 'Universitario' : 'University';
+const tituloContacto = currentLocale === 'es' ? 'Datos de contacto' : 'Contact Information';
+const tituloEducacion = currentLocale === 'es' ? 'Educación' : 'Education';
+const tituloHabilidades = currentLocale === 'es' ? 'Habilidades' : 'Skills';
+const tituloEmail = currentLocale === 'es' ? 'Correo' : 'Email';
+const tituloCelular = currentLocale === 'es' ? 'Celular' : 'Mobile';
+const tituloCasa = currentLocale === 'es' ? 'Casa' : 'Home';
+const tituloNavegacion = currentLocale === 'es' ? 'Navegación' : 'Navigation';
+const tituloSobreMi = currentLocale === 'es' ? 'Sobre Mí' : 'About Me';
+const tituloExperiencia = currentLocale === 'es' ? 'Experiencia' : 'Experience';
+const tituloUbicacion = currentLocale === 'es' ? 'Ubicación' : 'Location';
 ---
 
 <header class="sidebar" id="sidebar">
@@ -18,25 +52,25 @@ const { nombre, edad, puesto, tecnologias, educacion, ubicacion } = cvData;
     <div class="profile-section">
       <img
         src="/software_engineer_kengv/FotoPerfil.jpg"
-        alt={nombre}
+        alt={cv.nombre}
         class="avatar"
       />
-      <h2>{nombre}</h2>
-      <h4>{edad}</h4>
-      <p>{puesto}</p>
+      <h2>{cv.nombre}</h2>
+      <h4>{cv.edad}</h4>
+      <p>{cv.puesto}</p>
     </div>
 
     <hr class="separator" />
       <div class="info-section">
     <details class="contact-accordion" id="contact-details">
     <summary class="sidebar-label">
-      Datos de contacto
+      {tituloContacto}
       <svg class="chevronContact" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </summary>
     <div class="accordion-content">
-      <p><strong>Email:</strong> {cvData.correo}</p>
-      <p><strong>Celular:</strong> {cvData.telefono}</p>
-      <p><strong>Casa:</strong> {cvData.telefonoCasa}</p>
+      <p><strong>{tituloEmail}:</strong> {cv.correo}</p>
+      <p><strong>{tituloCelular}:</strong> {cv.telefono}</p>
+      <p><strong>{tituloCasa}:</strong> {cv.telefonoCasa}</p>
     </div>
     </details>
     </div>
@@ -44,13 +78,13 @@ const { nombre, edad, puesto, tecnologias, educacion, ubicacion } = cvData;
     <div class="info-section">
     <details class="education-accordion" id="education-details">
     <summary class="sidebar-label">
-      Educación
+      {tituloEducacion}
       <svg class="chevronEducation" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </summary>
     <div class="accordion-content">
       {
-          educacion
-            .filter((item) => item.nivel === "Universitario")
+          cv.educacion
+            .filter((item) => item.nivel === nivel)
             .map((item) => (
               <p>
                 {item.titulo} - {item.institución}
@@ -63,16 +97,16 @@ const { nombre, edad, puesto, tecnologias, educacion, ubicacion } = cvData;
     <hr class="separator" />
       
     <nav class="nav-links desktop-nav">
-      <span class="sidebar-label">Navegación</span>
-      <a href="#sobre-mi" class="nav-item">Sobre Mí</a>
-      <a href="#experiencia" class="nav-item">Experiencia</a>
-      <a href="#habilidades" class="nav-item">Habilidades</a>
+      <span class="sidebar-label">{tituloNavegacion}</span>
+      <a href="#sobre-mi" class="nav-item">{tituloSobreMi}</a>
+      <a href="#experiencia" class="nav-item">{tituloExperiencia}</a>
+      <a href="#habilidades" class="nav-item">{tituloHabilidades}</a>
     </nav>
 
     <div class="mobile-info">
       <div class="info-section">
-        <span class="sidebar-label">Ubicación</span>
-        <p>{ubicacion}</p>
+        <span class="sidebar-label">{tituloUbicacion}</span>
+        <p>{cv.ubicacion}</p>
       </div>
       <hr class="separator" />
       <div class="info-section">
@@ -80,7 +114,7 @@ const { nombre, edad, puesto, tecnologias, educacion, ubicacion } = cvData;
 
         <div class="tags-container">
           {
-            tecnologias.backend.map((backend) => (
+            cv.tecnologias.backend.map((backend) => (
               <span class="tag-pill">{backend}</span>
             ))
           }

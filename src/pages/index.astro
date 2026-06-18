@@ -4,18 +4,19 @@ import Hero from '../components/Hero.astro';
 import SeccionHabilidades from '../components/SeccionHabilidades.astro';
 import Badges from '../components/Badges.astro';
 import MainLayout from '../layouts/MainLayout.astro';
+import cvData from '../data/en/cv.json';
 ---
-<MainLayout>
+<MainLayout cvData={cvData}>
   <section id="sobre-mi">
-    <Hero />
+    <Hero cv={cvData}/>
   </section>
   <section id="experiencia">
-    <Experiencia />
+    <Experiencia cv={cvData}/>
   </section>
   <section id="habilidades">
-	  <SeccionHabilidades />
+	  <SeccionHabilidades cv={cvData}/>
   </section>
   <section id="certificaciones">
-    <Badges />
+    <Badges cv={cvData}/>
   </section>
 </MainLayout>

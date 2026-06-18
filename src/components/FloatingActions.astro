@@ -1,45 +1,64 @@
 ---
+// src/components/FloatingActions.astro
+const { currentLocale } = Astro;
+
 const whatsappUrl = "https://wa.me/50687355106";
+const baseUrl = '/software_engineer_kengv';
+
+// Calculamos la URL alterna para el idioma de forma segura
+const targetUrl = currentLocale === 'es' 
+  ? `${baseUrl}/` 
+  : `${baseUrl}/es/`;
+
+// Textos e internacionalización dinámicos
+const langText = currentLocale === 'es' ? 'EN' : 'ES';
+const langTitle = currentLocale === 'es' ? 'Switch to English' : 'Cambiar a Español';
+const pdfTitle = currentLocale === 'es' ? 'Generar PDF del CV' : 'Generate CV PDF';
 ---
 
 <div class="floating-container">
-  <button onclick="window.print()" class="float-btn pdf" title="Generar PDF del CV" type="button">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-    <polyline points="7 10 12 15 17 10" />
-    <line x1="12" y1="15" x2="12" y2="3"></line>
-  </svg>
-  <span>PDF</span>
+  <a href={targetUrl} class="float-btn idioma" title={langTitle}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="2" y1="12" x2="22" y2="12"></line>
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+    </svg>
+    <span>{langText}</span>
+  </a>
+
+  <button onclick="window.print()" class="float-btn pdf" title={pdfTitle} type="button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3"></line>
+    </svg>
+    <span>PDF</span>
   </button>
   
   <a href={whatsappUrl} target="_blank" class="float-btn whatsapp" title="WhatsApp">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-10.6 8.38 8.38 0 0 1 3.8.9L21 3z"></path></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-10.6 8.38 8.38 0 0 1 3.8.9L21 3z"></path>
+    </svg>
     <span>WhatsApp</span>
   </a>
 </div>
+
 <script>
   const prepareForPrint = () => {
     const detailsContact = document.querySelector('.contact-accordion');
     const detailsEducation = document.querySelector('.education-accordion');
-    if (detailsContact) {
-      // Forzamos el atributo open para que el motor de PDF lo vea expandido
-      detailsContact.setAttribute('open', '');
-    }
-    if (detailsEducation) {
-      // Forzamos el atributo open para que el motor de PDF lo vea expandido
-      detailsEducation.setAttribute('open', '');
-    }
+    if (detailsContact) detailsContact.setAttribute('open', '');
+    if (detailsEducation) detailsEducation.setAttribute('open', '');
   };
 
-  // Escuchamos el evento antes de imprimir
   window.onbeforeprint = prepareForPrint;
 
-  // Si el usuario usa el botón que creamos antes
   document.getElementById('print-cv-btn')?.addEventListener('click', () => {
     prepareForPrint();
     window.print();
   });
 </script>
+
 <style>
   .floating-container {
     position: fixed;
@@ -60,12 +79,16 @@ const whatsappUrl = "https://wa.me/50687355106";
     text-decoration: none;
     font-weight: 600;
     color: white;
+    border: none; /* Asegura que el botón de HTML no tenga bordes raros */
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     transition: transform 0.3s ease, background 0.3s;
+    cursor: pointer;
   }
 
+  /* Colores e identidades visuales individuales */
   .whatsapp { background-color: #25d366; }
   .pdf { background-color: #4da4af; }
+  .idioma { background-color: #1e293b; } /* Color azul marino oscuro muy profesional */
 
   .float-btn:hover {
     transform: scale(1.1);
@@ -74,51 +97,16 @@ const whatsappUrl = "https://wa.me/50687355106";
   /* En móviles ocultamos el texto para que solo queden los iconos redondos */
   @media (max-width: 600px) {
     .float-btn span { display: none; }
-    .float-btn { padding: 15px; border-radius: 50%; }
-  }
-  .floating-container {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    z-index: 999;
-  }
-
-  .float-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 20px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    color: white;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease, background 0.3s;
-  }
-
-  .whatsapp { background-color: #25d366; }
-  .pdf { background-color: #4da4af; }
-
-  .float-btn:hover {
-    transform: scale(1.1);
-  }
-
-  @media (max-width: 600px) {
-    .float-btn span { display: none; }
-    .float-btn { padding: 15px; border-radius: 50%; }
+    .float-btn { padding: 15px; border-radius: 50%; justify-content: center; width: 54px; height: 54px; }
   }
 
   /* --- FUERZA BRUTA PARA EL PDF (USANDO ESTILOS GLOBALES) --- */
   @media print {
-    /* Oculta los botones flotantes */
+    /* Oculta toda la barra de acciones flotantes al imprimir */
     .floating-container {
       display: none !important;
     }
     
-    /* El truco: Le dice a Astro que busque estas clases de forma global en todo el DOM */
     :global(.badge-section), 
     :global(.badges-grid), 
     :global(.badge-container),

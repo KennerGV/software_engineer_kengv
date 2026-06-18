@@ -1,10 +1,17 @@
 ---
 // Importamos los datos directamente
-import cvData from '../data/cv.json';
-const { sobreMi } = cvData;
+interface Props {
+  cv: {
+    sobreMi: string;
+  };
+}
+const { cv } = Astro.props;
+const { sobreMi } = cv;
+const { currentLocale } = Astro;
+const seccionTitulo = currentLocale === 'es' ? 'Sobre Mí' : 'About Me';
 ---
 <section class="experience-section">
-  <h2>Sobre Mi</h2>
+  <h2>{seccionTitulo}</h2>
     <div class="job-card">
       <div class="header">
         

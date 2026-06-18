@@ -1,22 +1,30 @@
 ---
 // Importamos el componente de píldora y los datos de tu CV
 import HabilidadPildora from './HabilidadPildora.astro';
-import cv from '../data/cv.json';
-
-// Obtenemos el objeto de tecnologías
+interface Props {
+  cv: {
+    tecnologias: {
+      backend: string[];
+      frontend: string[];
+      basesDeDatos: string[];
+      herramientas: string[];
+    };
+  };
+}
+const { currentLocale } = Astro;
+const { cv } = Astro.props;
 const { tecnologias } = cv;
-
-// Definimos los títulos amigables para cada categoría
 const titulosCategorias = {
-  backend: "Tecnologías Backend",
-  frontend: "Frontend & UI",
-  basesDeDatos: "Bases de Datos",
-  herramientas: "Herramientas & DevOps"
+  backend: currentLocale === 'es' ? 'Tecnologías Backend' : 'Backend Technologies',
+  frontend: currentLocale === 'es' ? 'Frontend & UI' : 'Frontend & UI',
+  basesDeDatos: currentLocale === 'es' ? 'Bases de Datos' : 'Databases',
+  herramientas: currentLocale === 'es' ? 'Herramientas & DevOps' : 'Tools & DevOps'
 };
+const seccionTitulo = currentLocale === 'es' ? 'Habilidades Técnicas' : 'Technical Skills';
 ---
 
 <section class="skills-section">
-  <h2>Habilidades Técnicas</h2>
+  <h2>{seccionTitulo}</h2>
   
   <div class="skills-grid">
     {/* Convertimos el objeto tecnologias en un array para iterar */}

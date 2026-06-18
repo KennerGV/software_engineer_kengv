@@ -1,11 +1,27 @@
 ---
 // Importamos los datos directamente
-import cvData from '../data/cv.json';
-const { experiencia } = cvData;
+interface Props {
+  cv: {
+    experiencia: Array<{
+      puesto: string;
+      empresa: string;
+      periodo: string;
+      proyectos: Array<{
+        cliente: string;
+        periodo: string;
+        detalles: string[];
+      }>;
+    }>;
+  };
+}
+const { cv } = Astro.props;
+const { experiencia } = cv;
+const { currentLocale } = Astro;
+const seccionTitulo = currentLocale === 'es' ? 'Experiencia Profesional' : 'Professional Experience';
 ---
 
 <section class="experience-section">
-  <h2>Experiencia Profesional</h2>
+  <h2>{seccionTitulo}</h2>
   {experiencia.map((job) => (
     <div class="job-card">
       <div class="header">
