@@ -1,18 +1,38 @@
 ---
 // src/components/BadgeCredly.astro
 import cv from '../data/cv.json';
-const { badges } = cv;
+
+// Extraemos las colecciones de forma segura usando desestructuración.
+// Asignamos un arreglo vacío por defecto '|| []' por si alguna sección no existe aún.
+const credlyBadges = cv.badges?.credly || [];
+const microsoftBadges = cv.badges?.microsoft || [];
 ---
 <div class="badge-section">
     <h2>Badges</h2>
     <div class="badges-grid">
-      {badges.map((badge) => (
+        {microsoftBadges.map((badge) => (
+        <a 
+          href={badge.credentialUrl} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="badge-item microsoft-container"
+          title={`Ver certificación oficial: ${badge.nombre}`}
+        >
+          <img 
+            src={badge.imageUrl} 
+            alt={badge.nombre} 
+            class="microsoft-badge-img"
+          />
+        </a>
+      ))}
+      {credlyBadges.map((badge) => (
         <div 
           class="badge-item"
           data-iframe-width="150" 
           data-iframe-height="270" 
           data-share-badge-id={badge.id} 
           data-share-badge-host="https://www.credly.com"
+          title={badge.nombre}
         ></div>
       ))}
     </div>
@@ -21,7 +41,6 @@ const { badges } = cv;
 <script is:inline type="text/javascript" src="https://cdn.credly.com/assets/utilities/embed.js"></script>
 
 <style>
-  /* Contenedor que agrupa todos los badges y controla la separación */
   .badges-grid {
     display: flex;
     flex-wrap: wrap;
@@ -30,14 +49,32 @@ const { badges } = cv;
     margin-top: 1rem;
   }
 
-  /* Estilos para cada badge individual */
   .badge-item {
     display: inline-block;
-    min-width: 150px;
-    min-height: 270px;
+    width: 150px;       
+    height: 270px;      
+    flex-shrink: 0;
   }
 
-  /* Quitamos la línea de borde del iframe inyectado por Credly */
+  .microsoft-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 15px;
+    text-decoration: none;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .microsoft-container:hover {
+    transform: scale(1.05);
+  }
+
+  .microsoft-badge-img {
+    width: 110px;
+    height: auto;
+    object-fit: contain;
+  }
+
   .badge-item :global(iframe) {
     border: none !important;        
     outline: none !important;       
