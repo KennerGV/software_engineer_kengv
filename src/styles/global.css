@@ -92,7 +92,11 @@ main {
   }
 
   /* Ocultar elementos de interfaz */
-  .main-header, .float-btn, .menu-btn, .nav-links, .sidebar-footer {
+  .main-header,
+  .menu-btn,
+  .nav-links,
+  .sidebar-footer,
+  .interactive-portfolio-widget {
     display: none !important;
   }
   

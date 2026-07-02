@@ -1,0 +1,401 @@
+/* src/styles/components/floating-actions.css */
+
+/* ==========================================================================
+   PROTECCIÓN DE ESPECIFICIDAD EXTREMA - RESET GLOBAL INTERNO
+   ========================================================================== */
+
+.interactive-portfolio-widget {
+  position: fixed !important;
+  bottom: 30px !important;
+  right: 30px !important;
+  z-index: 99999 !important;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 16px !important;
+  box-sizing: border-box !important;
+}
+
+.interactive-portfolio-widget * {
+  box-sizing: border-box !important;
+}
+
+/* 💬 CONTENEDOR GENERAL DE LA VENTANA DE CHAT */
+.interactive-portfolio-widget .chat-container {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 480px !important;
+  width: 360px !important;
+  background-color: #ffffff !important;
+  border: 1px solid #e4e4e7 !important;
+  border-radius: 16px !important;
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  overflow: hidden !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  z-index: 100000 !important; /* Por encima de las utilidades */
+}
+
+.interactive-portfolio-widget .chat-container.hidden {
+  opacity: 0 !important;
+  transform: scale(0.9) translateY(20px) !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  width: 0 !important;
+}
+
+/* 🔘 BARRA DE DISPARADORES INFERIORES */
+.interactive-portfolio-widget .floating-triggers {
+  display: flex !important;
+  gap: 12px !important;
+  align-items: flex-end !important;
+}
+
+.interactive-portfolio-widget .chat-fab,
+.interactive-portfolio-widget .main-fab {
+  width: 56px !important;
+  height: 56px !important;
+  border-radius: 50% !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: white !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.2s ease !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.interactive-portfolio-widget .chat-fab {
+  background-color: #006fee !important;
+}
+.interactive-portfolio-widget .chat-fab:hover {
+  background-color: #0056b3 !important;
+  transform: scale(1.05) !important;
+}
+
+.interactive-portfolio-widget .main-fab {
+  background-color: #18181b !important;
+}
+.interactive-portfolio-widget .main-fab:hover {
+  background-color: #27272a !important;
+}
+.interactive-portfolio-widget .main-fab.active {
+  transform: rotate(135deg) !important;
+  background-color: #ef4444 !important;
+}
+
+.interactive-portfolio-widget .plus-icon {
+  font-size: 24px !important;
+  line-height: 1 !important;
+  color: #ffffff !important;
+}
+
+/* 📂 SUBMENÚ DESPLEGABLE DE UTILIDADES (+) */
+.interactive-portfolio-widget .action-menu-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  position: relative !important;
+}
+
+.interactive-portfolio-widget .submenu-buttons {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  position: absolute !important;
+  bottom: 68px !important;
+  opacity: 0 !important;
+  transform: translateY(10px) !important;
+  pointer-events: none !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  align-items: flex-end !important;
+  z-index: 9999 !important; /* Detrás del chat si ambos coinciden */
+}
+
+.interactive-portfolio-widget .submenu-buttons.open {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  pointer-events: auto !important;
+}
+
+.interactive-portfolio-widget .sub-btn {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 12px 20px !important;
+  border-radius: 50px !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+  transition: transform 0.2s ease !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  font-size: 14px !important;
+  height: auto !important;
+  width: auto !important;
+}
+.interactive-portfolio-widget .sub-btn:hover {
+  transform: scale(1.05) !important;
+}
+
+.interactive-portfolio-widget .whatsapp {
+  background-color: #25d366 !important;
+}
+.interactive-portfolio-widget .pdf {
+  background-color: #4da4af !important;
+}
+.interactive-portfolio-widget .idioma {
+  background-color: #1e293b !important;
+}
+
+/* ==========================================================================
+   ZONA CRÍTICA: CORRECCIÓN DE LAS BURBUJAS DE MENSAJE
+   ========================================================================== */
+
+.interactive-portfolio-widget .chat-header {
+  background-color: #fafafa !important;
+  border-bottom: 1px solid #e4e4e7 !important;
+  padding: 14px 16px !important;
+}
+.interactive-portfolio-widget .header-info {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+.interactive-portfolio-widget .header-info h4 {
+  margin: 0 !important;
+  font-size: 14px !important;
+  color: #18181b !important;
+  font-weight: 600 !important;
+}
+.interactive-portfolio-widget .header-info p {
+  margin: 0 !important;
+  font-size: 11px !important;
+  color: #71717a !important;
+}
+.interactive-portfolio-widget .status-dot {
+  width: 8px !important;
+  height: 8px !important;
+  background-color: #22c55e !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2) !important;
+}
+
+/* Contenedor central del historial */
+.interactive-portfolio-widget .chat-messages {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  padding: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  background-color: #ffffff !important;
+  align-items: stretch !important;
+}
+
+/* Filas contenedoras */
+.interactive-portfolio-widget .message {
+  display: flex !important;
+  width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+/* Margen entre filas para separar visualmente los mensajes */
+.interactive-portfolio-widget .chat-messages .message {
+  margin: 6px 0 !important;
+  align-items: flex-start !important;
+}
+
+/* Burbuja genérica */
+.interactive-portfolio-widget .message-content {
+  padding: 10px 14px !important;
+  border-radius: 12px !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  max-width: 80% !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  border: none !important;
+  display: inline-block !important;
+  align-self: flex-start !important;
+}
+
+.interactive-portfolio-widget .chat-messages .message--user .message-content,
+.interactive-portfolio-widget .chat-messages .message-content--user {
+  background-color: #006fee !important;
+  color: #ffffff !important;
+  border-radius: 12px 12px 4px 12px !important;
+  align-self: flex-end !important;
+  text-align: left !important;
+  display: block !important;
+  max-width: 78% !important;
+}
+
+.interactive-portfolio-widget
+  .chat-messages
+  .message--assistant
+  .message-content,
+.interactive-portfolio-widget .chat-messages .message-content--assistant {
+  background-color: #f4f4f5 !important;
+  color: #18181b !important;
+  border-radius: 12px 12px 12px 4px !important;
+  align-self: flex-start !important;
+  text-align: left !important;
+  display: block !important;
+  max-width: 78% !important;
+}
+
+/* 🔵 ALINEACIÓN COMPLETAMENTE AISLADA PARA USUARIO (DERECHA) */
+.interactive-portfolio-widget .message--user {
+  justify-content: flex-end !important;
+}
+.interactive-portfolio-widget .message-content--user {
+  background-color: #006fee !important;
+  color: #ffffff !important;
+  border-bottom-right-radius: 4px !important;
+  text-align: left !important;
+  align-self: flex-end !important;
+}
+
+/* ⚪ ALINEACIÓN COMPLETAMENTE AISLADA PARA ASISTENTE (IZQUIERDA) */
+.interactive-portfolio-widget .message--assistant {
+  justify-content: flex-start !important;
+}
+.interactive-portfolio-widget .message-content--assistant {
+  background-color: #f4f4f5 !important;
+  color: #18181b !important;
+  border-bottom-left-radius: 4px !important;
+  text-align: left !important;
+  align-self: flex-start !important;
+}
+
+/* Área Inferior de Input del Formulario */
+.interactive-portfolio-widget .chat-form {
+  display: flex !important;
+  align-items: center !important;
+  padding: 12px 16px !important;
+  background-color: #ffffff !important;
+  border-top: 1px solid #e4e4e7 !important;
+  gap: 8px !important;
+  margin: 0 !important;
+}
+.interactive-portfolio-widget .chat-form input {
+  flex: 1 !important;
+  padding: 10px 12px !important;
+  border: 1px solid #e4e4e7 !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  outline: none !important;
+  color: #18181b !important;
+  background-color: #ffffff !important;
+}
+.interactive-portfolio-widget .chat-form input:focus {
+  border-color: #006fee !important;
+  box-shadow: 0 0 0 2px rgba(0, 111, 238, 0.15) !important;
+}
+.interactive-portfolio-widget .chat-form button {
+  display: flex !important;
+  padding: 10px !important;
+  background-color: #006fee !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+}
+
+/* ==========================================
+ BOTONES INTERACTIVOS (METODOLOGÍA BEM)
+ ========================================== */
+.button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.button--primary {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.button--primary:hover {
+  background-color: #16a34a;
+  border-color: #15803d;
+}
+
+.button--secondary {
+  background-color: #e2e8f0;
+  color: #475569;
+}
+
+.button--secondary:hover {
+  background-color: #dc2626;
+  border-color: #b91c1c;
+  color: #ffffff;
+}
+
+#chat-input:disabled {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+#chat-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Adaptación en pantallas móviles */
+@media (max-width: 600px) {
+  .interactive-portfolio-widget .sub-btn span {
+    display: none !important;
+  }
+  .interactive-portfolio-widget .sub-btn {
+    padding: 15px !important;
+    border-radius: 50% !important;
+    justify-content: center !important;
+    width: 54px !important;
+    height: 54px !important;
+  }
+  .interactive-portfolio-widget {
+    bottom: 16px !important;
+    right: 16px !important;
+    gap: 10px !important;
+  }
+  .interactive-portfolio-widget .chat-container {
+    width: calc(100vw - 32px) !important;
+    height: 65vh !important;
+  }
+}
+
+/* Impresión Limpia */
+@media print {
+  .interactive-portfolio-widget {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}

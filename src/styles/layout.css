@@ -1,0 +1,14 @@
+/* src/styles/layout.css */
+.app-container {
+  min-height: 100vh;
+}
+
+.main-header {
+  text-align: center;
+  padding: 4rem 1rem;
+  background: #fff;
+}
+
+.main-header h1 {
+  margin-bottom: 0.5rem;
+}

@@ -1,0 +1,33 @@
+/* src/styles/components/seccion-habilidades.css */
+.skills-section {
+  max-width: 850px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+  color: #1a1a1a;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.skill-category h3 {
+  font-size: 1.1rem;
+  color: #475569;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.badges-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}

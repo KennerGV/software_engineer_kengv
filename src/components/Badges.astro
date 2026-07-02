@@ -26,8 +26,10 @@ const { cv } = Astro.props;
 // Asignamos un arreglo vacío por defecto '|| []' por si alguna sección no existe aún.
 const credlyBadges = cv.badges?.credly || [];
 const microsoftBadges = cv.badges?.microsoft || [];
+
+import '../styles/components/badges.css';
 ---
-<div class="badge-section">
+<div class="badge-section" id="badges-section">
     <h2>Badges</h2>
     <div class="badges-grid">
         {microsoftBadges.map((badge) => (
@@ -59,45 +61,3 @@ const microsoftBadges = cv.badges?.microsoft || [];
 </div>
 
 <script is:inline type="text/javascript" src="https://cdn.credly.com/assets/utilities/embed.js"></script>
-
-<style>
-  .badges-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;          
-    justify-content: flex-start; 
-    margin-top: 1rem;
-  }
-
-  .badge-item {
-    display: inline-block;
-    width: 150px;       
-    height: 270px;      
-    flex-shrink: 0;
-  }
-
-  .microsoft-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 15px;
-    text-decoration: none;
-    transition: transform 0.2s ease-in-out;
-  }
-
-  .microsoft-container:hover {
-    transform: scale(1.05);
-  }
-
-  .microsoft-badge-img {
-    width: 110px;
-    height: auto;
-    object-fit: contain;
-  }
-
-  .badge-item :global(iframe) {
-    border: none !important;        
-    outline: none !important;       
-    box-shadow: none !important;    
-  }
-</style>

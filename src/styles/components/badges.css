@@ -1,0 +1,50 @@
+/* src/styles/components/badges.css */
+.badge-section {
+  display: block;
+}
+
+.badges-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: flex-start;
+  margin-top: 1rem;
+}
+
+.badge-item {
+  display: inline-block;
+  width: 150px;
+  height: 270px;
+  flex-shrink: 0;
+}
+
+.microsoft-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 15px;
+  text-decoration: none;
+  transition: transform 0.2s ease-in-out;
+}
+
+.microsoft-container:hover {
+  transform: scale(1.05);
+}
+
+.microsoft-badge-img {
+  width: 110px;
+  height: auto;
+  object-fit: contain;
+}
+
+.badge-item :global(iframe) {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+@media print {
+  #badges-section {
+    display: none !important;
+  }
+}
