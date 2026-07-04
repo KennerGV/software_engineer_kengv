@@ -167,11 +167,13 @@
 
 .interactive-portfolio-widget .chat-header {
   background-color: #fafafa !important;
+  position: relative !important;
   border-bottom: 1px solid #e4e4e7 !important;
   padding: 14px 16px !important;
 }
 .interactive-portfolio-widget .header-info {
   display: flex !important;
+  width: calc(100% - 40px) !important; /* Espacio para el botón de cerrar */
   align-items: center !important;
   gap: 10px !important;
 }
@@ -192,6 +194,28 @@
   background-color: #22c55e !important;
   border-radius: 50% !important;
   box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2) !important;
+}
+
+/* Botón de cerrar (X) en el header del chat */
+.interactive-portfolio-widget .close-chat-btn {
+  display: none !important; /* Oculto por defecto en desktop */
+  position: absolute !important;
+  top: 50% !important;
+  right: 16px !important;
+  transform: translateY(-50%) !important;
+  width: 32px !important;
+  height: 32px !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 50% !important;
+  color: #71717a !important;
+  font-size: 24px !important;
+  font-weight: 300 !important;
+  cursor: pointer !important;
+  line-height: 32px !important;
+  text-align: center !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 /* Contenedor central del historial */
@@ -369,26 +393,121 @@
   cursor: not-allowed;
 }
 
-/* Adaptación en pantallas móviles */
-@media (max-width: 600px) {
+/* ==========================================================================
+   ADAPTACIÓN PREMIUM PARA PANTALLAS MÓVILES (LOOK DE APP NATIVA)
+   ========================================================================== */
+@media (max-width: 768px) { /* Ampliado a 768px para cubrir el breakpoint estándar */
+  
+  /* 1. Reposicionamiento del contenedor base */
+  .interactive-portfolio-widget {
+    bottom: 0 !important;
+    right: 0 !important;
+    left: 0 !important; /* Lo anclamos a los bordes inferiores */
+    gap: 0 !important;
+  }
+
+  /* 2. Barra de disparadores inferior más espaciosa y táctil */
+  .interactive-portfolio-widget .floating-triggers {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    gap: 16px !important;
+    z-index: 100001 !important;
+  }
+
+  /* 3. Botones más grandes para el pulgar */
+  .interactive-portfolio-widget .chat-fab,
+  .interactive-portfolio-widget .main-fab {
+    width: 60px !important;  /* Incrementado para mejorar el objetivo táctil */
+    height: 60px !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  /* 4. Submenú de utilidades adaptado a círculos grandes táctiles */
   .interactive-portfolio-widget .sub-btn span {
-    display: none !important;
+    display: none !important; /* Oculta texto en móvil */
   }
   .interactive-portfolio-widget .sub-btn {
-    padding: 15px !important;
+    padding: 0 !important;
     border-radius: 50% !important;
     justify-content: center !important;
-    width: 54px !important;
-    height: 54px !important;
+    width: 56px !important;   /* Círculos perfectos y grandes */
+    height: 56px !important;
   }
-  .interactive-portfolio-widget {
-    bottom: 16px !important;
-    right: 16px !important;
-    gap: 10px !important;
+  .interactive-portfolio-widget .submenu-buttons {
+    bottom: 84px !important; /* Ajustado por el nuevo tamaño del FAB */
+    right: 22px !important;
   }
+
+  /* 5. VENTANA DE CHAT INMERSIVA (PANTALLA COMPLETA) */
   .interactive-portfolio-widget .chat-container {
-    width: calc(100vw - 32px) !important;
-    height: 65vh !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100dvw !important;  /* Ocupa el 100% del ancho del dispositivo */
+    height: 100dvh !important; /* Ocupa el 100% del alto dinámico real */
+    max-width: 100% !important;
+    max-height: 100% !important;
+    border-radius: 0 !important; /* Remueve bordes para integrarse a la pantalla */
+    border: none !important;
+    background-color: #090e1a !important; /* Fondo oscuro premium acorde a tu diseño */
+  }
+
+  /* Ajustar los componentes internos del chat al modo full-screen */
+  .interactive-portfolio-widget .chat-header {
+    background-color: #0c1220 !important; /* Contraste sutil en la cabecera */
+    border-bottom: 1px solid #1e293b !important;
+    padding: 18px 20px !important; /* Más espacio para la barra superior */
+  }
+  .interactive-portfolio-widget .header-info h4 {
+    color: #ffffff !important;
+    font-size: 16px !important; /* Texto un poco más grande y legible */
+  }
+  
+  /* Mostrar y estilizar el botón de cerrar en móvil */
+  .interactive-portfolio-widget .close-chat-btn {
+    display: flex !important;
+    color: #94a3b8 !important;
+    background-color: #1e293b !important;
+  }
+  .interactive-portfolio-widget .close-chat-btn:hover {
+    background-color: #334155 !important;
+  }
+
+  .interactive-portfolio-widget .chat-messages {
+    background-color: #090e1a !important; /* Fondo del stream a juego */
+    padding: 20px 16px !important;
+  }
+
+  /* Ajuste de burbujas en móvil para aprovechar el espacio lateral */
+  .interactive-portfolio-widget .chat-messages .message-content,
+  .interactive-portfolio-widget .chat-messages .message--user .message-content,
+  .interactive-portfolio-widget .chat-messages .message--assistant .message-content {
+    max-width: 85% !important; /* Un poco más anchas en móvil para no estirar tanto el texto vertical */
+    font-size: 15px !important; /* Mayor legibilidad al leer en el teléfono */
+  }
+
+  .interactive-portfolio-widget .chat-messages .message--assistant .message-content {
+    background-color: #1e293b !important; /* Ajuste de color del bot para modo oscuro */
+    color: #f8fafc !important;
+  }
+
+  /* Formulario de entrada de texto estirado y cómodo al fondo de la pantalla */
+  .interactive-portfolio-widget .chat-form {
+    background-color: #0c1220 !important;
+    border-top: 1px solid #1e293b !important;
+    padding: 16px !important;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom)) !important; /* Protege el input de la barra de gestos de iOS/Android */
+    gap: 12px !important;
+  }
+
+  .interactive-portfolio-widget .chat-form input {
+    height: 48px !important; /* Altura ideal para la yema de los dedos */
+    font-size: 16px !important; /* Crucial: Previene que iOS haga un zoom-in molesto e automático al enfocar el input */
+    background-color: #141b2d !important;
+    border: 1px solid #1e293b !important;
+    color: #ffffff !important;
+    padding: 0 16px !important;
   }
 }
 

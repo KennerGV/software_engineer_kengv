@@ -1,19 +1,36 @@
 const toggleChatBtn = document.getElementById("toggle-chat");
 const chatWindow = document.getElementById("chat-window");
 const toggleMenuBtn = document.getElementById("toggle-menu");
-const submenuLinks = document.getElementById("submenu-links");
+const submenuContainer = document.getElementById("submenu-links");
+const closeChatBtn = document.getElementById("close-chat-btn");
+const floatingTriggers = document.querySelector(".floating-triggers");
 
-if (toggleChatBtn && chatWindow && toggleMenuBtn && submenuLinks) {
+if (toggleChatBtn && chatWindow && toggleMenuBtn && submenuContainer && floatingTriggers) {
+  const setTriggersVisibility = (visible) => {
+    if (visible) {
+      floatingTriggers.classList.remove("hidden");
+    } else {
+      floatingTriggers.classList.add("hidden");
+    }
+  };
+
   toggleChatBtn.addEventListener("click", () => {
     chatWindow.classList.toggle("hidden");
-    submenuLinks.classList.remove("open");
+    setTriggersVisibility(chatWindow.classList.contains("hidden"));
+    submenuContainer.classList.remove("open");
     toggleMenuBtn.classList.remove("active");
   });
 
   toggleMenuBtn.addEventListener("click", () => {
-    submenuLinks.classList.toggle("open");
+    submenuContainer.classList.toggle("open");
     toggleMenuBtn.classList.toggle("active");
     chatWindow.classList.add("hidden");
+    setTriggersVisibility(true);
+  });
+
+  // Añadimos el listener para el nuevo botón de cerrar
+  closeChatBtn?.addEventListener("click", () => {
+    toggleChatBtn.click(); // Reutilizamos la lógica de cierre existente
   });
 }
 

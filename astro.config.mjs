@@ -10,6 +10,7 @@ export default defineConfig({
       prefixDefaultLocale: false
     }
   },
-  site: 'https://KennerGV.github.io',   
-  base: '/software_engineer_kengv',
+  site: 'https://kengv-software-engineer.web.app'
+  //site: 'https://KennerGV.github.io',   
+  //base: '/software_engineer_kengv',
 });
