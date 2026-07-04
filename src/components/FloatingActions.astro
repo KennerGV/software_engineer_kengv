@@ -4,10 +4,10 @@ import '../styles/components/floating-actions.css';
 const { currentLocale } = Astro;
 
 const whatsappUrl = "https://wa.me/50687355106";
-const baseUrl = "/software_engineer_kengv";
+//const baseUrl = "/software_engineer_kengv";
 
 // Calculamos la URL alterna para el idioma de forma segura
-const targetUrl = currentLocale === "es" ? `${baseUrl}/` : `${baseUrl}/es/`;
+const targetUrl = currentLocale === "es" ? `/` : `$/es/`;
 
 // Textos e internacionalización dinámicos
 const langText = currentLocale === "es" ? "EN" : "ES";
