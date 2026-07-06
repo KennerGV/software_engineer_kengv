@@ -49,13 +49,6 @@ printCvBtn?.addEventListener("click", () => {
   window.print();
 });
 
-let sessionId = sessionStorage.getItem("chat_session_id");
-if (!sessionId) {
-  sessionId = `session_${crypto.randomUUID()}`;
-  sessionStorage.setItem("chat_session_id", sessionId);
-}
-
-const currentLang = document.documentElement.lang || "es";
 const chatMessages = document.getElementById("chat-messages");
 const chatForm = document.getElementById("chat-form");
 const chatInput = document.getElementById("chat-input");
@@ -149,14 +142,10 @@ chatForm?.addEventListener("submit", async (e) => {
   let isInsideBold = false;
 
   try {
-    const response = await fetch("https://kener-agent-core.azurewebsites.net/api/chat/stream", {
+    const response = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message: messageText,
-        sessionId,
-        language: currentLang,
-      }),
+      body: JSON.stringify({message: messageText}),
     });
 
     if (!response.ok || !response.body) throw new Error("Error de conexión.");
