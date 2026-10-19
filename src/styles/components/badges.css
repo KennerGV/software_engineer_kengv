@@ -1,3 +1,4 @@
+/* Variables imported globally from src/styles/variables.css */
 /* src/styles/components/badges.css */
 .badge-section {
   display: block;
@@ -37,7 +38,7 @@
   object-fit: contain;
 }
 
-.badge-item :global(iframe) {
+.badge-item iframe {
   border: none !important;
   outline: none !important;
   box-shadow: none !important;

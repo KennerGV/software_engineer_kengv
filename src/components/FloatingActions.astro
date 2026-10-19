@@ -1,81 +1,28 @@
 ---
 import '../styles/components/floating-actions.css';
+import '../styles/components/chat.css';
+import '../styles/components/buttongoogle.css';
+import ChatUI from './ui/ChatUI.astro';
 
 const { currentLocale } = Astro;
+const { ui = {} } = Astro.props;
+const floating = ui.floating || {};
 
 const whatsappUrl = "https://wa.me/50687355106";
-//const baseUrl = "/software_engineer_kengv";
-
-// Calculamos la URL alterna para el idioma de forma segura
+const cvUrl = currentLocale === "es" ? "/es/" : "/";
 const targetUrl = currentLocale === "es" ? `/` : `/es/`;
 
-// Textos e internacionalización dinámicos
-const langText = currentLocale === "es" ? "EN" : "ES";
-const langTitle =
-  currentLocale === "es" ? "Switch to English" : "Cambiar a Español";
-const pdfTitle =
-  currentLocale === "es" ? "Generar PDF del CV" : "Generate CV PDF";
-
-const seccionMensajeInicial =
-  currentLocale === "es"
-    ? "¡Hola! Soy el asistente IA de Kener. ¿Qué te gustaría saber sobre mi experiencia en .NET y C#?"
-    : "Hello! I am Kener's AI assistant. What would you like to know about my experience in .NET and C?";
-
-const tituloSeccionMensajeInicial =
-  currentLocale === "es" ? "Asistente IA de Kener" : "KenerAI Assistant";
-const tituloEnline = currentLocale === "es" ? "En línea" : "Online";
-const gemeloDigital = currentLocale === "es" ? "Gemelo Digital" : "Digital Twin";
-const textLabel = currentLocale === "es" ? "Escribe tu mensaje..." : "Type your message...";
+const langText = floating.langText || (currentLocale === "es" ? "EN" : "ES");
+const langTitle = floating.langTitle || (currentLocale === "es" ? "Switch to English" : "Cambiar a Español");
+const pdfTitle = floating.pdfTitle || (currentLocale === "es" ? "Generar PDF del CV" : "Generate CV PDF");
+const moreOptionsTitle = floating.moreOptions || "Más opciones";
+const openChatTitle = floating.openChat || "Abrir Chat con IA";
 ---
 
 <div class="interactive-portfolio-widget">
-  <div class="chat-container hidden" id="chat-window">
-    <div class="chat-header">
-      <div class="header-info">
-        <span class="status-dot"></span>
-        <div>
-          <h4>{tituloSeccionMensajeInicial}</h4>
-          <p>{tituloEnline} • {gemeloDigital}</p>
-        </div>
-      </div>
-      <button class="close-chat-btn" id="close-chat-btn" title="Cerrar Chat" type="button">
-        &times;
-      </button>
-    </div>
-
-    <div class="chat-messages" id="chat-messages">
-      <div class="message message--assistant">
-        <div class="message-content message-content--assistant">
-          {seccionMensajeInicial}
-        </div>
-      </div>
-    </div>
-
-    <form id="chat-form" class="chat-form">
-      <input
-        type="text"
-        id="chat-input"
-        placeholder={textLabel}
-        required
-        autocomplete="off"
-      />
-      <button type="submit" aria-label="Enviar mensaje">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          ><line x1="22" y1="2" x2="11" y2="13"></line><polygon
-            points="22 2 15 22 11 13 2 9 22 2"></polygon></svg
-        >
-      </button>
-    </form>
-  </div>
+  <ChatUI ui={ui.chat}>
+    <svg slot="send-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+  </ChatUI>
 
   <div class="floating-triggers">
     <div class="action-menu-container">
@@ -105,6 +52,7 @@ const textLabel = currentLocale === "es" ? "Escribe tu mensaje..." : "Type your 
           id="print-cv-btn"
           class="sub-btn pdf"
           title={pdfTitle}
+          data-cv-url={cvUrl}
           type="button"
         >
           <svg
@@ -150,12 +98,12 @@ const textLabel = currentLocale === "es" ? "Escribe tu mensaje..." : "Type your 
         </a>
       </div>
 
-      <button class="main-fab" id="toggle-menu" title="Más opciones">
+      <button class="main-fab" id="toggle-menu" title={moreOptionsTitle}>
         <span class="plus-icon">+</span>
       </button>
     </div>
 
-    <button class="chat-fab" id="toggle-chat" title="Abrir Chat con IA">
+    <button class="chat-fab" id="toggle-chat" title={openChatTitle}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"

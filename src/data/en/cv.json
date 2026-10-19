@@ -125,5 +125,83 @@
         "credentialUrl": "https://learn.microsoft.com/api/credentials/share/es-es/KenerGutirrezVsquez-5984/FDACF55A3B7E3DEE?sharingId"
       }
     ]
+  },
+  "asistente": {
+    "SHOW_APPOINTMENT_PROMPT": "Perfect, to be able to check availability in our schedules and coordinate the **interview**, it is necessary that you **log in** with your **Google** account, we will only obtain your **email**, **username**, and a permission to allow us to **add the event directly to your calendar**.",
+    "LOADER_VERIFICANDO": "Verifying Google account and checking slots...",
+    "LOADER_AGENDANDO": "Booking your appointment with Kener...",
+    "PLACEHOLDER_CHAT": "Write a message...",
+    "PLACEHOLDER_DESHABILITADO": "Complete the agenda to continue...",
+    "CONNECTION_ERROR": "Connection error.",
+    "RETRY_CONNECTION":"Connection retry",
+    "ERROR_AGENT":"There was a connection error when trying to get the agent's response.",
+    "ERROR_AUTENTICACION": "Sorry, there was a problem connecting to your **Google** account. Please try signing in again.",
+    "ERROR_AGENDA": "We couldn't book the appointment in your calendar. Please check your availability or try again later.",
+    "CONFIRM_AGENDA": "Do you want to schedule a meeting for {fecha}?",
+    "CONFIRM_BTN": "Confirm meeting",
+    "CHANGE_TIME_BTN": "Change time",
+    "CANCEL_BTN": "Cancel",
+    "NO_SLOTS": "No available time slots. 😢",
+    "TEXT_CALENDAR": "📅 Select date and time",
+    "LOCAL_TIME": "en-US",
+    "CANCEL_APPOINTMENT": "Got it, we can keep chatting by text."
+  },
+  "ui": {
+    "sobreMi": "About Me",
+    "experiencia": "Professional Experience",
+    "habilidades": "Technical Skills",
+    "badges": "Badges",
+    "categoriasHabilidades": {
+      "backend": "Backend Technologies",
+      "frontend": "Frontend & UI",
+      "basesDeDatos": "Databases",
+      "herramientas": "Tools & DevOps"
+    },
+    "sidebar": {
+      "nivelUniversitario": "University",
+      "contacto": "Contact Information",
+      "educacion": "Education",
+      "habilidades": "Skills",
+      "correo": "Email",
+      "celular": "Mobile",
+      "casa": "Home",
+      "navegacion": "Navigation",
+      "sobreMi": "About Me",
+      "experiencia": "Experience",
+      "ubicacion": "Location"
+    },
+    "floating": {
+      "langText": "ES",
+      "langTitle": "Cambiar a Español",
+      "pdfTitle": "Generate CV PDF",
+      "moreOptions": "More options",
+      "openChat": "Open AI Chat"
+    },
+    "chat": {
+      "titulo": "KenerAI Assistant",
+      "estado": "Online",
+      "subtitulo": "Digital Twin",
+      "mensajeInicial": "Hello! I am Kener's AI assistant. How can I help you today?",
+      "placeholder": "Type your message...",
+      "loaderSubtext": "This will only take a moment..."
+    }
+  },
+  "politicaPrivacidad": {
+    "titulo": "Privacy Policy",
+    "ultimaActualizacion": "Last updated: 2026",
+    "btnVolver": "← Back to Profile",
+    "btnAbrir": "Privacy Policy",
+    "seccion1Titulo": "1. Google User Data Accessed",
+    "seccion1Texto": "Our application uses Google Identity Services for authentication and the Google Calendar API exclusively to create the appointment event requested by you. We access basic profile information (your name and email). We do not access, read, or query your personal calendar events or availability; schedule availability is determined solely from our system's predefined agenda.",
+    "seccion2Titulo": "2. How We Use Google User Data",
+    "seccion2Texto": "Google user data is accessed solely to validate your active session and insert the confirmed appointment directly requested by you. Strictly necessary cookies are used to keep your chat session secure. Your data is never used to train AI or Large Language Models (LLMs).",
+    "seccion3Titulo": "3. Data Sharing, Transfer, and Disclosure",
+    "seccion3Texto": "We do not sell, trade, rent, share, or transfer your Google user data to any third parties under any circumstances. All data operations remain strictly between your session, our secure assistant, and Google's official APIs.",
+    "seccion4Titulo": "4. Data Protection and Security Mechanisms",
+    "seccion4Texto": "We implement robust industry-standard security practices to protect your data. All data in transit is encrypted using Secure Sockets Layer (SSL/TLS / HTTPS) protocols. OAuth credentials and tokens are managed securely and never stored unencrypted.",
+    "seccion5Titulo": "5. Data Retention and Revoking Access",
+    "seccion5Texto": "We do not store permanent copies of your Google data on our servers. Access is maintained dynamically during your active session to complete the appointment creation. You can revoke our application's access at any time directly from your Google Account at ",
+    "seccion6Titulo": "6. Google API Limited Use Disclosure",
+    "seccion6Texto": "Our use and transfer of information received from Google APIs to any other app will adhere to the Google API Services User Data Policy, including the Limited Use requirements. Your Google user data is accessed solely to facilitate scheduling via the AI agent and is not used for training AI/LLM models, nor is it sold, shared, or transferred to third parties. "
   }
 }

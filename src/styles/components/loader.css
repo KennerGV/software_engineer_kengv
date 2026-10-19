@@ -1,0 +1,95 @@
+/* --- Contenedor Base del Loader --- */
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 2rem;
+  text-align: center !important;
+  background-color: var(--message-bg) !important;
+  border-radius: 1.25rem;
+  max-width: 24rem;
+  margin: 1.5rem auto;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+
+/* --- TEXTOS (Común) --- */
+.loader-text-wrapper {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.loader-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1f2937;
+  animation: pulse-text 2s infinite ease-in-out;
+}
+
+.loader-subtext {
+  font-size: 0.75rem;
+  color: #0759e7;
+}
+
+/* --- ANIMACIÓN PROPUESTA 1: PULSO DE IA --- */
+.ai-pulse-ring {
+  position: relative;
+  display: flex;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto;
+}
+
+.ai-core {
+  width: 16px;
+  height: 16px;
+  background-color: #2563eb;
+  border-radius: 50%;
+  position: relative;
+  margin: 15px auto;
+  z-index: 2;
+}
+
+.ai-pulse-ring::before {
+  content: '';
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(37, 100, 235, 0.87);
+  border-radius: 50%;
+  z-index: 1;
+  animation: ai-pulse 2s cubic-bezier(0.215, 0.610, 0.355, 1) infinite;
+}
+
+/* --- KEYFRAMES --- */
+@keyframes ai-pulse {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-text {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@media (max-width: 992px){
+    .loader-container {
+        align-items: center !important;
+        justify-content: center !important;
+        background-color: #1e293b !important; /* Ajuste de color del bot para modo oscuro */
+        color: #f8fafc !important;
+    }
+    .loader-text {
+        color: #ffffff !important;
+    }
+}

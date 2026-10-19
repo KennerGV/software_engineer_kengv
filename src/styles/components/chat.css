@@ -1,0 +1,15 @@
+/* Variables imported globally from src/styles/variables.css */
+/* Estilos específicos del chat (mensajes, burbujas, estados) */
+.chat-container { max-width: 360px; background:var(--bg-surface); border-radius:var(--radius-default); box-shadow:var(--shadow-default); overflow:hidden; }
+.chat-header { padding:12px 16px; border-bottom:1px solid var(--color-muted); display:flex; align-items:center; justify-content:space-between; }
+.chat-messages { max-height:320px; overflow:auto; padding:12px; display:flex; flex-direction:column; gap:10px; }
+.message { display:flex; }
+.message--assistant { justify-content:flex-start; }
+.message--user { justify-content:flex-end; }
+.message-content { max-width:80%; padding:8px 12px; border-radius:8px; background:var(--message-bg); }
+.message-content--assistant { background:var(--chat-assistant-bg); }
+.chat-form { display:flex; gap:8px; padding:12px; border-top:1px solid var(--color-muted); }
+.chat-form input[type="text"] { flex:1; padding:8px 10px; border-radius:6px; border:1px solid var(--color-muted); }
+.chat-form button { background:transparent; border:none; cursor:pointer; }
+.chat-link { color: #60a5fa; text-decoration: underline; word-break: break-all; font-weight: 600; }
+.chat-link:hover { color: #93c5fd; }

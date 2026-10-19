@@ -12,13 +12,6 @@ const handleMobileAccordion = () => {
 handleMobileAccordion();
 window.addEventListener("resize", handleMobileAccordion);
 
-window.addEventListener("beforeprint", () => {
-  const detailsContact = document.getElementById("contact-details");
-  const detailsEducation = document.getElementById("education-details");
-  if (detailsContact) detailsContact.setAttribute("open", "true");
-  if (detailsEducation) detailsEducation.setAttribute("open", "true");
-});
-
 const btn = document.getElementById("menu-toggle");
 const sidebar = document.getElementById("sidebar");
 const container = document.querySelector(".app-container");

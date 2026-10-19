@@ -1,6 +1,8 @@
 ---
 // Datos dinámicos
 import "../styles/sidebar.css";
+import "../styles/components/tag.css";
+import Tag from './ui/Tag.astro';
 
 interface Props {
   cv: {
@@ -22,32 +24,35 @@ interface Props {
     correo: string;
     telefono: string;
     telefonoCasa: string;
+    ui?: {
+      sidebar?: Record<string, string>;
+    };
   };
 }
 const { cv } = Astro.props;
-const { currentLocale } = Astro;
-const nivel = currentLocale === 'es' ? 'Universitario' : 'University';
-const tituloContacto = currentLocale === 'es' ? 'Datos de contacto' : 'Contact Information';
-const tituloEducacion = currentLocale === 'es' ? 'Educación' : 'Education';
-const tituloHabilidades = currentLocale === 'es' ? 'Habilidades' : 'Skills';
-const tituloEmail = currentLocale === 'es' ? 'Correo' : 'Email';
-const tituloCelular = currentLocale === 'es' ? 'Celular' : 'Mobile';
-const tituloCasa = currentLocale === 'es' ? 'Casa' : 'Home';
-const tituloNavegacion = currentLocale === 'es' ? 'Navegación' : 'Navigation';
-const tituloSobreMi = currentLocale === 'es' ? 'Sobre Mí' : 'About Me';
-const tituloExperiencia = currentLocale === 'es' ? 'Experiencia' : 'Experience';
-const tituloUbicacion = currentLocale === 'es' ? 'Ubicación' : 'Location';
+const sb = cv.ui?.sidebar || {};
+const nivel = sb.nivelUniversitario || 'Universitario';
+const tituloContacto = sb.contacto || 'Datos de contacto';
+const tituloEducacion = sb.educacion || 'Educación';
+const tituloHabilidades = sb.habilidades || 'Habilidades';
+const tituloEmail = sb.correo || 'Correo';
+const tituloCelular = sb.celular || 'Celular';
+const tituloCasa = sb.casa || 'Casa';
+const tituloNavegacion = sb.navegacion || 'Navegación';
+const tituloSobreMi = sb.sobreMi || 'Sobre Mí';
+const tituloExperiencia = sb.experiencia || 'Experiencia';
+const tituloUbicacion = sb.ubicacion || 'Ubicación';
 ---
 
-<header class="sidebar" id="sidebar">
-  <button id="menu-toggle" class="menu-btn" aria-label="Abrir menú">
-    <div class="hamburger-icon">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  </button>
+<button id="menu-toggle" class="menu-btn" aria-label="Abrir menú">
+  <div class="hamburger-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</button>
 
+<header class="sidebar" id="sidebar">
   <div class="sidebar-content" id="sidebar-content">
     <div class="profile-section">
       <img
@@ -115,7 +120,7 @@ const tituloUbicacion = currentLocale === 'es' ? 'Ubicación' : 'Location';
         <div class="tags-container">
           {
             cv.tecnologias.backend.map((backend) => (
-              <span class="tag-pill">{backend}</span>
+              <Tag class="tag-pill">{backend}</Tag>
             ))
           }
         </div>

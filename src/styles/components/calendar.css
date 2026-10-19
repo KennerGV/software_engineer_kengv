@@ -1,0 +1,242 @@
+.calendar-wrapper {
+  width: 100%;
+  max-width: 28rem;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  border: 1px solid #f3f4f6;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  padding: 1rem 0.875rem;
+  margin-top: 0.5rem;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.calendar-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+/* --- Cinta Deslizable de Días --- */
+.days-ribbon {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.75rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  user-select: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.days-ribbon::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- Tarjeta de Día (Inactiva) --- */
+.day-card {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 4rem;
+  border-radius: 1rem;
+  border: 1px solid #f3f4f6;
+  background-color: #f9fafb;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.day-card:hover {
+  background-color: #f3f4f6;
+}
+
+.day-card .day-name {
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9ca3af;
+}
+
+.day-card .day-number {
+  font-size: 1.125rem;
+  font-weight: 800;
+  margin-top: 0.125rem;
+}
+
+/* --- Tarjeta de Día (Activa) --- */
+.day-card.active {
+  border-color: #3b82f6;
+  background-color: #2563eb;
+  color: #ffffff;
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+}
+
+.day-card.active .day-name {
+  color: #93c5fd;
+}
+
+/* --- Grid de Horarios --- */
+.hours-container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  transition: opacity 0.15s ease-in-out;
+}
+
+/* --- Botón de Hora --- */
+.hour-btn {
+  padding: 0.625rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1e40af;
+  background-color: #eff6ff;
+  border: 1px solid #dbeafe;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.hour-btn:hover {
+  background-color: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+}
+
+.hour-btn:active {
+  transform: scale(0.95);
+}
+
+.hour-btn.selected {
+  background-color: #1d4ed8;
+  color: #ffffff;
+  border-color: #1e40af;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.35);
+}
+
+/* Asegurar que la burbuja del chat le dé suficiente ancho al calendario y no herede word-break */
+.interactive-portfolio-widget .chat-messages .message--assistant .message-content:has(.calendar-wrapper) {
+  max-width: 94% !important;
+  width: 94% !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+.calendar-wrapper,
+.calendar-wrapper * {
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+}
+
+/* --- Pie del Calendario + Barra de Confirmación Inline --- */
+.calendar-footer {
+  margin-top: 0.875rem;
+  padding: 0.625rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  white-space: normal !important;
+}
+
+.calendar-confirm-bar {
+  animation: fadeInConfirm 0.18s ease-out;
+  white-space: normal !important;
+}
+
+.calendar-confirm-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 0.625rem 0;
+  line-height: 1.35;
+  text-align: center;
+  white-space: normal !important;
+}
+
+.calendar-confirm-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.calendar-confirm-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 38px !important;
+  padding: 0 0.4rem !important;
+  font-size: 0.74rem !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  border-radius: 0.5rem !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease-in-out !important;
+  border: 1px solid transparent !important;
+}
+
+.calendar-confirm-btn--primary {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+}
+
+.calendar-confirm-btn--primary:hover {
+  background-color: #1d4ed8 !important;
+}
+
+.calendar-confirm-btn--secondary {
+  background-color: #ffffff !important;
+  color: #475569 !important;
+  border-color: #cbd5e1 !important;
+}
+
+.calendar-confirm-btn--secondary:hover {
+  background-color: #f1f5f9 !important;
+}
+
+/* Botón rojo Cancelar: 100% del ancho de ambos botones juntos y su misma altura (38px) */
+.calendar-confirm-btn.calendar-confirm-btn--danger {
+  width: 100% !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0 0.5rem !important;
+  font-size: 0.74rem !important;
+  font-weight: 600 !important;
+  background-color: #ef4444 !important;
+  color: #ffffff !important;
+  border-radius: 0.5rem !important;
+}
+
+.calendar-confirm-btn.calendar-confirm-btn--danger:hover {
+  background-color: #dc2626 !important;
+}
+
+@keyframes fadeInConfirm {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

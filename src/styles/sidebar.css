@@ -112,9 +112,9 @@
 }
 
 /* Animación de Hamburguesa a X */
-.sidebar.is-open .hamburger-icon span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-.sidebar.is-open .hamburger-icon span:nth-child(2) { opacity: 0; }
-.sidebar.is-open .hamburger-icon span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+.menu-btn.is-open .hamburger-icon span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.menu-btn.is-open .hamburger-icon span:nth-child(2) { opacity: 0; }
+.menu-btn.is-open .hamburger-icon span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
 /* --- LÓGICA DUAL Y CONTENIDO --- */
 
@@ -175,11 +175,40 @@
   .sidebar.is-open { transform: translateX(0); }
   .desktop-nav { display: none; }
 
+  /* Make the hamburger button fixed so it's clickable when sidebar is hidden */
+  .menu-btn {
+    position: fixed !important;
+    top: 18px !important;
+    left: 12px !important;
+    right: auto !important;
+    z-index: 100500 !important; /* Above most UI elements */
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12) !important;
+    display: flex !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  /* When the sidebar is open, slightly move the fixed button to indicate state */
+  .sidebar-open .menu-btn {
+    left: calc(280px + 12px); /* sidebar width + gap */
+    right: auto;
+    background: rgba(255,255,255,0.06);
+  }
+
   .mobile-info {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
   }
+
+  @media (max-width: 1024px) {
+    .is-chat-open .menu-btn {
+      display: none !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
+    }
+  }
+
 
   .info-section p {
     color: white;
@@ -195,13 +224,14 @@
   }
 
   .tag-pill {
-    background: rgba(255, 255, 255, 0.12);
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.75rem;
+    /* Restore pill appearance consistent with ui-tag */
+    background: var(--tag-bg, rgba(255, 255, 255, 0.12));
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.875rem;
     font-weight: 500;
-    color: white !important;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-default, white) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     white-space: nowrap;
   }
 }

@@ -1,0 +1,26 @@
+/* Variables imported globally from src/styles/variables.css */
+/* Estilos para tags/pills reutilizables */
+.ui-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: var(--tag-bg, rgba(241,245,249,1));
+  color: var(--text-default, #0f172a);
+  font-size: 0.875rem;
+  margin: 2px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.ui-tag.skill-badge {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  font-weight: 500;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.ui-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}

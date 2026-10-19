@@ -1,22 +1,55 @@
+import {
+  getChatTexts,
+  renderizarFragmento,
+  simularStreamTexto,
+  persistChatState,
+  restoreChatState,
+} from "./chat-renderer.js";
+import {
+  initRibbonDrag,
+  mostrarLoaderSistema,
+  renderAppointmentPrompt,
+} from "./calendar-widget.js";
+
 const toggleChatBtn = document.getElementById("toggle-chat");
 const chatWindow = document.getElementById("chat-window");
 const toggleMenuBtn = document.getElementById("toggle-menu");
 const submenuContainer = document.getElementById("submenu-links");
 const closeChatBtn = document.getElementById("close-chat-btn");
 const floatingTriggers = document.querySelector(".floating-triggers");
+const chatContainer = document.getElementById("chat-container") || document.body;
+const chatMessages = document.getElementById("chat-messages");
+const chatForm = document.getElementById("chat-form");
+const chatInput = document.getElementById("chat-input");
+const chatSubmitBtn = chatForm?.querySelector('button[type="submit"]');
+const printCvStorageKey = "kener-print-cv-pending";
 
+// 1. Inicializar arrastre de cinta de días y restaurar sesión
+initRibbonDrag(chatContainer);
+restoreChatState(chatMessages, chatWindow, floatingTriggers);
+
+// 2. Control de botones flotantes (FAB) y ventana de chat
 if (toggleChatBtn && chatWindow && toggleMenuBtn && submenuContainer && floatingTriggers) {
+  const isMobile = () => window.matchMedia("(max-width: 1024px)").matches;
+
   const setTriggersVisibility = (visible) => {
-    if (visible) {
-      floatingTriggers.classList.remove("hidden");
+    if (isMobile()) {
+      floatingTriggers.classList.toggle("hidden", !visible);
     } else {
-      floatingTriggers.classList.add("hidden");
+      floatingTriggers.classList.remove("hidden");
     }
   };
 
   toggleChatBtn.addEventListener("click", () => {
     chatWindow.classList.toggle("hidden");
     setTriggersVisibility(chatWindow.classList.contains("hidden"));
+
+    const container = document.querySelector(".app-container");
+    if (container) {
+      const isOpen = !chatWindow.classList.contains("hidden");
+      container.classList.toggle("is-chat-open", isOpen);
+    }
+    persistChatState(chatMessages, chatWindow);
     submenuContainer.classList.remove("open");
     toggleMenuBtn.classList.remove("active");
   });
@@ -26,14 +59,15 @@ if (toggleChatBtn && chatWindow && toggleMenuBtn && submenuContainer && floating
     toggleMenuBtn.classList.toggle("active");
     chatWindow.classList.add("hidden");
     setTriggersVisibility(true);
+    persistChatState(chatMessages, chatWindow);
   });
 
-  // Añadimos el listener para el nuevo botón de cerrar
   closeChatBtn?.addEventListener("click", () => {
-    toggleChatBtn.click(); // Reutilizamos la lógica de cierre existente
+    toggleChatBtn.click();
   });
 }
 
+// 3. Impresión de CV en PDF
 const prepareForPrint = () => {
   const detailsContact = document.querySelector(".contact-accordion");
   const detailsEducation = document.querySelector(".education-accordion");
@@ -45,28 +79,47 @@ window.onbeforeprint = prepareForPrint;
 
 const printCvBtn = document.getElementById("print-cv-btn");
 printCvBtn?.addEventListener("click", () => {
+  const cvUrl = printCvBtn.dataset.cvUrl;
+  const cvPath = cvUrl
+    ? new URL(cvUrl, window.location.origin).pathname
+    : window.location.pathname;
+
+  if (window.location.pathname !== cvPath) {
+    sessionStorage.setItem(printCvStorageKey, "true");
+    window.location.assign(cvUrl);
+    return;
+  }
+
   prepareForPrint();
   window.print();
 });
 
-const chatMessages = document.getElementById("chat-messages");
-const chatForm = document.getElementById("chat-form");
-const chatInput = document.getElementById("chat-input");
-const chatSubmitBtn = chatForm?.querySelector('button[type="submit"]');
-
-function deshabilitarChatInput(placeholderTexto) {
-  if (chatInput) chatInput.disabled = true;
-  if (chatSubmitBtn) chatSubmitBtn.disabled = true;
-  if (chatInput) chatInput.placeholder = placeholderTexto;
+if (sessionStorage.getItem(printCvStorageKey) === "true") {
+  sessionStorage.removeItem(printCvStorageKey);
+  setTimeout(() => {
+    prepareForPrint();
+    window.print();
+  }, 0);
 }
 
-function habilitarChatInput(placeholderOriginal = "Escribe un mensaje...") {
-  if (chatInput) chatInput.disabled = false;
-  if (chatSubmitBtn) chatSubmitBtn.disabled = false;
+// 4. Control de Input y Mensajes del Chat
+function deshabilitarChatInput() {
+  const textos = getChatTexts();
   if (chatInput) {
-    chatInput.placeholder = placeholderOriginal;
+    chatInput.disabled = true;
+    chatInput.placeholder = textos.placeholderDeshabilitado;
+  }
+  if (chatSubmitBtn) chatSubmitBtn.disabled = true;
+}
+
+function habilitarChatInput() {
+  const textos = getChatTexts();
+  if (chatInput) {
+    chatInput.disabled = false;
+    chatInput.placeholder = textos.placeholderChat;
     chatInput.focus();
   }
+  if (chatSubmitBtn) chatSubmitBtn.disabled = false;
 }
 
 function appendMessage(text, role) {
@@ -86,69 +139,69 @@ function appendMessage(text, role) {
   return contentDiv;
 }
 
-function renderAppointmentPrompt(assistantMessageDiv) {
-  const parentMessageBlock = assistantMessageDiv?.closest(".message");
-  if (parentMessageBlock) {
-    parentMessageBlock.remove();
-  }
+const calendarCallbacks = {
+  deshabilitarChatInput,
+  habilitarChatInput,
+  onConfirmSlot: async (slotISO, fechaLegible, assistantMessageDiv) => {
+    const textos = getChatTexts();
+    deshabilitarChatInput();
+    const assistantLoaderDiv = mostrarLoaderSistema(
+      assistantMessageDiv,
+      textos.loaderAgendando
+    );
+    const mensajeReserva = textos.isEnglish
+      ? `Please confirm and book my meeting on ${fechaLegible}.`
+      : `Por favor confirma y agenda mi reunión para el ${fechaLegible}.`;
 
-  deshabilitarChatInput("Por favor, selecciona una opción en el menú de arriba...");
-
-  const promptContainer = document.createElement("div");
-  promptContainer.classList.add("message", "message--system");
-
-  promptContainer.innerHTML = `
-    <div class="appointment-prompt">
-      <p class="appointment-prompt__text">📅 ¿Te gustaría agendar una entrevista o reunión corta directamente en mi Google Calendar?</p>
-      <div class="appointment-prompt__actions">
-        <button id="btn-agenda-si" class="button button--primary">Sí, agendar ahora</button>
-        <button id="btn-agenda-no" class="button button--secondary">No, gracias</button>
-      </div>
-    </div>
-  `;
-
-  chatMessages?.appendChild(promptContainer);
-  chatMessages && (chatMessages.scrollTop = chatMessages.scrollHeight);
-
-  document.getElementById("btn-agenda-si")?.addEventListener("click", () => {
-    deshabilitarChatInput("Conectando con Google Calendar...");
-    console.log("Iniciando pasarela de autenticación de Google...");
-  });
-
-  document.getElementById("btn-agenda-no")?.addEventListener("click", (e) => {
-    const target = e.target;
-    const promptBox = target.closest(".appointment-prompt");
-    if (promptBox) {
-      promptBox.classList.add("appointment-prompt--dismissed");
+    try {
+      await sendQueryToAI(mensajeReserva, false, slotISO, assistantLoaderDiv);
+    } catch (error) {
+      console.error(error);
+      appendMessage(textos.errorAgenda, "assistant");
+      habilitarChatInput();
     }
-
-    habilitarChatInput();
-    appendMessage("Entendido, podemos seguir conversando por texto.", "assistant");
-  });
-}
+  },
+};
 
 chatForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
   const messageText = chatInput?.value.trim();
   if (!messageText) return;
 
-  appendMessage(messageText, "user");
   if (chatInput) chatInput.value = "";
+  await sendQueryToAI(messageText, true);
+});
 
-  const assistantMessageDiv = appendMessage("", "assistant");
+async function sendQueryToAI(
+  messageText,
+  showInUi = true,
+  bookingSlot = null,
+  existingTargetDiv = null
+) {
+  if (!messageText) return;
+  const textos = getChatTexts();
 
-  let cleanHTML = "";
-  let activeFormatText = "";
-  let isInsideBold = false;
+  if (showInUi) {
+    appendMessage(messageText, "user");
+  }
+
+  const assistantMessageDiv = existingTargetDiv || appendMessage("", "assistant");
+  const estadoIA = { rawText: "" };
+  let firstChunkReceived = false;
+  let holdsInteractiveWidget = false;
 
   try {
+    const payload = { message: messageText };
+    if (bookingSlot) {
+      payload.bookingSlot = bookingSlot;
+    }
+
     const response = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({message: messageText}),
+      body: JSON.stringify(payload),
     });
-
-    if (!response.ok || !response.body) throw new Error("Error de conexión.");
+    if (!response.ok || !response.body) throw new Error(textos.connectionError);
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder("utf-8");
@@ -162,66 +215,49 @@ chatForm?.addEventListener("submit", async (e) => {
       const lines = buffer.split("\n\n");
       buffer = lines.pop() || "";
 
-      for (const line of lines) {
-        if (line.startsWith("data: ")) {
-          let content = line.replace("data: ", "");
+      for (const rawLine of lines) {
+        const line = rawLine.trimStart();
+        if (!line.startsWith("data: ")) continue;
+        const content = line.slice(6);
 
-          if (content.trim() === "[DONE]") {
-            break;
-          } else if (content.startsWith("❌")) {
-            assistantMessageDiv.textContent = content;
-          } else {
-            if (content.startsWith("{") && content.endsWith("}")) {
-              try {
-                const jsonEvent = JSON.parse(content);
-                if (jsonEvent.action === "SHOW_APPOINTMENT_PROMPT") {
-                  renderAppointmentPrompt(assistantMessageDiv);
-                  return;
-                }
-              } catch {
-                // Ignorar si el cuerpo no es JSON
+        if (content.trim() === "[DONE]") {
+          break;
+        } else if (content.startsWith("❌")) {
+          assistantMessageDiv.textContent = textos.errorAgent;
+        } else {
+          if (content.startsWith("{") && content.endsWith("}")) {
+            try {
+              const jsonEvent = JSON.parse(content);
+              if (jsonEvent.action === "SHOW_APPOINTMENT_PROMPT") {
+                holdsInteractiveWidget = true;
+                simularStreamTexto(textos.promptAgenda, assistantMessageDiv, () => {
+                  renderAppointmentPrompt(assistantMessageDiv, calendarCallbacks);
+                });
+                return;
               }
+            } catch {
+              // No es un evento JSON de control; continúa como texto normal
             }
-
-            content = content.replace(/【[^】]*】/g, "");
-
-            let i = 0;
-            while (i < content.length) {
-              if (content.substring(i, i + 2) === "**") {
-                isInsideBold = !isInsideBold;
-
-                if (!isInsideBold) {
-                  cleanHTML += `<strong>${activeFormatText}</strong>`;
-                  activeFormatText = "";
-                }
-                i += 2;
-                continue;
-              }
-
-              const char = content[i];
-              if (isInsideBold) {
-                activeFormatText += char;
-              } else {
-                cleanHTML += char.replace(/\n/g, "<br>");
-              }
-              i++;
-            }
-
-            if (isInsideBold) {
-              assistantMessageDiv.innerHTML = `${cleanHTML}<strong>${activeFormatText}</strong>`;
-            } else {
-              assistantMessageDiv.innerHTML = cleanHTML;
-            }
-
-            chatMessages.scrollTop = chatMessages.scrollHeight;
           }
+
+          if (!firstChunkReceived) {
+            firstChunkReceived = true;
+            assistantMessageDiv.innerHTML = "";
+          }
+
+          const decodedChunk = content.replace(/\\n/g, "\n");
+          renderizarFragmento(decodedChunk, assistantMessageDiv, estadoIA);
         }
       }
     }
   } catch (error) {
-    console.error(error);
     if (assistantMessageDiv) {
-      assistantMessageDiv.textContent = "❌ Hubo un error de conexión al intentar obtener la respuesta.";
+      assistantMessageDiv.textContent = textos.errorAgent;
     }
+  } finally {
+    if (!holdsInteractiveWidget) {
+      habilitarChatInput();
+    }
+    persistChatState(chatMessages, chatWindow);
   }
-});
+}

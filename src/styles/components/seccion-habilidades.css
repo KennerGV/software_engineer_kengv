@@ -1,3 +1,4 @@
+/* Variables imported globally from src/styles/variables.css */
 /* src/styles/components/seccion-habilidades.css */
 .skills-section {
   max-width: 850px;
@@ -7,9 +8,9 @@
 
 h2 {
   font-size: 1.75rem;
-  color: #1a1a1a;
+  color: var(--text-default);
   margin-bottom: 2rem;
-  border-bottom: 2px solid #e2e8f0;
+  border-bottom: 2px solid var(--color-muted);
   padding-bottom: 0.5rem;
 }
 
@@ -21,7 +22,7 @@ h2 {
 
 .skill-category h3 {
   font-size: 1.1rem;
-  color: #475569;
+  color: var(--text-default);
   margin-bottom: 1rem;
   font-weight: 600;
 }

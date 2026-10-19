@@ -1,6 +1,8 @@
 ---
 import '../styles/components/seccion-habilidades.css';
-import HabilidadPildora from './HabilidadPildora.astro';
+import '../styles/components/tag.css';
+import Tag from './ui/Tag.astro';
+
 interface Props {
   cv: {
     tecnologias: {
@@ -9,18 +11,16 @@ interface Props {
       basesDeDatos: string[];
       herramientas: string[];
     };
+    ui?: {
+      habilidades?: string;
+      categoriasHabilidades?: Record<string, string>;
+    };
   };
 }
-const { currentLocale } = Astro;
 const { cv } = Astro.props;
 const { tecnologias } = cv;
-const titulosCategorias = {
-  backend: currentLocale === 'es' ? 'Tecnologías Backend' : 'Backend Technologies',
-  frontend: currentLocale === 'es' ? 'Frontend & UI' : 'Frontend & UI',
-  basesDeDatos: currentLocale === 'es' ? 'Bases de Datos' : 'Databases',
-  herramientas: currentLocale === 'es' ? 'Herramientas & DevOps' : 'Tools & DevOps'
-};
-const seccionTitulo = currentLocale === 'es' ? 'Habilidades Técnicas' : 'Technical Skills';
+const titulosCategorias: Record<string, string> = cv.ui?.categoriasHabilidades || {};
+const seccionTitulo = cv.ui?.habilidades || 'Technical Skills';
 ---
 
 <section class="skills-section">
@@ -30,10 +30,9 @@ const seccionTitulo = currentLocale === 'es' ? 'Habilidades Técnicas' : 'Techni
     {Object.entries(tecnologias).map(([categoria, listaHabilidades]) => (
       <div class="skill-category">
         <h3>{titulosCategorias[categoria as keyof typeof titulosCategorias] || categoria}</h3>
-
         <div class="badges-container">
           {listaHabilidades.map((habilidad) => (
-            <HabilidadPildora nombre={habilidad} />
+            <Tag class="skill-badge">{habilidad}</Tag>
           ))}
         </div>
       </div>

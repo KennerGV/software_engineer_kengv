@@ -1,10 +1,12 @@
 ---
+export const prerender = true;
 import Experiencia from '../components/Experience.astro';
 import Hero from '../components/Hero.astro';
 import SeccionHabilidades from '../components/SeccionHabilidades.astro';
 import Badges from '../components/Badges.astro';
 import MainLayout from '../layouts/MainLayout.astro';
 import cvData from '../data/en/cv.json';
+
 ---
 <MainLayout cvData={cvData}>
   <section id="sobre-mi">

@@ -1,0 +1,16 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro'; // Ajusta la ruta a tu Layout principal si es necesario
+import PrivacyPolicy from '../../components/PrivacyPolicy.astro';
+
+import '../../styles/components/privacy-policy.css';
+// Importa los datos de tu CV/idioma igual que en el index
+import cvData from '../../data/es/cv.json'; // Ajusta la ruta según donde tengas cvData
+
+const politicaData = cvData?.politicaPrivacidad || {};
+---
+
+<MainLayout cvData={cvData} showFooter={false}>
+  <div class="privacy-page-container">
+    <PrivacyPolicy data={politicaData} />
+  </div>
+</MainLayout>

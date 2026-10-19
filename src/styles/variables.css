@@ -1,0 +1,16 @@
+/* CSS Variables globales para el proyecto */
+:root {
+  --color-primary: #0b79d0;
+  --color-primary-foreground: #ffffff;
+  --color-muted: #e5e7eb;
+  --bg-surface: #ffffff;
+  --text-default: #111827;
+  --chat-assistant-bg: #eef2ff;
+  --message-bg: #f3f4f6;
+  --tag-bg: #f3f4f6;
+  --radius-default: 8px;
+  --shadow-default: 0 4px 14px rgba(2,6,23,0.08);
+}
+
+/* Utilidades pequeñas */
+.visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; }

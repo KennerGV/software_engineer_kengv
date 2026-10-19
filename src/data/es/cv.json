@@ -125,5 +125,83 @@
         "credentialUrl": "https://learn.microsoft.com/api/credentials/share/es-es/KenerGutirrezVsquez-5984/FDACF55A3B7E3DEE?sharingId"
       }
     ]
+  },
+  "asistente": {
+    "SHOW_APPOINTMENT_PROMPT": "Perfecto, para poder revisar la disponibilidad en nuestras agendas y coordinar la **entrevista**, es necesario que **inicies sesión** con tu cuenta de **Google**, unicamente obtendremos tu **correo electronico**, **nombre de usuario** y un permiso para permitirnos **agregar el evento directamente en tu calendario**.",
+    "LOADER_VERIFICANDO": "Verificando cuenta de Google y buscando espacios...",
+    "LOADER_AGENDANDO": "Agendando tu cita con Kener...",
+    "PLACEHOLDER_CHAT": "Escribe un mensaje...",
+    "PLACEHOLDER_DESHABILITADO": "Complete la agenda para continuar...",
+    "CONNECTION_ERROR": "Error de conexión.",
+    "RETRY_CONNECTION": "Reintentar conexión",
+    "ERROR_AGENT": "Hubo un error de conexión al intentar obtener la respuesta del agente.",
+    "ERROR_AUTENTICACION": "Lo siento, hubo un problema al conectar con tu cuenta de **Google**. Por favor, intenta iniciar sesión nuevamente.",
+    "ERROR_AGENDA": "No pudimos registrar la cita en tu calendario. Revisa si tienes espacio disponible o intenta más tarde.",
+    "CONFIRM_AGENDA": "¿Quieres agendar tu reunión para el {fecha}?",
+    "CONFIRM_BTN": "Confirmar cita",
+    "CHANGE_TIME_BTN": "Cambiar hora",
+    "CANCEL_BTN": "Cancelar",
+    "NO_SLOTS": "No hay horarios disponibles. 😢",
+    "TEXT_CALENDAR": "📅 Selecciona fecha y hora",
+    "LOCAL_TIME": "es-ES",
+    "CANCEL_APPOINTMENT": "Entendido, podemos seguir conversando por texto."
+  },
+  "ui": {
+    "sobreMi": "Sobre Mí",
+    "experiencia": "Experiencia Profesional",
+    "habilidades": "Habilidades Técnicas",
+    "badges": "Badges",
+    "categoriasHabilidades": {
+      "backend": "Tecnologías Backend",
+      "frontend": "Frontend & UI",
+      "basesDeDatos": "Bases de Datos",
+      "herramientas": "Herramientas & DevOps"
+    },
+    "sidebar": {
+      "nivelUniversitario": "Universitario",
+      "contacto": "Datos de contacto",
+      "educacion": "Educación",
+      "habilidades": "Habilidades",
+      "correo": "Correo",
+      "celular": "Celular",
+      "casa": "Casa",
+      "navegacion": "Navegación",
+      "sobreMi": "Sobre Mí",
+      "experiencia": "Experiencia",
+      "ubicacion": "Ubicación"
+    },
+    "floating": {
+      "langText": "EN",
+      "langTitle": "Switch to English",
+      "pdfTitle": "Generar PDF del CV",
+      "moreOptions": "Más opciones",
+      "openChat": "Abrir Chat con IA"
+    },
+    "chat": {
+      "titulo": "Asistente IA de Kener",
+      "estado": "En línea",
+      "subtitulo": "Gemelo Digital",
+      "mensajeInicial": "¡Hola! Soy el asistente IA de Kener. ¿En qué puedo ayudarte hoy?",
+      "placeholder": "Escribe tu mensaje...",
+      "loaderSubtext": "Esto tomará solo un momento..."
+    }
+  },
+  "politicaPrivacidad": {
+    "titulo": "Política de Privacidad",
+    "ultimaActualizacion": "Última actualización: 2026",
+    "btnVolver": "← Volver al Perfil",
+    "btnAbrir": "Política de Privacidad",
+    "seccion1Titulo": "1. Datos de usuario de Google a los que se accede",
+    "seccion1Texto": "Nuestra aplicación utiliza Google Identity Services para la autenticación y la API de Google Calendar exclusivamente para la creación del evento de cita solicitado por usted. Accedemos a su información básica de perfil (nombre y correo electrónico). No accedemos, leemos ni consultamos los eventos o la disponibilidad personal de su calendario; la disponibilidad de horarios se calcula únicamente a partir de la agenda predefinida de nuestro sistema.",
+    "seccion2Titulo": "2. Cómo utilizamos los datos de usuario de Google",
+    "seccion2Texto": "Se accede a los datos de usuario de Google únicamente para validar su sesión activa e insertar la cita confirmada solicitada directamente por usted. Se utilizan cookies estrictamente necesarias para mantener segura su sesión de chat. Sus datos nunca se utilizan para entrenar IA o modelos de lenguaje de gran tamaño (LLM).",
+    "seccion3Titulo": "3. Compartición, transferencia y divulgación de datos",
+    "seccion3Texto": "No vendemos, comercializamos, alquilamos, compartimos ni transferimos sus datos de usuario de Google a terceros bajo ninguna circunstancia. Todas las operaciones de datos se mantienen estrictamente entre su sesión, nuestro asistente seguro y las API oficiales de Google.",
+    "seccion4Titulo": "4. Protección de datos y mecanismos de seguridad",
+    "seccion4Texto": "Implementamos sólidas prácticas de seguridad que cumplen con los estándares de la industria para proteger sus datos. Todos los datos en tránsito están cifrados mediante protocolos Secure Sockets Layer (SSL/TLS / HTTPS). Las credenciales y tokens de OAuth se gestionan de forma segura y nunca se almacenan sin cifrar.",
+    "seccion5Titulo": "5. Retención de datos y revocación del acceso",
+    "seccion5Texto": "No almacenamos copias permanentes de sus datos de Google en nuestros servidores. El acceso se mantiene de forma dinámica durante su sesión activa para completar la creación de la cita. Puede revocar el acceso de nuestra aplicación en cualquier momento directamente desde su cuenta de Google en ",
+    "seccion6Titulo": "6. Divulgación sobre el uso limitado de las API de Google",
+    "seccion6Texto": "Nuestro uso y transferencia a cualquier otra aplicación de la información recibida a través de las API de Google se adherirá a la Política de Datos de Usuario de los Servicios de las API de Google, incluidos los requisitos de Uso Limitado. Se accede a sus datos de usuario de Google únicamente para facilitar la programación a través del agente de IA y no se utilizan para entrenar modelos de IA/LLM, ni se venden, comparten o transfieren a terceros. "
   }
 }

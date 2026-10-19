@@ -13,12 +13,12 @@ interface Props {
         detalles: string[];
       }>;
     }>;
+    ui?: { experiencia?: string };
   };
 }
 const { cv } = Astro.props;
-const { experiencia } = cv;
-const { currentLocale } = Astro;
-const seccionTitulo = currentLocale === 'es' ? 'Experiencia Profesional' : 'Professional Experience';
+const { experiencia = [] } = cv;
+const seccionTitulo = cv.ui?.experiencia || 'Professional Experience';
 ---
 
 <section class="experience-section">
@@ -32,8 +32,10 @@ const seccionTitulo = currentLocale === 'es' ? 'Experiencia Profesional' : 'Prof
       <p class="company">{job.empresa}</p>
       <ul>
         {job.proyectos.map((proyecto) => (
-          <h4 class="cliente">{proyecto.cliente} {proyecto.periodo}</h4>
-          <ul>{proyecto.detalles.map(item => <li>{item}</li>)}</ul>
+          <>
+            <h4 class="cliente">{proyecto.cliente} {proyecto.periodo}</h4>
+            <ul>{proyecto.detalles.map(item => <li>{item}</li>)}</ul>
+          </>
         ))}
       </ul>
     </div>

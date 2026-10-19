@@ -1,0 +1,111 @@
+---
+import "../../styles/components/calendar.css";
+import "../../styles/components/loader.css";
+
+const { ui = {} } = Astro.props;
+const googleClientId =
+  import.meta.env.PUBLIC_GOOGLE_CLIENT_ID ||
+  import.meta.env.GOOGLE_CLIENT_ID ||
+  "";
+
+const seccionMensajeInicial =
+  ui.mensajeInicial ||
+  "¡Hola! Soy el asistente IA de Kener. ¿En qué puedo ayudarte hoy?";
+const tituloSeccionMensajeInicial = ui.titulo || "Asistente IA de Kener";
+const tituloEnline = ui.estado || "En línea";
+const gemeloDigital = ui.subtitulo || "Gemelo Digital";
+const textLabel = ui.placeholder || "Escribe tu mensaje...";
+const loaderSubtext = ui.loaderSubtext || "Esto tomará solo un momento...";
+---
+
+<div
+  class="chat-container hidden"
+  id="chat-window"
+  data-google-client-id={googleClientId}
+>
+  <!-- Templates fuera de #chat-messages para que sessionStorage nunca los sobrescriba -->
+  <template id="calendar-template">
+    <div
+      id="calendar-wrapper"
+      class="calendar-wrapper"
+      style="display: none;"
+      hidden
+    >
+      <h3 id="calendar-title" class="calendar-title"></h3>
+      <div id="days-ribbon" class="days-ribbon"></div>
+      <hr
+        style="border: 0; border-top: 1px solid #f3f4f6; margin: 12px 0;"
+      />
+      <div id="hours-container" class="hours-container"></div>
+
+      <div class="calendar-footer">
+        <div
+          class="calendar-confirm-bar"
+          style="display: none;"
+          hidden
+        >
+          <p class="calendar-confirm-text"></p>
+          <div class="calendar-confirm-actions">
+            <button type="button" class="calendar-confirm-btn calendar-confirm-btn--primary"></button>
+            <button type="button" class="calendar-confirm-btn calendar-confirm-btn--secondary"></button>
+          </div>
+        </div>
+        <button type="button" class="calendar-confirm-btn calendar-confirm-btn--danger"></button>
+      </div>
+    </div>
+  </template>
+
+  <template id="loader-template">
+    <div
+      id="loader-container"
+      class="loader-container"
+      style="display: none;"
+    >
+      <div class="ai-pulse-ring">
+        <div class="ai-core"></div>
+      </div>
+      <div class="loader-text-wrapper">
+        <span id="loader-text" class="loader-text"></span>
+        <span class="loader-subtext">{loaderSubtext}</span>
+      </div>
+    </div>
+  </template>
+
+  <div class="chat-header">
+    <div class="header-info">
+      <span class="status-dot"></span>
+      <div>
+        <h4>{tituloSeccionMensajeInicial}</h4>
+        <p>{tituloEnline} • {gemeloDigital}</p>
+      </div>
+    </div>
+    <button
+      class="close-chat-btn"
+      id="close-chat-btn"
+      title="Cerrar Chat"
+      type="button">&times;</button
+    >
+  </div>
+
+  <div class="chat-messages" id="chat-messages">
+    <div class="message message--assistant">
+      <div class="message-content message-content--assistant">
+        {seccionMensajeInicial}
+      </div>
+    </div>
+  </div>
+
+  <form id="chat-form" class="chat-form">
+    <input
+      type="text"
+      id="chat-input"
+      placeholder={textLabel}
+      required
+      autocomplete="off"
+    />
+    <button type="submit" aria-label="Enviar mensaje">
+      <slot name="send-icon" />
+    </button>
+  </form>
+</div>
+<script src="https://accounts.google.com/gsi/client" async defer></script>

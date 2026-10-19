@@ -4,9 +4,9 @@ import node from '@astrojs/node';
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'server',
+  output: 'server', // Válido y tipado en Astro v7
   adapter: node({
-    mode: 'standalone',
+    mode: 'middleware',
   }),
   i18n: {
     defaultLocale: 'en',       
@@ -15,7 +15,5 @@ export default defineConfig({
       prefixDefaultLocale: false
     }
   },
-  site: 'https://kengv-software-engineer.web.app'
-  //site: 'https://KennerGV.github.io',   
-  //base: '/software_engineer_kengv',
+  site: 'https://kengv.dev'
 });

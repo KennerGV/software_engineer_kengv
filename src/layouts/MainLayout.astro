@@ -5,16 +5,23 @@ import '../styles/layout.css';
 import FloatingActions from '../components/FloatingActions.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 
-const { title = 'Kener Gutiérrez | Software Engineer' } = Astro.props;
-const { cvData } = Astro.props;
+const { 
+  title = 'Kener Gutierrez - Software Engineer', 
+  cvData, 
+  showFooter = true 
+} = Astro.props;
 const { currentLocale } = Astro;
+const textosAsistente = cvData?.asistente || {};
+const politicaData = cvData?.politicaPrivacidad || {};
+const privacyPath = currentLocale === "es" ? "/es/privacy" : "/privacy";
 ---
 
 <!DOCTYPE html>
 <html lang={currentLocale}>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="utf-8" />
-    <title>{title} - {cvData.nombre}</title>
+    <title>{title}</title>
     <GoogleAnalytics />
   </head>
   <body>
@@ -25,9 +32,46 @@ const { currentLocale } = Astro;
         <p>{cvData.puesto} | {cvData.ubicacion}</p>
       </header>
       <main>
-        <slot />
-        <FloatingActions />
-      </main>
+        <div id="view-main" class="layout-view active">
+          <slot />
+        </div>
+
+        <!-- Footer con enlace directo a la nueva ruta /privacy -->
+        {showFooter && (
+          <footer class="layout-footer">
+            <a href={privacyPath} class="link-privacy">
+              {politicaData.btnAbrir}
+            </a>
+          </footer>
+        )}
+        
+        <FloatingActions ui={cvData.ui} transition:persist />
+      </main>      
     </div>
+    <script define:vars={{ textosAsistente }}>
+      window.ChatI18n = textosAsistente;
+    </script>
+    <style>
+      .layout-footer {
+        margin-top: 2rem;
+        padding: 1rem 0;
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .link-privacy {
+        color: var(--text-muted, #888);
+        font-size: 0.85rem;
+        text-decoration: underline;
+        transition: color 0.2s;
+      }
+      .link-privacy:hover {
+        color: var(--text-color, #dbd7d7);
+      }
+      @media print {
+        .layout-footer {
+          display: none !important;
+        }
+      }
+    </style>
   </body>
 </html>

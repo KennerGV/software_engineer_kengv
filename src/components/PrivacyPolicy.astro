@@ -1,0 +1,86 @@
+---
+import '../styles/components/privacy-policy.css';
+
+interface Props {
+  data?: {
+    titulo?: string;
+    ultimaActualizacion?: string;
+    seccion1Titulo?: string;
+    seccion1Texto?: string;
+    seccion2Titulo?: string;
+    seccion2Texto?: string;
+    seccion3Titulo?: string;
+    seccion3Texto?: string;
+    seccion4Titulo?: string;
+    seccion4Texto?: string;
+    seccion5Titulo?: string;
+    seccion5Texto?: string;
+    seccion6Titulo?: string;
+    seccion6Texto?: string;
+  };
+}
+const { currentLocale } = Astro;
+const { data = {} } = Astro.props;
+const mainPath = currentLocale === "es" ? "/es/" : "/";
+const backHomeText = currentLocale === "es" ? "Volver al Inicio" : "Back to Home";
+const limitedUseText = currentLocale === "es" ? " incluidos los requisitos de Uso Limitado." : " including the Limited Use requirements.";
+const googleApiPolicyText = currentLocale === "es" ? "Política de Datos de Usuario de los Servicios de las API de Google" : "Google API Services User Data Policy";
+const googleSecuritySettingsText = currentLocale === "es" ? "Configuración de Seguridad de Google" : "Google Security Settings";
+---
+
+<article class="privacy-container">
+  
+    
+  <div class="back-home-container">
+    <a href={mainPath} class="btn-back">← {backHomeText}</a>
+  </div>
+  <h2>{data.titulo}</h2>
+  <p class="update-date"><strong>{data.ultimaActualizacion}</strong></p>
+  
+  <!-- 1. Google User Data Accessed -->
+  <section>
+    <h3>{data.seccion1Titulo}</h3>
+    <p>{data.seccion1Texto}</p>
+  </section>
+
+  <!-- 2. How We Use Google User Data -->
+  <section>
+    <h3>{data.seccion2Titulo}</h3>
+    <p>{data.seccion2Texto}</p>
+  </section>
+
+  <!-- 3. Data Sharing, Transfer, and Disclosure -->
+  <section>
+    <h3>{data.seccion3Titulo}</h3>
+    <p>{data.seccion3Texto}</p>
+  </section>
+
+  <!-- 4. Data Protection and Security Mechanisms -->
+  <section>
+    <h3>{data.seccion4Titulo}</h3>
+    <p>{data.seccion4Texto}</p>
+  </section>
+
+  <!-- 5. Data Retention and Deletion -->
+  <section>
+    <h3>{data.seccion5Titulo}</h3>
+    <p>
+      {data.seccion5Texto}
+      <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">
+        {googleSecuritySettingsText}
+      </a>.
+    </p>
+  </section>
+
+  <!-- 6. Google API Limited Use Disclosure -->
+  <section>
+    <h3>{data.seccion6Titulo}</h3>
+    <p>
+      {data.seccion6Texto}
+      <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer">
+        {googleApiPolicyText}
+      </a>
+      {limitedUseText}
+    </p>
+  </section>
+</article>

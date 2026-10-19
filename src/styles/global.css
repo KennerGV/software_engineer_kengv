@@ -1,7 +1,8 @@
+@import './variables.css';
 /* src/styles/global.css */
 :root {
-    --primary-color: #4da4af;
-    --sidebar-width: 300px;
+  --primary-color: #4da4af;
+  --sidebar-width: 300px;
 }
 
 * {
@@ -17,6 +18,16 @@ html {
 
 body {
     background-color: #ffffff;
+}
+
+strong,
+b {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    color: inherit !important;
+    font-weight: 600 !important;
+    letter-spacing: inherit !important;
+    text-shadow: none !important;
 }
 
 main {

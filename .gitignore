@@ -12,9 +12,11 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+firebase-debug.log*
 
 # environment variables
 .env
+.env.development
 .env.production
 .env.local
 .env.*.local
@@ -22,8 +24,9 @@ pnpm-debug.log*
 # Google Cloud / Gemini Code Assist
 .agents/
 
-# Firebase temporary files
+# Firebase / Local Storage temporary files
 .firebase/
+__queuestorage__/
 
 # OS-specific files
 .DS_Store

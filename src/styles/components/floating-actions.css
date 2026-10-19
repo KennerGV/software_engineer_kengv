@@ -1,3 +1,4 @@
+/* Variables imported globally from src/styles/variables.css */
 /* src/styles/components/floating-actions.css */
 
 /* ==========================================================================
@@ -33,12 +34,10 @@
   flex-direction: column !important;
   height: 480px !important;
   width: 360px !important;
-  background-color: #ffffff !important;
-  border: 1px solid #e4e4e7 !important;
+  background-color: var(--bg-surface) !important;
+  border: 1px solid var(--color-muted) !important;
   border-radius: 16px !important;
-  box-shadow:
-    0 10px 25px -5px rgba(0, 0, 0, 0.1),
-    0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: var(--shadow-default) !important;
   overflow: hidden !important;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
   z-index: 100000 !important; /* Por encima de las utilidades */
@@ -59,6 +58,10 @@
   align-items: flex-end !important;
 }
 
+.interactive-portfolio-widget .floating-triggers.hidden {
+  display: none !important;
+}
+
 .interactive-portfolio-widget .chat-fab,
 .interactive-portfolio-widget .main-fab {
   width: 56px !important;
@@ -77,15 +80,14 @@
 }
 
 .interactive-portfolio-widget .chat-fab {
-  background-color: #006fee !important;
+  background-color: var(--color-primary) !important;
 }
 .interactive-portfolio-widget .chat-fab:hover {
-  background-color: #0056b3 !important;
   transform: scale(1.05) !important;
 }
 
 .interactive-portfolio-widget .main-fab {
-  background-color: #18181b !important;
+  background-color: var(--text-default) !important;
 }
 .interactive-portfolio-widget .main-fab:hover {
   background-color: #27272a !important;
@@ -158,7 +160,7 @@
   background-color: #4da4af !important;
 }
 .interactive-portfolio-widget .idioma {
-  background-color: #1e293b !important;
+  background-color: var(--text-default) !important;
 }
 
 /* ==========================================================================
@@ -166,9 +168,9 @@
    ========================================================================== */
 
 .interactive-portfolio-widget .chat-header {
-  background-color: #fafafa !important;
+  background-color: var(--bg-surface) !important;
   position: relative !important;
-  border-bottom: 1px solid #e4e4e7 !important;
+  border-bottom: 1px solid var(--color-muted) !important;
   padding: 14px 16px !important;
 }
 .interactive-portfolio-widget .header-info {
@@ -180,7 +182,7 @@
 .interactive-portfolio-widget .header-info h4 {
   margin: 0 !important;
   font-size: 14px !important;
-  color: #18181b !important;
+  color: var(--text-default) !important;
   font-weight: 600 !important;
 }
 .interactive-portfolio-widget .header-info p {
@@ -221,12 +223,14 @@
 /* Contenedor central del historial */
 .interactive-portfolio-widget .chat-messages {
   flex: 1 !important;
+  min-height: 0 !important;
+  max-height: none !important;
   overflow-y: auto !important;
   padding: 16px !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 12px !important;
-  background-color: #ffffff !important;
+  background-color: var(--bg-surface) !important;
   align-items: stretch !important;
 }
 
@@ -262,10 +266,17 @@
   align-self: flex-start !important;
 }
 
+.interactive-portfolio-widget .message-content strong,
+.interactive-portfolio-widget .message-content b {
+  font-family: inherit !important;
+  color: inherit !important;
+  font-weight: 700 !important;
+}
+
 .interactive-portfolio-widget .chat-messages .message--user .message-content,
 .interactive-portfolio-widget .chat-messages .message-content--user {
-  background-color: #006fee !important;
-  color: #ffffff !important;
+  background-color: var(--color-primary) !important;
+  color: var(--color-primary-foreground) !important;
   border-radius: 12px 12px 4px 12px !important;
   align-self: flex-end !important;
   text-align: left !important;
@@ -278,8 +289,8 @@
   .message--assistant
   .message-content,
 .interactive-portfolio-widget .chat-messages .message-content--assistant {
-  background-color: #f4f4f5 !important;
-  color: #18181b !important;
+  background-color: var(--message-bg) !important;
+  color: var(--text-default) !important;
   border-radius: 12px 12px 12px 4px !important;
   align-self: flex-start !important;
   text-align: left !important;
@@ -292,8 +303,8 @@
   justify-content: flex-end !important;
 }
 .interactive-portfolio-widget .message-content--user {
-  background-color: #006fee !important;
-  color: #ffffff !important;
+  background-color: var(--color-primary) !important;
+  color: var(--color-primary-foreground) !important;
   border-bottom-right-radius: 4px !important;
   text-align: left !important;
   align-self: flex-end !important;
@@ -304,11 +315,40 @@
   justify-content: flex-start !important;
 }
 .interactive-portfolio-widget .message-content--assistant {
-  background-color: #f4f4f5 !important;
-  color: #18181b !important;
+  background-color: var(--message-bg) !important;
+  color: var(--text-default) !important;
   border-bottom-left-radius: 4px !important;
   text-align: left !important;
   align-self: flex-start !important;
+}
+
+.interactive-portfolio-widget .agenda-actions {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin-top: 12px !important;
+}
+
+.interactive-portfolio-widget .agenda-cancel-btn {
+  background-image: linear-gradient(#ff0000, #ff0000),
+    linear-gradient(
+      137.48deg,
+      #ff4d4d 10%,
+      #ef4444 45%,
+      #b91c1c 67%,
+      #7f1d1d 87%
+    ) !important;
+  background-origin: border-box !important;
+  background-clip: content-box, border-box !important;
+}
+
+.interactive-portfolio-widget .agenda-cancel-btn:active {
+  border-color: #ef4444 !important;
+}
+
+.interactive-portfolio-widget .agenda-cancel-btn:active .circle {
+  background: #ef4444 !important;
 }
 
 /* Área Inferior de Input del Formulario */
@@ -316,29 +356,29 @@
   display: flex !important;
   align-items: center !important;
   padding: 12px 16px !important;
-  background-color: #ffffff !important;
-  border-top: 1px solid #e4e4e7 !important;
+  background-color: var(--bg-surface) !important;
+  border-top: 1px solid var(--color-muted) !important;
   gap: 8px !important;
   margin: 0 !important;
 }
 .interactive-portfolio-widget .chat-form input {
   flex: 1 !important;
   padding: 10px 12px !important;
-  border: 1px solid #e4e4e7 !important;
+  border: 1px solid var(--color-muted) !important;
   border-radius: 8px !important;
   font-size: 14px !important;
   outline: none !important;
-  color: #18181b !important;
-  background-color: #ffffff !important;
+  color: var(--text-default) !important;
+  background-color: var(--bg-surface) !important;
 }
 .interactive-portfolio-widget .chat-form input:focus {
-  border-color: #006fee !important;
+  border-color: var(--color-primary) !important;
   box-shadow: 0 0 0 2px rgba(0, 111, 238, 0.15) !important;
 }
 .interactive-portfolio-widget .chat-form button {
   display: flex !important;
   padding: 10px !important;
-  background-color: #006fee !important;
+  background-color: var(--color-primary) !important;
   color: white !important;
   border: none !important;
   border-radius: 8px !important;
@@ -362,18 +402,17 @@
 }
 
 .button--primary {
-  background-color: #2563eb;
-  color: #ffffff;
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
 }
 
 .button--primary:hover {
-  background-color: #16a34a;
-  border-color: #15803d;
+  border-color: var(--color-primary);
 }
 
 .button--secondary {
-  background-color: #e2e8f0;
-  color: #475569;
+  background-color: var(--color-muted);
+  color: var(--text-default);
 }
 
 .button--secondary:hover {
@@ -383,7 +422,7 @@
 }
 
 #chat-input:disabled {
-  background-color: #f1f5f9;
+  background-color: var(--tag-bg);
   color: #94a3b8;
   cursor: not-allowed;
 }
@@ -396,7 +435,7 @@
 /* ==========================================================================
    ADAPTACIÓN PREMIUM PARA PANTALLAS MÓVILES (LOOK DE APP NATIVA)
    ========================================================================== */
-@media (max-width: 768px) { /* Ampliado a 768px para cubrir el breakpoint estándar */
+@media (max-width: 992px) { /* Ampliado a 992px para cubrir el breakpoint estándar */
   
   /* 1. Reposicionamiento del contenedor base */
   .interactive-portfolio-widget {
@@ -423,19 +462,20 @@
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
   }
 
-  /* 4. Submenú de utilidades adaptado a círculos grandes táctiles */
+  /* 4. Submenú de utilidades adaptado a móviles pero manteniendo el mismo diseño que desktop */
   .interactive-portfolio-widget .sub-btn span {
-    display: none !important; /* Oculta texto en móvil */
+    display: inline !important;
   }
   .interactive-portfolio-widget .sub-btn {
-    padding: 0 !important;
-    border-radius: 50% !important;
+    padding: 12px 20px !important;
+    border-radius: 50px !important;
     justify-content: center !important;
-    width: 56px !important;   /* Círculos perfectos y grandes */
-    height: 56px !important;
+    min-width: auto !important;
+    width: auto !important;
+    height: auto !important;
   }
   .interactive-portfolio-widget .submenu-buttons {
-    bottom: 84px !important; /* Ajustado por el nuevo tamaño del FAB */
+    bottom: 84px !important;
     right: 22px !important;
   }
 
@@ -497,8 +537,17 @@
     background-color: #0c1220 !important;
     border-top: 1px solid #1e293b !important;
     padding: 16px !important;
-    padding-bottom: calc(16px + env(safe-area-inset-bottom)) !important; /* Protege el input de la barra de gestos de iOS/Android */
+    /* Protege el input de la barra de gestos de iOS/Android */
+    padding-bottom: calc(16px + env(safe-area-inset-bottom)) !important;
+    /* Anchor the form at the bottom while keeping it in layout flow */
+    position: sticky !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 100002 !important;
     gap: 12px !important;
+    box-shadow: 0 -6px 20px rgba(0,0,0,0.35) !important;
   }
 
   .interactive-portfolio-widget .chat-form input {
@@ -508,6 +557,21 @@
     border: 1px solid #1e293b !important;
     color: #ffffff !important;
     padding: 0 16px !important;
+  }
+
+  /* Ensure chat container is a column flex so the form stays at the bottom */
+  .interactive-portfolio-widget .chat-container {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+    padding-bottom: 0 !important;
+  }
+  .interactive-portfolio-widget .chat-messages {
+    flex: 1 !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding-bottom: calc(16px + 48px + env(safe-area-inset-bottom)) !important; /* ensure messages don't hide behind sticky form */
   }
 }
 

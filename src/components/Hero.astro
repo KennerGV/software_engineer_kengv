@@ -1,15 +1,15 @@
 ---
-import '../styles/components/hero.css';
+import '../styles/components/experience.css';
 
 interface Props {
   cv: {
     sobreMi: string;
+    ui?: { sobreMi?: string };
   };
 }
 const { cv } = Astro.props;
 const { sobreMi } = cv;
-const { currentLocale } = Astro;
-const seccionTitulo = currentLocale === 'es' ? 'Sobre Mí' : 'About Me';
+const seccionTitulo = cv.ui?.sobreMi || 'About Me';
 ---
 <section class="experience-section">
   <h2>{seccionTitulo}</h2>

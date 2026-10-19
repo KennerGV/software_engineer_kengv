@@ -1,0 +1,62 @@
+  .privacy-page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  .back-home-container {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  .btn-back {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color, #fff);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+  }
+  .btn-back:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  main .layout-view.hidden {
+  display: none !important;
+  }
+  .privacy-container {
+    padding: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .update-date {
+    color: var(--text-muted, #888);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  .btn-back {
+    background: transparent;
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+    color: inherit;
+    transition: background-color 0.2s;
+  }
+  .btn-back:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  section {
+    margin-bottom: 1.5rem;
+  }
+  h3 {
+    margin-bottom: 0.5rem;
+  }
+@media print {
+  #btn-toggle-privacy {
+    display: none !important;
+  }
+  #layout-footer {
+    display: none !important;
+  }
+}
