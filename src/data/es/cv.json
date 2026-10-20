@@ -150,40 +150,70 @@
     "sobreMi": "Sobre Mí",
     "experiencia": "Experiencia Profesional",
     "habilidades": "Habilidades Técnicas",
-    "badges": "Badges",
+    "badges": "Certificaciones y Badges",
+    "askAiProject": "Preguntar a la IA",
+    "hero": {
+      "status": "Disponible / Montevideo, UY",
+      "roleHighlight": "Software Engineer (.NET, Cloud & AI)",
+      "btnAi": "Hablar con mi Gemelo IA",
+      "btnCalendar": "Agendar Entrevista",
+      "btnPdf": "Descargar CV (PDF)"
+    },
     "categoriasHabilidades": {
-      "backend": "Tecnologías Backend",
+      "backend": "Backend .NET",
       "frontend": "Frontend & UI",
       "basesDeDatos": "Bases de Datos",
-      "herramientas": "Herramientas & DevOps"
+      "herramientas": "DevOps & IA"
     },
     "sidebar": {
       "nivelUniversitario": "Universitario",
       "contacto": "Datos de contacto",
       "educacion": "Educación",
       "habilidades": "Habilidades",
+      "certificaciones": "Certificaciones",
       "correo": "Correo",
       "celular": "Celular",
       "casa": "Casa",
       "navegacion": "Navegación",
       "sobreMi": "Sobre Mí",
       "experiencia": "Experiencia",
-      "ubicacion": "Ubicación"
+      "ubicacion": "Ubicación",
+      "roleBadge": "Software Engineer\n(.NET / Cloud / AI)"
     },
     "floating": {
       "langText": "EN",
       "langTitle": "Switch to English",
       "pdfTitle": "Generar PDF del CV",
       "moreOptions": "Más opciones",
-      "openChat": "Abrir Chat con IA"
+      "openChat": "Pregúntale a KenerAI",
+      "chatPill": "Pregúntale a KenerAI"
     },
     "chat": {
       "titulo": "Asistente IA de Kener",
       "estado": "En línea",
       "subtitulo": "Gemelo Digital",
-      "mensajeInicial": "¡Hola! Soy el asistente IA de Kener. ¿En qué puedo ayudarte hoy?",
-      "placeholder": "Escribe tu mensaje...",
-      "loaderSubtext": "Esto tomará solo un momento..."
+      "mensajeInicial": "¡Hola! 👋 Soy el Gemelo Digital de Kener. Puedo responder sobre su experiencia técnica o agendar una entrevista directamente en su Google Calendar.",
+      "placeholder": "Pregúntale a KenerAI o agenda una cita...",
+      "loaderSubtext": "Esto tomará solo un momento...",
+      "googleAuthBtn": "Continuar con Google Calendar",
+      "availableLabel": "disp.",
+      "quickPrompts": [
+        {
+          "icon": "📅",
+          "label": "Agendar una entrevista",
+          "action": "schedule"
+        },
+        {
+          "icon": "💻",
+          "label": "Experiencia en .NET y Azure",
+          "message": "¿Cuál es la experiencia de Kener en .NET y Azure?"
+        },
+        {
+          "icon": "🚀",
+          "label": "Proyectos en CR Atesa",
+          "message": "Háblame de los proyectos de Kener en CR Atesa Software (AyA y Banco Davivienda)."
+        }
+      ]
     }
   },
   "politicaPrivacidad": {

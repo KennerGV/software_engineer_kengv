@@ -1,229 +1,73 @@
-/* From Uiverse.io by StealthWorm */
-/* Adaptación de colores en tonalidades rojas */
-.btn strong,
-.btn b,
-.btn span {
-  color: #ffffff !important;
-  z-index: 2;
-}
-.btn-cancel {
-  background-image: linear-gradient(#212121, #212121),
-    linear-gradient(
-      137.48deg,
-      #ff4d4d 10%,
-      #f43f5e 45%,
-      #e11d48 67%,
-      #9f1239 87%
-    ) !important;
-    color: #ffffff !important;
-}
+/* Estilos limpios y ejecutivos para la autenticación con Google Calendar */
 
-/* Color neón de los resplandores inferiores */
-.btn-cancel #glow .circle:nth-of-type(1) {
-  background: rgba(244, 63, 94, 0.7);
-}
-
-.btn-cancel #glow .circle:nth-of-type(2) {
-  background: rgba(225, 29, 72, 0.8);
-}
-
-/* Estado activo (Clic) en rojo */
-.btn-cancel:active {
-  border: double 4px #f43f5e !important;
-  background-origin: border-box !important;
-  background-clip: content-box, border-box !important;
-}
-
-.btn-cancel:active .circle {
-  background: #f43f5e !important;
-} 
-.btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 13rem;
-  overflow: hidden;
-  height: 3rem;
-  background-size: 300% 300%;
-  cursor: pointer;
-  backdrop-filter: blur(1rem);
-  border-radius: 5rem;
-  transition: 0.5s;
-  animation: gradient_301 5s ease infinite;
-  border: double 4px transparent;
-  background-image: linear-gradient(#212121, #212121),
-    linear-gradient(
-      137.48deg,
-      #ffdb3b 10%,
-      #fe53bb 45%,
-      #8f51ea 67%,
-      #008000 87%
-    );
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-}
-
-#container-stars {
-  position: absolute;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  transition: 0.5s;
-  backdrop-filter: blur(1rem);
-  border-radius: 5rem;
-}
-
-strong,
-b {
-  z-index: 2;
-  font-family: inherit;
-  font-size: inherit;
-  letter-spacing: inherit;
-  color: inherit;
-  text-shadow: none;
-}
-
-#glow {
-  position: absolute;
-  display: flex;
-  width: 12rem;
-}
-
-.circle {
-  width: 100%;
-  height: 30px;
-  filter: blur(2rem);
-  animation: pulse_3011 4s infinite;
-  z-index: -1;
-}
-
-.circle:nth-of-type(1) {
-  background: rgba(254, 83, 186, 0.636);
-}
-
-.circle:nth-of-type(2) {
-  background: rgba(142, 81, 234, 0.704);
-}
-
-
-
-.btn:hover {
-  transform: scale(1.1);
-}
-
-.btn:active {
-  border: double 4px #fe53bb;
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-  animation: none;
-}
-
-.btn:active .circle {
-  background: #fe53bb;
-}
-
-#stars {
-  position: relative;
-  background: transparent;
-  width: 200rem;
-  height: 200rem;
-}
-
-#stars::after {
-  content: "";
-  position: absolute;
-  top: -10rem;
-  left: -100rem;
-  width: 100%;
-  height: 100%;
-  animation: animStarRotate 90s linear infinite;
-}
-
-#stars::after {
-  background-image: radial-gradient(#ffffff 1px, transparent 1%);
-  background-size: 50px 50px;
-}
-
-#stars::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -50%;
-  width: 170%;
-  height: 500%;
-  animation: animStar 60s linear infinite;
-}
-
-#stars::before {
-  background-image: radial-gradient(#ffffff 1px, transparent 1%);
-  background-size: 50px 50px;
-  opacity: 0.5;
-}
-
-/* Contenedor compacto para las acciones/botones de agenda */
 .appointment-actions {
   display: flex;
-  flex-direction: column; /* O "row" si los quieres uno al lado del otro */
-  align-items: center;
-  gap: 0.75rem; /* Controla la distancia exacta entre ambos botones */
-  margin-top: 1rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e2e8f0;
 }
 
-/* Forzar que las SVGs dentro de los botones no estiren el contenedor */
-.btn svg {
-  height: 22px !important;
-  width: auto !important;
-  flex-shrink: 0;
+.btn-agenda-login {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.65rem !important;
+  width: 100% !important;
+  padding: 0.65rem 1rem !important;
+  border-radius: 10px !important;
+  background-color: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  font-size: 0.84rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06) !important;
+  transition: all 0.2s ease !important;
 }
 
-@keyframes animStar {
-  from {
-    transform: translateY(0);
-  }
-
-  to {
-    transform: translateY(-135rem);
-  }
+.btn-agenda-login:hover {
+  background-color: #f8fafc !important;
+  border-color: #0b79d0 !important;
+  box-shadow: 0 4px 12px rgba(11, 121, 208, 0.12) !important;
+  transform: translateY(-1px) !important;
 }
 
-@keyframes animStarRotate {
-  from {
-    transform: rotate(360deg);
-  }
-
-  to {
-    transform: rotate(0);
-  }
+.btn-agenda-login:disabled {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
 }
 
-@keyframes gradient_301 {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
+.btn-agenda-login svg {
+  height: 18px !important;
+  width: 18px !important;
+  flex-shrink: 0 !important;
 }
 
-@keyframes pulse_3011 {
-  0% {
-    transform: scale(0.75);
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
-  }
-
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
-  }
-
-  100% {
-    transform: scale(0.75);
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-  }
+.btn-agenda-login span {
+  color: #0f172a !important;
+  font-weight: 600 !important;
 }
+
+.btn-agenda-no {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: center !important;
+  padding: 0.35rem 0.85rem !important;
+  background: transparent !important;
+  border: none !important;
+  color: #64748b !important;
+  font-size: 0.78rem !important;
+  font-weight: 500 !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  transition: color 0.15s ease !important;
+}
+
+.btn-agenda-no:hover {
+  color: #0f172a !important;
+}
+

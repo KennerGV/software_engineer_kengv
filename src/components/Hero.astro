@@ -11,11 +11,9 @@ const { cv } = Astro.props;
 const { sobreMi } = cv;
 const seccionTitulo = cv.ui?.sobreMi || 'About Me';
 ---
-<section class="experience-section">
+<section class="experience-section about-section">
   <h2>{seccionTitulo}</h2>
-    <div class="job-card">
-      <div class="header">
-        <span>{sobreMi}</span>
-      </div>
-    </div>
+  <div class="about-card">
+    <p>{sobreMi}</p>
+  </div>
 </section>

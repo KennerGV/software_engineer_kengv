@@ -1,15 +1,23 @@
 import type { APIRoute } from 'astro';
+import { sanitizeInput } from '../../utils/sanitizer';
+import { validateUserSession } from '../../services/sessionValidation';
 
 interface IncomingRequest {
   message: string;
   bookingSlot?: string;
 }
 
+const SECURITY_HEADERS = {
+  'X-Content-Type-Options': 'nosniff',
+  'Strict-Transport-Security': 'max-age=63072000; includeSubDomains'
+};
+
 const SSE_HEADERS = {
   'Content-Type': 'text/event-stream; charset=utf-8',
   'Cache-Control': 'no-cache, no-transform',
   'Connection': 'keep-alive',
-  'X-Accel-Buffering': 'no'
+  'X-Accel-Buffering': 'no',
+  ...SECURITY_HEADERS
 };
 
 export const POST: APIRoute = async ({ request, cookies }) => {
@@ -19,9 +27,27 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     const referer = request.headers.get('referer') || '';
     const currentLang = referer.includes('/es/') ? 'es' : 'en';
 
-    if (!body || !body.message) {
-      return new Response(JSON.stringify({ error: 'Mensaje requerido.' }), { status: 400 });
+    if (!body || typeof body.message !== 'string' || body.message.trim() === '') {
+      return new Response(JSON.stringify({ error: 'Mensaje requerido y debe ser texto.' }), {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+          ...SECURITY_HEADERS
+        }
+      });
     }
+
+    if (body.bookingSlot !== undefined && typeof body.bookingSlot !== 'string') {
+      return new Response(JSON.stringify({ error: 'El formato del horario no es válido.' }), {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+          ...SECURITY_HEADERS
+        }
+      });
+    }
+
+    const sanitizedMessage = sanitizeInput(body.message);
 
     let sessionId = cookies.get('agent_session_id')?.value;
 
@@ -43,40 +69,15 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       ? incomingCookie
       : `agent_session_id=${sessionId}${incomingCookie ? '; ' + incomingCookie : ''}`;
 
-    let bookingData: {
-      bookingSlot?: string;
-      googleAccessToken?: string;
-      clientEmail?: string;
-      clientName?: string;
-    } = {};
+    const sessionCookie = cookies.get('user_session')?.value;
+    const { isValid, bookingData } = validateUserSession(body.bookingSlot, sessionCookie);
 
-    if (body.bookingSlot) {
-      const sessionCookie = cookies.get('user_session')?.value;
-      if (sessionCookie) {
-        try {
-          const parsed = JSON.parse(sessionCookie);
-          if (parsed?.googleAccessToken) {
-            bookingData = {
-              bookingSlot: body.bookingSlot,
-              googleAccessToken: parsed.googleAccessToken,
-              clientEmail: parsed.clientEmail,
-              clientName: parsed.clientName
-            };
-          }
-        } catch (e) {
-          console.warn('No se pudo parsear user_session cookie:', e);
-        }
-      }
-
-      // Fail-fast: si se intenta agendar pero la cookie user_session expiró o no tiene token,
-      // evitamos llamar a Azure AI Foundry y solicitamos re-autenticación inmediata.
-      if (!bookingData.googleAccessToken) {
-        const promptEvent = `data: {"action":"SHOW_APPOINTMENT_PROMPT"}\n\ndata: [DONE]\n\n`;
-        return new Response(promptEvent, {
-          status: 200,
-          headers: SSE_HEADERS
-        });
-      }
+    if (!isValid) {
+      const promptEvent = `data: {"action":"SHOW_APPOINTMENT_PROMPT"}\n\ndata: [DONE]\n\n`;
+      return new Response(promptEvent, {
+        status: 200,
+        headers: SSE_HEADERS
+      });
     }
 
     const azureResponse = await fetch(azureUrl, {
@@ -87,11 +88,22 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         'Cookie': cookieToSend
       },
       body: JSON.stringify({
-        message: body.message,
+        message: sanitizedMessage,
         language: currentLang,
         ...bookingData
       })
     });
+
+    if (!azureResponse.ok) {
+        console.error('Azure function returned an error status:', azureResponse.status);
+        return new Response(JSON.stringify({ error: 'No se pudo procesar la solicitud en este momento.' }), {
+          status: 502,
+          headers: {
+            'Content-Type': 'application/json',
+            ...SECURITY_HEADERS
+          }
+        });
+    }
 
     return new Response(azureResponse.body, {
       status: 200,
@@ -99,6 +111,13 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     });
 
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Error interno.' }), { status: 500 });
+    console.error('Unhandled error in chat endpoint:', error);
+    return new Response(JSON.stringify({ error: 'Ocurrió un error interno. Inténtelo más tarde.' }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        ...SECURITY_HEADERS
+      }
+    });
   }
 };

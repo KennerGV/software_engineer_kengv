@@ -8,117 +8,22 @@ const { currentLocale } = Astro;
 const { ui = {} } = Astro.props;
 const floating = ui.floating || {};
 
-const whatsappUrl = "https://wa.me/50687355106";
-const cvUrl = currentLocale === "es" ? "/es/" : "/";
-const targetUrl = currentLocale === "es" ? `/` : `/es/`;
-
-const langText = floating.langText || (currentLocale === "es" ? "EN" : "ES");
-const langTitle = floating.langTitle || (currentLocale === "es" ? "Switch to English" : "Cambiar a Español");
-const pdfTitle = floating.pdfTitle || (currentLocale === "es" ? "Generar PDF del CV" : "Generate CV PDF");
-const moreOptionsTitle = floating.moreOptions || "Más opciones";
-const openChatTitle = floating.openChat || "Abrir Chat con IA";
+const openChatTitle = floating.openChat || (currentLocale === "es" ? "Pregúntale a KenerAI" : "Ask KenerAI");
+const chatPillText = floating.chatPill || openChatTitle;
 ---
 
 <div class="interactive-portfolio-widget">
   <ChatUI ui={ui.chat}>
-    <svg slot="send-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    <svg slot="send-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
   </ChatUI>
 
   <div class="floating-triggers">
-    <div class="action-menu-container">
-      <div class="submenu-buttons" id="submenu-links">
-        <a href={targetUrl} class="sub-btn idioma" title={langTitle}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="2" y1="12" x2="22" y2="12"></line>
-            <path
-              d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
-            ></path>
-          </svg>
-          <span>{langText}</span>
-        </a>
-
-        <button
-          id="print-cv-btn"
-          class="sub-btn pdf"
-          title={pdfTitle}
-          data-cv-url={cvUrl}
-          type="button"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          <span>PDF</span>
-        </button>
-
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          class="sub-btn whatsapp"
-          title="WhatsApp"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path
-              d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-10.6 8.38 8.38 0 0 1 3.8.9L21 3z"
-            ></path>
-          </svg>
-          <span>WhatsApp</span>
-        </a>
-      </div>
-
-      <button class="main-fab" id="toggle-menu" title={moreOptionsTitle}>
-        <span class="plus-icon">+</span>
-      </button>
-    </div>
-
-    <button class="chat-fab" id="toggle-chat" title={openChatTitle}>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        ><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-        ></path></svg
-      >
+    <button class="chat-fab" id="toggle-chat" title={openChatTitle} aria-label={openChatTitle}>
+      <span class="chat-fab-online-dot" aria-hidden="true"></span>
+      <img src="/favicon.svg" alt="KG" class="chat-fab-logo" width="22" height="22" />
+      <span class="chat-fab-label">{chatPillText}</span>
     </button>
   </div>
 </div>
 
-<script src="../scripts/floating-actions.js"></script>
+<script src="../scripts/floating-actions.ts"></script>

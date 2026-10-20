@@ -1,7 +1,6 @@
 ---
 import '../styles/components/seccion-habilidades.css';
 import '../styles/components/tag.css';
-import Tag from './ui/Tag.astro';
 
 interface Props {
   cv: {
@@ -13,6 +12,7 @@ interface Props {
     };
     ui?: {
       habilidades?: string;
+      askAiProject?: string;
       categoriasHabilidades?: Record<string, string>;
     };
   };
@@ -21,21 +21,51 @@ const { cv } = Astro.props;
 const { tecnologias } = cv;
 const titulosCategorias: Record<string, string> = cv.ui?.categoriasHabilidades || {};
 const seccionTitulo = cv.ui?.habilidades || 'Technical Skills';
+const isEs = Astro.currentLocale === 'es' || seccionTitulo.includes('Habilidades');
+const askAiLabel = cv.ui?.askAiProject || (isEs ? 'Preguntar a la IA' : 'Ask AI');
 ---
 
 <section class="skills-section">
   <h2>{seccionTitulo}</h2>
 
   <div class="skills-grid">
-    {Object.entries(tecnologias).map(([categoria, listaHabilidades]) => (
-      <div class="skill-category">
-        <h3>{titulosCategorias[categoria as keyof typeof titulosCategorias] || categoria}</h3>
-        <div class="badges-container">
-          {listaHabilidades.map((habilidad) => (
-            <Tag class="skill-badge">{habilidad}</Tag>
-          ))}
+    {Object.entries(tecnologias).map(([categoria, listaHabilidades]) => {
+      const catTitle = titulosCategorias[categoria as keyof typeof titulosCategorias] || categoria;
+      return (
+        <div class="skill-category">
+          <div class="skill-category-header">
+            <h3>{catTitle}</h3>
+            <button
+              type="button"
+              class="ask-ai-btn skill-cat-ai-btn ask-ai-trigger"
+              data-ai-prompt={
+                isEs
+                  ? `¿Cuál es la experiencia práctica de Kener en ${catTitle} (${listaHabilidades.join(', ')})?`
+                  : `What is Kener's hands-on experience in ${catTitle} (${listaHabilidades.join(', ')})?`
+              }
+            >
+              ✨ <span>{askAiLabel}</span>
+            </button>
+          </div>
+          <div class="badges-container">
+            {listaHabilidades.map((habilidad) => (
+              <button
+                type="button"
+                class="ui-tag skill-badge ask-ai-trigger"
+                data-ai-prompt={
+                  isEs
+                    ? `¿Qué experiencia y proyectos ha desarrollado Kener utilizando ${habilidad}?`
+                    : `What experience and projects has Kener built using ${habilidad}?`
+                }
+                title={isEs ? `Preguntar a la IA sobre ${habilidad}` : `Ask AI about ${habilidad}`}
+              >
+                <span>{habilidad}</span>
+                <span class="skill-ask-icon" aria-hidden="true">✨</span>
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
-    ))}
+      );
+    })}
   </div>
 </section>

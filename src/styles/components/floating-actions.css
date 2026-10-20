@@ -32,12 +32,12 @@
 .interactive-portfolio-widget .chat-container {
   display: flex !important;
   flex-direction: column !important;
-  height: 480px !important;
-  width: 360px !important;
-  background-color: var(--bg-surface) !important;
-  border: 1px solid var(--color-muted) !important;
-  border-radius: 16px !important;
-  box-shadow: var(--shadow-default) !important;
+  height: 510px !important;
+  width: 380px !important;
+  background-color: #f8fafc !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 20px !important;
+  box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.22), 0 8px 18px -6px rgba(15, 23, 42, 0.1) !important;
   overflow: hidden !important;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
   z-index: 100000 !important; /* Por encima de las utilidades */
@@ -49,23 +49,23 @@
   pointer-events: none !important;
   height: 0 !important;
   width: 0 !important;
+  border: none !important;
 }
 
 /* 🔘 BARRA DE DISPARADORES INFERIORES */
 .interactive-portfolio-widget .floating-triggers {
   display: flex !important;
   gap: 12px !important;
-  align-items: flex-end !important;
+  align-items: center !important;
 }
 
 .interactive-portfolio-widget .floating-triggers.hidden {
   display: none !important;
 }
 
-.interactive-portfolio-widget .chat-fab,
 .interactive-portfolio-widget .main-fab {
-  width: 56px !important;
-  height: 56px !important;
+  width: 48px !important;
+  height: 48px !important;
   border-radius: 50% !important;
   border: none !important;
   cursor: pointer !important;
@@ -73,32 +73,71 @@
   align-items: center !important;
   justify-content: center !important;
   color: white !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+  background-color: #1e293b !important;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.25) !important;
   transition: all 0.2s ease !important;
   padding: 0 !important;
   margin: 0 !important;
 }
 
-.interactive-portfolio-widget .chat-fab {
-  background-color: var(--color-primary) !important;
-}
-.interactive-portfolio-widget .chat-fab:hover {
-  transform: scale(1.05) !important;
+.interactive-portfolio-widget .main-fab:hover {
+  background-color: #0f172a !important;
+  transform: translateY(-2px) !important;
 }
 
-.interactive-portfolio-widget .main-fab {
-  background-color: var(--text-default) !important;
-}
-.interactive-portfolio-widget .main-fab:hover {
-  background-color: #27272a !important;
-}
 .interactive-portfolio-widget .main-fab.active {
   transform: rotate(135deg) !important;
   background-color: #ef4444 !important;
 }
 
+/* Nuevo Botón Flotante Tipo Cápsula (Pregúntale a KenerAI) */
+.interactive-portfolio-widget .chat-fab {
+  position: relative !important;
+  height: 48px !important;
+  width: auto !important;
+  padding: 0 20px 0 16px !important;
+  border-radius: 9999px !important;
+  border: 1px solid rgba(103, 232, 249, 0.35) !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #164e5b 0%, #266b77 55%, #1d5d6b 100%) !important;
+  box-shadow: 0 8px 24px rgba(19, 75, 87, 0.38) !important;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  margin: 0 !important;
+}
+
+.interactive-portfolio-widget .chat-fab:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 12px 28px rgba(19, 75, 87, 0.48) !important;
+  filter: brightness(1.06) !important;
+}
+
+.interactive-portfolio-widget .chat-fab-label {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  color: #ffffff !important;
+  white-space: nowrap !important;
+}
+
+.interactive-portfolio-widget .chat-fab-online-dot {
+  position: absolute !important;
+  top: -2px !important;
+  right: 2px !important;
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50% !important;
+  background-color: #4ade80 !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.85) !important;
+}
+
 .interactive-portfolio-widget .plus-icon {
-  font-size: 24px !important;
+  font-size: 22px !important;
   line-height: 1 !important;
   color: #ffffff !important;
 }
@@ -116,13 +155,13 @@
   flex-direction: column !important;
   gap: 10px !important;
   position: absolute !important;
-  bottom: 68px !important;
+  bottom: 60px !important;
   opacity: 0 !important;
   transform: translateY(10px) !important;
   pointer-events: none !important;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
   align-items: flex-end !important;
-  z-index: 9999 !important; /* Detrás del chat si ambos coinciden */
+  z-index: 9999 !important;
 }
 
 .interactive-portfolio-widget .submenu-buttons.open {
@@ -135,7 +174,7 @@
   display: flex !important;
   align-items: center !important;
   gap: 10px !important;
-  padding: 12px 20px !important;
+  padding: 10px 18px !important;
   border-radius: 50px !important;
   text-decoration: none !important;
   font-weight: 600 !important;
@@ -145,7 +184,7 @@
   transition: transform 0.2s ease !important;
   cursor: pointer !important;
   white-space: nowrap !important;
-  font-size: 14px !important;
+  font-size: 13.5px !important;
   height: auto !important;
   width: auto !important;
 }
@@ -164,60 +203,142 @@
 }
 
 /* ==========================================================================
-   ZONA CRÍTICA: CORRECCIÓN DE LAS BURBUJAS DE MENSAJE
+   CABECERA DE MARCA Y CUERPO DE MENSAJES DEL CHAT
    ========================================================================== */
 
 .interactive-portfolio-widget .chat-header {
-  background-color: var(--bg-surface) !important;
+  background: linear-gradient(135deg, #0f172a 0%, #1c4556 52%, #2b6f7a 100%) !important;
   position: relative !important;
-  border-bottom: 1px solid var(--color-muted) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
   padding: 14px 16px !important;
-}
-.interactive-portfolio-widget .header-info {
   display: flex !important;
-  width: calc(100% - 40px) !important; /* Espacio para el botón de cerrar */
   align-items: center !important;
-  gap: 10px !important;
-}
-.interactive-portfolio-widget .header-info h4 {
-  margin: 0 !important;
-  font-size: 14px !important;
-  color: var(--text-default) !important;
-  font-weight: 600 !important;
-}
-.interactive-portfolio-widget .header-info p {
-  margin: 0 !important;
-  font-size: 11px !important;
-  color: #71717a !important;
-}
-.interactive-portfolio-widget .status-dot {
-  width: 8px !important;
-  height: 8px !important;
-  background-color: #22c55e !important;
-  border-radius: 50% !important;
-  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2) !important;
+  justify-content: space-between !important;
 }
 
-/* Botón de cerrar (X) en el header del chat */
-.interactive-portfolio-widget .close-chat-btn {
-  display: none !important; /* Oculto por defecto en desktop */
-  position: absolute !important;
-  top: 50% !important;
-  right: 16px !important;
-  transform: translateY(-50%) !important;
-  width: 32px !important;
-  height: 32px !important;
-  background-color: transparent !important;
-  border: none !important;
+.interactive-portfolio-widget .header-info {
+  display: flex !important;
+  width: calc(100% - 40px) !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.interactive-portfolio-widget .chat-avatar-badge {
+  position: relative !important;
+  width: 40px !important;
+  height: 40px !important;
   border-radius: 50% !important;
-  color: #71717a !important;
-  font-size: 24px !important;
-  font-weight: 300 !important;
-  cursor: pointer !important;
-  line-height: 32px !important;
-  text-align: center !important;
+  background: #0f172a !important;
+  border: 2px solid #38bdf8 !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.35) !important;
+  display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+.interactive-portfolio-widget .chat-fab-logo,
+.chat-fab-logo {
+  width: 22px !important;
+  height: 22px !important;
+  border-radius: 5px !important;
+  object-fit: contain !important;
+  flex-shrink: 0 !important;
+}
+
+.interactive-portfolio-widget .chat-avatar-logo,
+.chat-avatar-logo {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 6px !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+.interactive-portfolio-widget .chat-avatar-text {
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  color: #38bdf8 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.interactive-portfolio-widget .chat-avatar-text small {
+  font-size: 10px !important;
+}
+
+.interactive-portfolio-widget .status-dot {
+  position: absolute !important;
+  bottom: -1px !important;
+  right: -1px !important;
+  width: 11px !important;
+  height: 11px !important;
+  background-color: #22c55e !important;
+  border: 2px solid #0f172a !important;
+  border-radius: 50% !important;
+}
+
+.interactive-portfolio-widget .header-title-block {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+}
+
+.interactive-portfolio-widget .header-title-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.interactive-portfolio-widget .header-info h4 {
+  margin: 0 !important;
+  font-size: 15px !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.interactive-portfolio-widget .header-online-dot {
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 50% !important;
+  background-color: #4ade80 !important;
+}
+
+.interactive-portfolio-widget .header-subtitle-pill {
+  display: inline-block !important;
+  align-self: flex-start !important;
+  padding: 2px 9px !important;
+  border-radius: 9999px !important;
+  background: rgba(14, 165, 233, 0.25) !important;
+  border: 1px solid rgba(125, 211, 252, 0.35) !important;
+  color: #e0f2fe !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+}
+
+/* Botón de cerrar (X) visible en desktop y móvil */
+.interactive-portfolio-widget .close-chat-btn {
+  display: flex !important;
+  position: absolute !important;
+  top: 50% !important;
+  right: 14px !important;
+  transform: translateY(-50%) !important;
+  width: 30px !important;
+  height: 30px !important;
+  background-color: rgba(255, 255, 255, 0.14) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: 50% !important;
+  color: #ffffff !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  cursor: pointer !important;
+  line-height: 1 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.interactive-portfolio-widget .close-chat-btn:hover {
+  background-color: rgba(255, 255, 255, 0.26) !important;
 }
 
 /* Contenedor central del historial */
@@ -229,9 +350,45 @@
   padding: 16px !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 12px !important;
-  background-color: var(--bg-surface) !important;
+  gap: 10px !important;
+  background-color: #eef4f8 !important;
   align-items: stretch !important;
+}
+
+/* Chips de sugerencias rápidas (Quick Prompts) */
+.interactive-portfolio-widget .quick-prompts-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 7px !important;
+  margin-top: 2px !important;
+}
+
+.interactive-portfolio-widget .quick-prompts-container.hidden {
+  display: none !important;
+}
+
+.interactive-portfolio-widget .quick-prompt-chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 8px 14px !important;
+  border-radius: 9999px !important;
+  background-color: #ffffff !important;
+  border: 1.5px solid #2b6f7a !important;
+  color: #0f172a !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05) !important;
+  transition: all 0.18s ease !important;
+}
+
+.interactive-portfolio-widget .quick-prompt-chip:hover {
+  background-color: #f0f9ff !important;
+  border-color: #0b79d0 !important;
+  color: #0b79d0 !important;
+  transform: translateX(3px) !important;
 }
 
 /* Filas contenedoras */
@@ -244,24 +401,22 @@
   padding: 0 !important;
   margin: 0 !important;
 }
-/* Margen entre filas para separar visualmente los mensajes */
+
 .interactive-portfolio-widget .chat-messages .message {
-  margin: 6px 0 !important;
+  margin: 4px 0 !important;
   align-items: flex-start !important;
 }
 
 /* Burbuja genérica */
 .interactive-portfolio-widget .message-content {
-  padding: 10px 14px !important;
-  border-radius: 12px !important;
-  font-size: 14px !important;
+  padding: 11px 14px !important;
+  border-radius: 14px !important;
+  font-size: 13.5px !important;
   line-height: 1.5 !important;
   white-space: pre-wrap !important;
   word-break: break-word !important;
-  max-width: 80% !important;
-  box-shadow: none !important;
+  max-width: 85% !important;
   margin: 0 !important;
-  border: none !important;
   display: inline-block !important;
   align-self: flex-start !important;
 }
@@ -275,13 +430,14 @@
 
 .interactive-portfolio-widget .chat-messages .message--user .message-content,
 .interactive-portfolio-widget .chat-messages .message-content--user {
-  background-color: var(--color-primary) !important;
-  color: var(--color-primary-foreground) !important;
-  border-radius: 12px 12px 4px 12px !important;
+  background: linear-gradient(135deg, #0b79d0 0%, #0284c7 100%) !important;
+  color: #ffffff !important;
+  border-radius: 14px 14px 4px 14px !important;
   align-self: flex-end !important;
   text-align: left !important;
   display: block !important;
-  max-width: 78% !important;
+  max-width: 82% !important;
+  box-shadow: 0 4px 12px rgba(11, 121, 208, 0.2) !important;
 }
 
 .interactive-portfolio-widget
@@ -289,13 +445,15 @@
   .message--assistant
   .message-content,
 .interactive-portfolio-widget .chat-messages .message-content--assistant {
-  background-color: var(--message-bg) !important;
-  color: var(--text-default) !important;
-  border-radius: 12px 12px 12px 4px !important;
+  background-color: #ffffff !important;
+  color: #1e293b !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 14px 14px 14px 4px !important;
   align-self: flex-start !important;
   text-align: left !important;
   display: block !important;
-  max-width: 78% !important;
+  max-width: 88% !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
 }
 
 /* 🔵 ALINEACIÓN COMPLETAMENTE AISLADA PARA USUARIO (DERECHA) */
@@ -303,8 +461,8 @@
   justify-content: flex-end !important;
 }
 .interactive-portfolio-widget .message-content--user {
-  background-color: var(--color-primary) !important;
-  color: var(--color-primary-foreground) !important;
+  background: linear-gradient(135deg, #0b79d0 0%, #0284c7 100%) !important;
+  color: #ffffff !important;
   border-bottom-right-radius: 4px !important;
   text-align: left !important;
   align-self: flex-end !important;
@@ -315,74 +473,68 @@
   justify-content: flex-start !important;
 }
 .interactive-portfolio-widget .message-content--assistant {
-  background-color: var(--message-bg) !important;
-  color: var(--text-default) !important;
+  background-color: #ffffff !important;
+  color: #1e293b !important;
   border-bottom-left-radius: 4px !important;
   text-align: left !important;
   align-self: flex-start !important;
 }
 
-.interactive-portfolio-widget .agenda-actions {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  gap: 10px !important;
-  margin-top: 12px !important;
-}
-
-.interactive-portfolio-widget .agenda-cancel-btn {
-  background-image: linear-gradient(#ff0000, #ff0000),
-    linear-gradient(
-      137.48deg,
-      #ff4d4d 10%,
-      #ef4444 45%,
-      #b91c1c 67%,
-      #7f1d1d 87%
-    ) !important;
-  background-origin: border-box !important;
-  background-clip: content-box, border-box !important;
-}
-
-.interactive-portfolio-widget .agenda-cancel-btn:active {
-  border-color: #ef4444 !important;
-}
-
-.interactive-portfolio-widget .agenda-cancel-btn:active .circle {
-  background: #ef4444 !important;
-}
-
-/* Área Inferior de Input del Formulario */
+/* Área Inferior de Input Tipo Cápsula */
 .interactive-portfolio-widget .chat-form {
   display: flex !important;
   align-items: center !important;
-  padding: 12px 16px !important;
-  background-color: var(--bg-surface) !important;
-  border-top: 1px solid var(--color-muted) !important;
-  gap: 8px !important;
+  padding: 10px 14px !important;
+  background-color: #eef4f8 !important;
+  border-top: 1px solid #dde7f0 !important;
   margin: 0 !important;
 }
+
+.interactive-portfolio-widget .chat-input-pill {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 9999px !important;
+  padding: 4px 6px 4px 16px !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05) !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.interactive-portfolio-widget .chat-input-pill:focus-within {
+  border-color: #0b79d0 !important;
+  box-shadow: 0 0 0 3px rgba(11, 121, 208, 0.14) !important;
+}
+
 .interactive-portfolio-widget .chat-form input {
   flex: 1 !important;
-  padding: 10px 12px !important;
-  border: 1px solid var(--color-muted) !important;
-  border-radius: 8px !important;
-  font-size: 14px !important;
+  padding: 8px 6px !important;
+  border: none !important;
+  font-size: 13.5px !important;
   outline: none !important;
-  color: var(--text-default) !important;
-  background-color: var(--bg-surface) !important;
+  color: #0f172a !important;
+  background: transparent !important;
 }
-.interactive-portfolio-widget .chat-form input:focus {
-  border-color: var(--color-primary) !important;
-  box-shadow: 0 0 0 2px rgba(0, 111, 238, 0.15) !important;
-}
+
 .interactive-portfolio-widget .chat-form button {
   display: flex !important;
-  padding: 10px !important;
-  background-color: var(--color-primary) !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 34px !important;
+  height: 34px !important;
+  padding: 0 !important;
+  background: linear-gradient(135deg, #0b79d0 0%, #0284c7 100%) !important;
   color: white !important;
   border: none !important;
-  border-radius: 8px !important;
+  border-radius: 50% !important;
   cursor: pointer !important;
+  flex-shrink: 0 !important;
+  transition: transform 0.15s ease !important;
+}
+
+.interactive-portfolio-widget .chat-form button:hover {
+  transform: scale(1.06) !important;
 }
 
 /* ==========================================
@@ -454,15 +606,20 @@
     z-index: 100001 !important;
   }
 
-  /* 3. Botones más grandes para el pulgar */
-  .interactive-portfolio-widget .chat-fab,
+  /* 3. Botones adaptados para pantallas móviles */
   .interactive-portfolio-widget .main-fab {
-    width: 60px !important;  /* Incrementado para mejorar el objetivo táctil */
-    height: 60px !important;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+    width: 52px !important;
+    height: 52px !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35) !important;
   }
 
-  /* 4. Submenú de utilidades adaptado a móviles pero manteniendo el mismo diseño que desktop */
+  .interactive-portfolio-widget .chat-fab {
+    height: 52px !important;
+    padding: 0 18px !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  /* 4. Submenú de utilidades adaptado a móviles */
   .interactive-portfolio-widget .sub-btn span {
     display: inline !important;
   }
@@ -484,82 +641,71 @@
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
-    width: 100dvw !important;  /* Ocupa el 100% del ancho del dispositivo */
-    height: 100dvh !important; /* Ocupa el 100% del alto dinámico real */
+    width: 100dvw !important;
+    height: 100dvh !important;
     max-width: 100% !important;
     max-height: 100% !important;
-    border-radius: 0 !important; /* Remueve bordes para integrarse a la pantalla */
+    border-radius: 0 !important;
     border: none !important;
-    background-color: #090e1a !important; /* Fondo oscuro premium acorde a tu diseño */
+    background-color: #090e1a !important;
   }
 
-  /* Ajustar los componentes internos del chat al modo full-screen */
   .interactive-portfolio-widget .chat-header {
-    background-color: #0c1220 !important; /* Contraste sutil en la cabecera */
+    background: linear-gradient(135deg, #090e1a 0%, #163a49 100%) !important;
     border-bottom: 1px solid #1e293b !important;
-    padding: 18px 20px !important; /* Más espacio para la barra superior */
-  }
-  .interactive-portfolio-widget .header-info h4 {
-    color: #ffffff !important;
-    font-size: 16px !important; /* Texto un poco más grande y legible */
-  }
-  
-  /* Mostrar y estilizar el botón de cerrar en móvil */
-  .interactive-portfolio-widget .close-chat-btn {
-    display: flex !important;
-    color: #94a3b8 !important;
-    background-color: #1e293b !important;
-  }
-  .interactive-portfolio-widget .close-chat-btn:hover {
-    background-color: #334155 !important;
+    padding: 16px 20px !important;
   }
 
   .interactive-portfolio-widget .chat-messages {
-    background-color: #090e1a !important; /* Fondo del stream a juego */
+    background-color: #090e1a !important;
     padding: 20px 16px !important;
   }
 
-  /* Ajuste de burbujas en móvil para aprovechar el espacio lateral */
+  .interactive-portfolio-widget .quick-prompt-chip {
+    background-color: #141b2d !important;
+    border-color: #2b6f7a !important;
+    color: #e2e8f0 !important;
+  }
+
   .interactive-portfolio-widget .chat-messages .message-content,
   .interactive-portfolio-widget .chat-messages .message--user .message-content,
   .interactive-portfolio-widget .chat-messages .message--assistant .message-content {
-    max-width: 85% !important; /* Un poco más anchas en móvil para no estirar tanto el texto vertical */
-    font-size: 15px !important; /* Mayor legibilidad al leer en el teléfono */
+    max-width: 88% !important;
+    font-size: 15px !important;
   }
 
   .interactive-portfolio-widget .chat-messages .message--assistant .message-content {
-    background-color: #1e293b !important; /* Ajuste de color del bot para modo oscuro */
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
     color: #f8fafc !important;
   }
 
-  /* Formulario de entrada de texto estirado y cómodo al fondo de la pantalla */
   .interactive-portfolio-widget .chat-form {
     background-color: #0c1220 !important;
     border-top: 1px solid #1e293b !important;
-    padding: 16px !important;
-    /* Protege el input de la barra de gestos de iOS/Android */
-    padding-bottom: calc(16px + env(safe-area-inset-bottom)) !important;
-    /* Anchor the form at the bottom while keeping it in layout flow */
+    padding: 14px 16px !important;
+    padding-bottom: calc(14px + env(safe-area-inset-bottom)) !important;
     position: sticky !important;
     bottom: 0 !important;
     left: 0 !important;
     right: 0 !important;
     width: 100% !important;
     z-index: 100002 !important;
-    gap: 12px !important;
     box-shadow: 0 -6px 20px rgba(0,0,0,0.35) !important;
   }
 
-  .interactive-portfolio-widget .chat-form input {
-    height: 48px !important; /* Altura ideal para la yema de los dedos */
-    font-size: 16px !important; /* Crucial: Previene que iOS haga un zoom-in molesto e automático al enfocar el input */
+  .interactive-portfolio-widget .chat-input-pill {
     background-color: #141b2d !important;
-    border: 1px solid #1e293b !important;
-    color: #ffffff !important;
-    padding: 0 16px !important;
+    border: 1px solid #2b6f7a !important;
   }
 
-  /* Ensure chat container is a column flex so the form stays at the bottom */
+  .interactive-portfolio-widget .chat-form input {
+    height: 42px !important;
+    font-size: 16px !important;
+    color: #ffffff !important;
+    background: transparent !important;
+  }
+
   .interactive-portfolio-widget .chat-container {
     display: flex !important;
     flex-direction: column !important;
@@ -571,7 +717,7 @@
     flex: 1 !important;
     min-height: 0 !important;
     max-height: none !important;
-    padding-bottom: calc(16px + 48px + env(safe-area-inset-bottom)) !important; /* ensure messages don't hide behind sticky form */
+    padding-bottom: calc(16px + 48px + env(safe-area-inset-bottom)) !important;
   }
 }
 

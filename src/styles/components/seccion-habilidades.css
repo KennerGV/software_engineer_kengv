@@ -2,33 +2,103 @@
 /* src/styles/components/seccion-habilidades.css */
 .skills-section {
   max-width: 850px;
-  margin: 3rem auto;
-  padding: 0 1rem;
+  margin: 2.25rem auto;
+  padding: 0;
 }
 
-h2 {
-  font-size: 1.75rem;
-  color: var(--text-default);
-  margin-bottom: 2rem;
-  border-bottom: 2px solid var(--color-muted);
-  padding-bottom: 0.5rem;
+.skills-section h2 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 1.15rem;
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.skill-category {
+  background: #ffffff;
+  border: 1.5px solid #2b6f7a;
+  border-radius: 14px;
+  padding: 1.2rem 1.15rem;
+  box-shadow: 0 6px 18px -4px rgba(15, 23, 42, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skill-category:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -5px rgba(15, 23, 42, 0.08);
+}
+
+.skill-category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
 }
 
 .skill-category h3 {
-  font-size: 1.1rem;
-  color: var(--text-default);
-  margin-bottom: 1rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  color: #0f172a;
+  margin-bottom: 0;
+  font-weight: 700;
+}
+
+.skill-cat-ai-btn {
+  opacity: 0;
+  transform: translateX(6px);
+  pointer-events: none;
+}
+
+.skill-category:hover .skill-cat-ai-btn,
+.skill-category:focus-within .skill-cat-ai-btn {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
 }
 
 .badges-container {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 1rem;
+  gap: 0.45rem;
+  margin-bottom: 0;
 }
+
+@media (hover: none), (max-width: 768px) {
+  .skill-cat-ai-btn {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .skill-cat-ai-btn {
+    display: none !important;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.4rem !important;
+  }
+
+  .skill-category {
+    padding: 0.35rem 0.5rem !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: none !important;
+  }
+}
+
+

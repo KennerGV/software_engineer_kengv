@@ -2,29 +2,85 @@
   width: 100%;
   max-width: 28rem;
   background-color: #ffffff;
-  border-radius: 1rem;
-  border: 1px solid #f3f4f6;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
-  padding: 1rem 0.875rem;
-  margin-top: 0.5rem;
+  border-radius: 0.9rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.06);
+  padding: 0.9rem 0.85rem;
+  margin-top: 0.4rem;
   font-family: system-ui, -apple-system, sans-serif;
+  color: #0f172a;
+}
+
+.calendar-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.calendar-month-group {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #0f172a;
 }
 
 .calendar-title {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #9ca3af;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.calendar-nav-arrows {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 2px;
+}
+
+.cal-arrow-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.cal-arrow-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.calendar-tz-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  font-size: 0.68rem;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 /* --- Cinta Deslizable de Días --- */
 .days-ribbon {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.45rem;
   overflow-x: auto;
-  padding-bottom: 0.75rem;
+  padding-bottom: 0.65rem;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   cursor: grab;
@@ -43,94 +99,124 @@
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 3.5rem;
-  height: 4rem;
-  border-radius: 1rem;
-  border: 1px solid #f3f4f6;
-  background-color: #f9fafb;
-  color: #4b5563;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-width: 5.4rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 0.75rem;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #1e293b;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .day-card:hover {
-  background-color: #f3f4f6;
+  border-color: #0b79d0;
+  background-color: #f8fafc;
+}
+
+.day-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0.25rem;
 }
 
 .day-card .day-name {
-  font-size: 0.625rem;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #334155;
+}
+
+.day-card .day-month {
+  font-size: 0.62rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #9ca3af;
+  color: #64748b;
+}
+
+.day-card-bottom {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 0.2rem;
 }
 
 .day-card .day-number {
-  font-size: 1.125rem;
+  font-size: 1.15rem;
   font-weight: 800;
-  margin-top: 0.125rem;
+  line-height: 1;
+  color: #0f172a;
 }
 
-/* --- Tarjeta de Día (Activa) --- */
+.day-card .day-avail {
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: #16a34a;
+  white-space: nowrap;
+}
+
+/* --- Tarjeta de Día (Activa con degradado de marca) --- */
 .day-card.active {
-  border-color: #3b82f6;
-  background-color: #2563eb;
+  border-color: transparent;
+  background: linear-gradient(135deg, #0b79d0 0%, #2dd4bf 100%);
   color: #ffffff;
-  transform: scale(1.05);
-  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+  box-shadow: 0 8px 16px -4px rgba(11, 121, 208, 0.35);
 }
 
-.day-card.active .day-name {
-  color: #93c5fd;
+.day-card.active .day-name,
+.day-card.active .day-month,
+.day-card.active .day-number,
+.day-card.active .day-avail {
+  color: #ffffff;
 }
 
 /* --- Grid de Horarios --- */
 .hours-container {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.5rem;
+  gap: 0.45rem;
+  padding-top: 0.25rem;
   transition: opacity 0.15s ease-in-out;
 }
 
 /* --- Botón de Hora --- */
 .hour-btn {
-  padding: 0.625rem 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #1e40af;
-  background-color: #eff6ff;
-  border: 1px solid #dbeafe;
-  border-radius: 0.75rem;
+  padding: 0.55rem 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #0f172a;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.6rem;
   cursor: pointer;
   text-align: center;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.18s ease-in-out;
 }
 
 .hour-btn:hover {
-  background-color: #2563eb;
-  color: #ffffff;
-  border-color: #2563eb;
+  border-color: #0b79d0;
+  color: #0b79d0;
+  background-color: #f0f9ff;
   transform: translateY(-1px);
-  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
-}
-
-.hour-btn:active {
-  transform: scale(0.95);
 }
 
 .hour-btn.selected {
-  background-color: #1d4ed8;
+  background-color: #0b79d0;
   color: #ffffff;
-  border-color: #1e40af;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.35);
+  border-color: #0b79d0;
+  box-shadow: 0 4px 10px rgba(11, 121, 208, 0.28);
 }
 
-/* Asegurar que la burbuja del chat le dé suficiente ancho al calendario y no herede word-break */
+/* Asegurar que la burbuja del chat le dé suficiente ancho al calendario */
 .interactive-portfolio-widget .chat-messages .message--assistant .message-content:has(.calendar-wrapper) {
-  max-width: 94% !important;
-  width: 94% !important;
+  max-width: 96% !important;
+  width: 96% !important;
+  padding: 8px !important;
   white-space: normal !important;
   word-break: normal !important;
   overflow-wrap: normal !important;
@@ -143,16 +229,14 @@
   hyphens: none !important;
 }
 
-/* --- Pie del Calendario + Barra de Confirmación Inline --- */
+/* --- Pie del Calendario + Barra de Confirmación Unificada --- */
 .calendar-footer {
-  margin-top: 0.875rem;
-  padding: 0.625rem;
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.75rem;
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.5rem;
   white-space: normal !important;
 }
 
@@ -162,72 +246,74 @@
 }
 
 .calendar-confirm-text {
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   font-weight: 600;
-  color: #1e293b;
-  margin: 0 0 0.625rem 0;
+  color: #0f172a;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.55rem;
+  padding: 0.45rem 0.65rem;
+  margin: 0 0 0.55rem 0;
   line-height: 1.35;
   text-align: center;
   white-space: normal !important;
 }
 
 .calendar-confirm-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  align-items: center;
   gap: 0.5rem;
   width: 100%;
 }
 
 .calendar-confirm-btn {
-  display: flex !important;
+  display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  height: 38px !important;
-  padding: 0 0.4rem !important;
-  font-size: 0.74rem !important;
+  height: 36px !important;
+  padding: 0 0.75rem !important;
+  font-size: 0.76rem !important;
   font-weight: 600 !important;
   line-height: 1 !important;
   white-space: nowrap !important;
-  border-radius: 0.5rem !important;
+  border-radius: 0.55rem !important;
   cursor: pointer !important;
-  transition: all 0.15s ease-in-out !important;
+  transition: all 0.18s ease-in-out !important;
   border: 1px solid transparent !important;
 }
 
 .calendar-confirm-btn--primary {
-  background-color: #2563eb !important;
+  flex: 1 !important;
+  background: linear-gradient(135deg, #0b79d0 0%, #14b8a6 100%) !important;
   color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(11, 121, 208, 0.25) !important;
 }
 
 .calendar-confirm-btn--primary:hover {
-  background-color: #1d4ed8 !important;
+  filter: brightness(1.05) !important;
+  transform: translateY(-1px) !important;
 }
 
 .calendar-confirm-btn--secondary {
-  background-color: #ffffff !important;
-  color: #475569 !important;
-  border-color: #cbd5e1 !important;
+  display: none !important;
 }
 
-.calendar-confirm-btn--secondary:hover {
-  background-color: #f1f5f9 !important;
-}
-
-/* Botón rojo Cancelar: 100% del ancho de ambos botones juntos y su misma altura (38px) */
+/* Botón discreto Cancelar */
 .calendar-confirm-btn.calendar-confirm-btn--danger {
   width: 100% !important;
-  height: 38px !important;
-  min-height: 38px !important;
+  height: 32px !important;
   padding: 0 0.5rem !important;
-  font-size: 0.74rem !important;
+  font-size: 0.75rem !important;
   font-weight: 600 !important;
-  background-color: #ef4444 !important;
-  color: #ffffff !important;
+  background-color: transparent !important;
+  color: #64748b !important;
+  border: 1px solid #e2e8f0 !important;
   border-radius: 0.5rem !important;
 }
 
 .calendar-confirm-btn.calendar-confirm-btn--danger:hover {
-  background-color: #dc2626 !important;
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
 }
 
 @keyframes fadeInConfirm {
