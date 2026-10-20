@@ -1,16 +1,51 @@
-import { getChatTexts, simularStreamTexto } from "./chat-renderer.js";
+import {
+  getChatTexts,
+  simularStreamTexto,
+  type CalendarCallbacks,
+} from "./chat-renderer";
+
+interface GoogleCodeResponse {
+  code?: string;
+  error?: string;
+}
+
+interface GoogleCodeClientConfig {
+  client_id: string;
+  scope: string;
+  ux_mode?: "popup" | "redirect";
+  callback: (response: GoogleCodeResponse) => void | Promise<void>;
+  error_callback?: (error: unknown) => void;
+}
+
+declare const google: {
+  accounts: {
+    oauth2: {
+      initCodeClient: (config: GoogleCodeClientConfig) => {
+        requestCode: () => void;
+      };
+    };
+  };
+};
+
+interface SlotsApiResponse {
+  success: boolean;
+  availableSlots?: string[];
+  message?: string;
+}
 
 const FALLBACK_GOOGLE_CLIENT_ID =
   "766522036234-gl7tilknv9oafsg9mfotv9aq7l3k4coj.apps.googleusercontent.com";
 
-export function initRibbonDrag(chatContainer) {
+export function initRibbonDrag(chatContainer: HTMLElement): void {
   let isDown = false;
   let startX = 0;
   let scrollLeft = 0;
-  let activeRibbon = null;
+  let activeRibbon: HTMLElement | null = null;
 
-  chatContainer.addEventListener("mousedown", (e) => {
-    const ribbon = e.target.closest(".days-ribbon");
+  chatContainer.addEventListener("mousedown", (e: MouseEvent) => {
+    const ribbon = (e.target as HTMLElement | null)?.closest<HTMLElement>(
+      ".days-ribbon"
+    );
     if (!ribbon) return;
 
     isDown = true;
@@ -22,7 +57,7 @@ export function initRibbonDrag(chatContainer) {
     scrollLeft = activeRibbon.scrollLeft;
   });
 
-  const stopDragging = () => {
+  const stopDragging = (): void => {
     if (!isDown || !activeRibbon) return;
     isDown = false;
     activeRibbon.classList.remove("dragging");
@@ -33,7 +68,7 @@ export function initRibbonDrag(chatContainer) {
   chatContainer.addEventListener("mouseleave", stopDragging);
   chatContainer.addEventListener("mouseup", stopDragging);
 
-  chatContainer.addEventListener("mousemove", (e) => {
+  chatContainer.addEventListener("mousemove", (e: MouseEvent) => {
     if (!isDown || !activeRibbon) return;
     e.preventDefault();
 
@@ -43,18 +78,27 @@ export function initRibbonDrag(chatContainer) {
   });
 }
 
-export function mostrarLoaderSistema(divDestino, mensajeTexto) {
+export function mostrarLoaderSistema(
+  divDestino: HTMLElement | null,
+  mensajeTexto: string
+): HTMLElement | null {
   if (divDestino) {
     divDestino.innerHTML = "";
   }
 
-  const loaderTemplate = document.getElementById("loader-template");
+  const loaderTemplate = document.getElementById(
+    "loader-template"
+  ) as HTMLTemplateElement | null;
   if (loaderTemplate && divDestino) {
-    const loaderFragment = loaderTemplate.content.cloneNode(true);
-    const loaderVivo = loaderFragment.querySelector(".loader-container");
+    const loaderFragment = loaderTemplate.content.cloneNode(
+      true
+    ) as DocumentFragment;
+    const loaderVivo = loaderFragment.querySelector(
+      ".loader-container"
+    ) as HTMLElement | null;
 
     if (loaderVivo) {
-      const textLoader = loaderVivo.querySelector(".loader-text");
+      const textLoader = loaderVivo.querySelector<HTMLElement>(".loader-text");
       if (textLoader) {
         textLoader.textContent = mensajeTexto;
       }
@@ -72,7 +116,10 @@ export function mostrarLoaderSistema(divDestino, mensajeTexto) {
   return divDestino;
 }
 
-export function renderAppointmentPrompt(assistantMessageDiv, callbacks) {
+export function renderAppointmentPrompt(
+  assistantMessageDiv: HTMLElement,
+  callbacks: CalendarCallbacks
+): void {
   const textos = getChatTexts();
   const { deshabilitarChatInput, habilitarChatInput } = callbacks;
 
@@ -108,8 +155,12 @@ export function renderAppointmentPrompt(assistantMessageDiv, callbacks) {
   const chatMessages = document.getElementById("chat-messages");
   if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
 
-  const loginBtn = actionsWrapper.querySelector(".btn-agenda-login");
-  const cancelBtn = actionsWrapper.querySelector(".btn-agenda-no");
+  const loginBtn = actionsWrapper.querySelector(
+    ".btn-agenda-login"
+  ) as HTMLButtonElement | null;
+  const cancelBtn = actionsWrapper.querySelector(
+    ".btn-agenda-no"
+  ) as HTMLButtonElement | null;
 
   const configuredClientId =
     chatWindowEl?.dataset.googleClientId || FALLBACK_GOOGLE_CLIENT_ID;
@@ -117,16 +168,21 @@ export function renderAppointmentPrompt(assistantMessageDiv, callbacks) {
   loginBtn?.addEventListener("click", () => {
     const client = google.accounts.oauth2.initCodeClient({
       client_id: configuredClientId,
-      scope: "openid email profile https://www.googleapis.com/auth/calendar.events",
+      scope:
+        "openid email profile https://www.googleapis.com/auth/calendar.events",
       ux_mode: "popup",
-      callback: async (authResponse) => {
+      callback: async (authResponse: GoogleCodeResponse) => {
         if (authResponse.code) {
           loginBtn.disabled = true;
           const loaderActivo = mostrarLoaderSistema(
             assistantMessageDiv,
             textos.loaderVerificando
           );
-          await enviarCodigoAlBackend(authResponse.code, loaderActivo, callbacks);
+          await enviarCodigoAlBackend(
+            authResponse.code,
+            loaderActivo ?? assistantMessageDiv,
+            callbacks
+          );
         }
       },
       error_callback: () => {
@@ -145,17 +201,22 @@ export function renderAppointmentPrompt(assistantMessageDiv, callbacks) {
   });
 }
 
-function mostrarErrorInline(container, textoError) {
+function mostrarErrorInline(container: HTMLElement, textoError: string): void {
   const existingError = container.querySelector(".inline-auth-error");
   if (existingError) existingError.remove();
 
   const errorMsg = document.createElement("p");
-  errorMsg.className = "inline-auth-error text-red-500 text-xs text-center mt-2 font-medium";
+  errorMsg.className =
+    "inline-auth-error text-red-500 text-xs text-center mt-2 font-medium";
   errorMsg.textContent = textoError;
   container.appendChild(errorMsg);
 }
 
-async function enviarCodigoAlBackend(authCode, assistantMessageDiv, callbacks) {
+async function enviarCodigoAlBackend(
+  authCode: string,
+  assistantMessageDiv: HTMLElement,
+  callbacks: CalendarCallbacks
+): Promise<void> {
   const textos = getChatTexts();
   try {
     const response = await fetch("/api/calendar/slots", {
@@ -166,7 +227,7 @@ async function enviarCodigoAlBackend(authCode, assistantMessageDiv, callbacks) {
 
     if (!response.ok) throw new Error("Error obteniendo slots");
 
-    const data = await response.json();
+    const data = (await response.json()) as SlotsApiResponse;
 
     if (data.success) {
       assistantMessageDiv.innerHTML = "";
@@ -182,7 +243,7 @@ async function enviarCodigoAlBackend(authCode, assistantMessageDiv, callbacks) {
   }
 }
 
-function getTimezoneShortLabel() {
+function getTimezoneShortLabel(): string {
   try {
     const offsetMin = -new Date().getTimezoneOffset();
     const sign = offsetMin >= 0 ? "+" : "-";
@@ -193,9 +254,15 @@ function getTimezoneShortLabel() {
   }
 }
 
-export function renderCalendarUI(availableSlots, assistantMessageDiv, callbacks) {
+export function renderCalendarUI(
+  availableSlots: string[] | undefined,
+  assistantMessageDiv: HTMLElement,
+  callbacks: CalendarCallbacks
+): void {
   const textos = getChatTexts();
-  const calendarTemplate = document.getElementById("calendar-template");
+  const calendarTemplate = document.getElementById(
+    "calendar-template"
+  ) as HTMLTemplateElement | null;
   if (!calendarTemplate) return;
 
   const chatWindowEl = document.getElementById("chat-window");
@@ -203,18 +270,38 @@ export function renderCalendarUI(availableSlots, assistantMessageDiv, callbacks)
     chatWindowEl?.dataset?.availableLabel ||
     (textos.isEnglish ? "avail." : "disp.");
 
-  const calendarFragment = calendarTemplate.content.cloneNode(true);
-  const calendarVivo = calendarFragment.querySelector(".calendar-wrapper");
-  const calendarTitle = calendarVivo?.querySelector(".calendar-title");
-  const tzBadge = calendarVivo?.querySelector(".calendar-tz-badge");
-  const arrowPrev = calendarVivo?.querySelector(".cal-arrow-prev");
-  const arrowNext = calendarVivo?.querySelector(".cal-arrow-next");
-  const daysRibbon = calendarVivo?.querySelector(".days-ribbon");
-  const hoursContainer = calendarVivo?.querySelector(".hours-container");
-  const confirmBar = calendarVivo?.querySelector(".calendar-confirm-bar");
-  const confirmTextEl = calendarVivo?.querySelector(".calendar-confirm-text");
-  const confirmPrimaryBtn = calendarVivo?.querySelector(".calendar-confirm-btn--primary");
-  const confirmDangerBtn = calendarVivo?.querySelector(".calendar-confirm-btn--danger");
+  const calendarFragment = calendarTemplate.content.cloneNode(
+    true
+  ) as DocumentFragment;
+  const calendarVivo = calendarFragment.querySelector(
+    ".calendar-wrapper"
+  ) as HTMLElement | null;
+  const calendarTitle =
+    calendarVivo?.querySelector<HTMLElement>(".calendar-title");
+  const tzBadge =
+    calendarVivo?.querySelector<HTMLElement>(".calendar-tz-badge");
+  const arrowPrev =
+    calendarVivo?.querySelector<HTMLButtonElement>(".cal-arrow-prev");
+  const arrowNext =
+    calendarVivo?.querySelector<HTMLButtonElement>(".cal-arrow-next");
+  const daysRibbon = calendarVivo?.querySelector(
+    ".days-ribbon"
+  ) as HTMLElement | null;
+  const hoursContainer = calendarVivo?.querySelector(
+    ".hours-container"
+  ) as HTMLElement | null;
+  const confirmBar = calendarVivo?.querySelector(
+    ".calendar-confirm-bar"
+  ) as HTMLElement | null;
+  const confirmTextEl = calendarVivo?.querySelector<HTMLElement>(
+    ".calendar-confirm-text"
+  );
+  const confirmPrimaryBtn = calendarVivo?.querySelector(
+    ".calendar-confirm-btn--primary"
+  ) as HTMLButtonElement | null;
+  const confirmDangerBtn = calendarVivo?.querySelector(
+    ".calendar-confirm-btn--danger"
+  ) as HTMLButtonElement | null;
 
   if (!calendarVivo || !daysRibbon || !hoursContainer) return;
 
@@ -253,7 +340,7 @@ export function renderCalendarUI(availableSlots, assistantMessageDiv, callbacks)
     return;
   }
 
-  const slotsByDate = {};
+  const slotsByDate: Record<string, string[]> = {};
   availableSlots.forEach((slot) => {
     const dateKey = slot.split("T")[0];
     if (!slotsByDate[dateKey]) slotsByDate[dateKey] = [];
@@ -263,7 +350,7 @@ export function renderCalendarUI(availableSlots, assistantMessageDiv, callbacks)
   const uniqueDates = Object.keys(slotsByDate);
   let activeDate = uniqueDates[0];
 
-  function updateMonthHeader(dateKey) {
+  function updateMonthHeader(dateKey: string): void {
     if (!calendarTitle) return;
     const d = new Date(dateKey + "T00:00:00");
     const monthYear = d.toLocaleDateString(textos.localTime, {
@@ -275,8 +362,8 @@ export function renderCalendarUI(availableSlots, assistantMessageDiv, callbacks)
 
   updateMonthHeader(activeDate);
 
-  function ocultarConfirmacionInline() {
-    hoursContainer.querySelectorAll(".hour-btn").forEach((b) => {
+  function ocultarConfirmacionInline(): void {
+    hoursContainer!.querySelectorAll<HTMLButtonElement>(".hour-btn").forEach((b) => {
       b.classList.remove("selected");
       if (b.dataset.rawTime) {
         b.textContent = b.dataset.rawTime;
@@ -288,8 +375,11 @@ export function renderCalendarUI(availableSlots, assistantMessageDiv, callbacks)
     }
   }
 
-  function mostrarConfirmacionInline(slotISO, buttonEl) {
-    hoursContainer.querySelectorAll(".hour-btn").forEach((b) => {
+  function mostrarConfirmacionInline(
+    slotISO: string,
+    buttonEl: HTMLButtonElement
+  ): void {
+    hoursContainer!.querySelectorAll<HTMLButtonElement>(".hour-btn").forEach((b) => {
       b.classList.remove("selected");
       if (b.dataset.rawTime) {
         b.textContent = b.dataset.rawTime;
@@ -326,12 +416,12 @@ export function renderCalendarUI(availableSlots, assistantMessageDiv, callbacks)
     }
   }
 
-  function renderHours(dateKey) {
+  function renderHours(dateKey: string): void {
     ocultarConfirmacionInline();
-    hoursContainer.style.opacity = "0";
+    hoursContainer!.style.opacity = "0";
 
     setTimeout(() => {
-      hoursContainer.innerHTML = "";
+      hoursContainer!.innerHTML = "";
       const hours = slotsByDate[dateKey] || [];
 
       hours.forEach((slot) => {
@@ -346,12 +436,14 @@ export function renderCalendarUI(availableSlots, assistantMessageDiv, callbacks)
         btn.className = "hour-btn";
         btn.dataset.rawTime = timeLabel;
         btn.textContent = timeLabel;
-        btn.addEventListener("click", () => mostrarConfirmacionInline(slot, btn));
+        btn.addEventListener("click", () =>
+          mostrarConfirmacionInline(slot, btn)
+        );
 
-        hoursContainer.appendChild(btn);
+        hoursContainer!.appendChild(btn);
       });
 
-      hoursContainer.style.opacity = "1";
+      hoursContainer!.style.opacity = "1";
     }, 120);
   }
 
@@ -381,7 +473,9 @@ export function renderCalendarUI(availableSlots, assistantMessageDiv, callbacks)
     `;
 
     dayCard.addEventListener("click", () => {
-      daysRibbon.querySelectorAll(".day-card").forEach((card) => card.classList.remove("active"));
+      daysRibbon
+        .querySelectorAll(".day-card")
+        .forEach((card) => card.classList.remove("active"));
       dayCard.classList.add("active");
       activeDate = dateKey;
       updateMonthHeader(dateKey);

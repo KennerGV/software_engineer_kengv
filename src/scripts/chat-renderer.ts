@@ -1,13 +1,93 @@
-const chatLocale = document.documentElement.lang === "es" ? "es" : "en";
+export interface ChatI18nDictionary {
+  SHOW_APPOINTMENT_PROMPT?: string;
+  CANCEL_APPOINTMENT?: string;
+  ERROR_AUTENTICACION?: string;
+  LOADER_VERIFICANDO?: string;
+  LOADER_AGENDANDO?: string;
+  PLACEHOLDER_CHAT?: string;
+  PLACEHOLDER_DESHABILITADO?: string;
+  CONNECTION_ERROR?: string;
+  ERROR_AGENT?: string;
+  ERROR_AGENDA?: string;
+  CONFIRM_AGENDA?: string;
+  CONFIRM_BTN?: string;
+  CHANGE_TIME_BTN?: string;
+  CANCEL_BTN?: string;
+  NO_SLOTS?: string;
+  TEXT_CALENDAR?: string;
+  LOCAL_TIME?: string;
+  RETRY_CONNECTION?: string;
+}
+
+export interface ChatTexts {
+  isEnglish: boolean;
+  chatLocale: "es" | "en";
+  promptAgenda: string;
+  cancelAppointment: string;
+  errorAutenticacion: string;
+  loaderVerificando: string;
+  loaderAgendando: string;
+  placeholderChat: string;
+  placeholderDeshabilitado: string;
+  connectionError: string;
+  errorAgent: string;
+  errorAgenda: string;
+  confirmAgenda: string;
+  confirmBtn: string;
+  changeTimeBtn: string;
+  cancelText: string;
+  noSlotsText: string;
+  textCalendar: string;
+  localTime: string;
+  retryConnection: string;
+}
+
+export interface StreamState {
+  rawText: string;
+}
+
+export interface SavedChatState {
+  hasInteracted?: boolean;
+  isOpen?: boolean;
+  messages?: string;
+}
+
+export interface CalendarCallbacks {
+  deshabilitarChatInput: () => void;
+  habilitarChatInput: () => void;
+  onConfirmSlot: (
+    slotISO: string,
+    fechaLegible: string,
+    assistantMessageDiv: HTMLElement
+  ) => Promise<void> | void;
+}
+
+declare global {
+  interface Window {
+    ChatI18n?: ChatI18nDictionary;
+  }
+}
+
+function getChatLocale(): "es" | "en" {
+  if (typeof document !== "undefined" && document.documentElement.lang === "es") {
+    return "es";
+  }
+  return "en";
+}
+
+const chatLocale: "es" | "en" = getChatLocale();
 const chatStateStorageKey = "kener-chat-state-" + chatLocale;
 const chatOpenStorageKey = "kener-chat-is-open";
 
-export function getChatTexts() {
-  const i18n = window.ChatI18n || {};
-  const isEnglish = document.documentElement.lang === "en";
+export function getChatTexts(): ChatTexts {
+  const i18n: ChatI18nDictionary =
+    typeof window !== "undefined" && window.ChatI18n ? window.ChatI18n : {};
+  const isEnglish =
+    typeof document !== "undefined" ? document.documentElement.lang === "en" : true;
+  const currentLocale = getChatLocale();
   return {
     isEnglish,
-    chatLocale,
+    chatLocale: currentLocale,
     promptAgenda: i18n.SHOW_APPOINTMENT_PROMPT || "",
     cancelAppointment: i18n.CANCEL_APPOINTMENT || "",
     errorAutenticacion: i18n.ERROR_AUTENTICACION || "",
@@ -22,14 +102,16 @@ export function getChatTexts() {
     confirmBtn: i18n.CONFIRM_BTN || (isEnglish ? "Confirm meeting" : "Confirmar cita"),
     changeTimeBtn: i18n.CHANGE_TIME_BTN || (isEnglish ? "Change time" : "Cambiar hora"),
     cancelText: i18n.CANCEL_BTN || (isEnglish ? "Cancel" : "Cancelar"),
-    noSlotsText: i18n.NO_SLOTS || (isEnglish ? "No available time slots. 😢" : "No hay horarios disponibles. 😢"),
+    noSlotsText:
+      i18n.NO_SLOTS ||
+      (isEnglish ? "No available time slots. 😢" : "No hay horarios disponibles. 😢"),
     textCalendar: i18n.TEXT_CALENDAR || "",
     localTime: i18n.LOCAL_TIME || (isEnglish ? "en-US" : "es-ES"),
     retryConnection: i18n.RETRY_CONNECTION || "",
   };
 }
 
-function escapeHtml(str) {
+function escapeHtml(str: string): string {
   return str
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -41,7 +123,7 @@ function escapeHtml(str) {
  * Convierte texto Markdown ligero (**negrita**, enlaces https://..., viñetas y saltos de línea)
  * en HTML seguro y clicable.
  */
-export function formatRichText(rawText) {
+export function formatRichText(rawText: string): string {
   if (!rawText) return "";
 
   let html = escapeHtml(rawText);
@@ -61,14 +143,11 @@ export function formatRichText(rawText) {
   }
 
   // 2. Enlaces clicables (por ejemplo https://meet.google.com/...)
-  html = html.replace(
-    /(https?:\/\/[^\s<]+)/g,
-    (url) => {
-      const cleanUrl = url.replace(/[.,;!?)]+$/, "");
-      const trailing = url.slice(cleanUrl.length);
-      return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="chat-link">${cleanUrl}</a>${trailing}`;
-    }
-  );
+  html = html.replace(/(https?:\/\/[^\s<]+)/g, (url: string) => {
+    const cleanUrl = url.replace(/[.,;!?)]+$/, "");
+    const trailing = url.slice(cleanUrl.length);
+    return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="chat-link">${cleanUrl}</a>${trailing}`;
+  });
 
   // 3. Viñetas simples (* item o - item al inicio de línea)
   html = html.replace(/^(?:\*|-)\s+(.+)$/gm, "• $1");
@@ -77,7 +156,11 @@ export function formatRichText(rawText) {
   return html.replace(/\n/g, "<br>");
 }
 
-export function renderizarFragmento(chunk, container, state) {
+export function renderizarFragmento(
+  chunk: string,
+  container: HTMLElement,
+  state: StreamState
+): void {
   state.rawText = (state.rawText || "") + chunk;
   container.innerHTML = formatRichText(state.rawText);
 
@@ -87,8 +170,12 @@ export function renderizarFragmento(chunk, container, state) {
   }
 }
 
-export function simularStreamTexto(textoPlano, container, callbackAlTerminar) {
-  const estadoEstatico = { rawText: "" };
+export function simularStreamTexto(
+  textoPlano: string,
+  container: HTMLElement,
+  callbackAlTerminar?: () => void
+): void {
+  const estadoEstatico: StreamState = { rawText: "" };
   container.innerHTML = "";
 
   let index = 0;
@@ -107,7 +194,10 @@ export function simularStreamTexto(textoPlano, container, callbackAlTerminar) {
   }, 14);
 }
 
-export function persistChatState(chatMessages, chatWindow) {
+export function persistChatState(
+  chatMessages: HTMLElement | null,
+  chatWindow: HTMLElement | null
+): void {
   try {
     const isOpen = chatWindow ? !chatWindow.classList.contains("hidden") : false;
     sessionStorage.setItem(chatOpenStorageKey, isOpen ? "true" : "false");
@@ -115,7 +205,7 @@ export function persistChatState(chatMessages, chatWindow) {
     if (!chatMessages) return;
 
     // Clonamos el contenedor y limpiamos widgets transitorios cuyos listeners no sobreviven a recargas
-    const clone = chatMessages.cloneNode(true);
+    const clone = chatMessages.cloneNode(true) as HTMLElement;
     clone
       .querySelectorAll(".appointment-actions, .calendar-wrapper, .loader-container")
       .forEach((node) => {
@@ -137,13 +227,11 @@ export function persistChatState(chatMessages, chatWindow) {
 
     if (hasInteracted) {
       clone.querySelectorAll(".quick-prompts-container").forEach((el) => el.remove());
-      sessionStorage.setItem(
-        chatStateStorageKey,
-        JSON.stringify({
-          hasInteracted: true,
-          messages: clone.innerHTML,
-        })
-      );
+      const stateToSave: SavedChatState = {
+        hasInteracted: true,
+        messages: clone.innerHTML,
+      };
+      sessionStorage.setItem(chatStateStorageKey, JSON.stringify(stateToSave));
     } else {
       sessionStorage.removeItem(chatStateStorageKey);
     }
@@ -152,11 +240,17 @@ export function persistChatState(chatMessages, chatWindow) {
   }
 }
 
-export function restoreChatState(chatMessages, chatWindow, floatingTriggers) {
+export function restoreChatState(
+  chatMessages: HTMLElement | null,
+  chatWindow: HTMLElement | null,
+  floatingTriggers: Element | null
+): void {
   if (!chatMessages) return;
 
   try {
-    const savedState = JSON.parse(sessionStorage.getItem(chatStateStorageKey) || "null");
+    const savedState = JSON.parse(
+      sessionStorage.getItem(chatStateStorageKey) || "null"
+    ) as SavedChatState | null;
 
     if (
       savedState &&
@@ -174,7 +268,7 @@ export function restoreChatState(chatMessages, chatWindow, floatingTriggers) {
 
     const isOpenGlobal =
       sessionStorage.getItem(chatOpenStorageKey) === "true" ||
-      (savedState && savedState.isOpen);
+      Boolean(savedState && savedState.isOpen);
 
     if (chatWindow && isOpenGlobal) {
       chatWindow.classList.remove("hidden");

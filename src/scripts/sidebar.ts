@@ -1,6 +1,6 @@
-const handleMobileAccordion = () => {
-  const detailsContact = document.getElementById("contact-details");
-  const detailsEducation = document.getElementById("education-details");
+const handleMobileAccordion = (): void => {
+  const detailsContact = document.getElementById("contact-details") as HTMLElement | null;
+  const detailsEducation = document.getElementById("education-details") as HTMLElement | null;
   if (!detailsContact || !detailsEducation) return;
 
   if (window.innerWidth <= 1024) {
@@ -12,18 +12,18 @@ const handleMobileAccordion = () => {
 handleMobileAccordion();
 window.addEventListener("resize", handleMobileAccordion);
 
-const btn = document.getElementById("menu-toggle");
-const sidebar = document.getElementById("sidebar");
-const container = document.querySelector(".app-container");
+const btn = document.getElementById("menu-toggle") as HTMLElement | null;
+const sidebar = document.getElementById("sidebar") as HTMLElement | null;
+const container = document.querySelector(".app-container") as HTMLElement | null;
 
 btn?.addEventListener("click", () => {
   sidebar?.classList.toggle("is-open");
   container?.classList.toggle("sidebar-open");
 });
 
-const navLinks = document.querySelectorAll(".nav-item");
+const navLinks = document.querySelectorAll(".nav-item") as NodeListOf<HTMLElement>;
 
-const syncActiveNavFromHash = () => {
+const syncActiveNavFromHash = (): void => {
   const currentHash = window.location.hash.replace(/^#/, "");
   if (!currentHash) return;
   navLinks.forEach((link) => {
@@ -45,14 +45,16 @@ navLinks.forEach((link) => {
 });
 
 // --- Avatar 3D Estático con Único Efecto de Pestañeo Natural ---
-const initBlinkingAvatar = () => {
-  const canvas = document.getElementById("sidebar-avatar-canvas");
-  if (!canvas) return;
-  const gl = canvas.getContext("webgl", { premultipliedAlpha: false, antialias: true });
-  if (!gl) {
-    canvas.style.display = "none";
+const initBlinkingAvatar = (): void => {
+  const canvasEl = document.getElementById("sidebar-avatar-canvas") as HTMLCanvasElement | null;
+  if (!canvasEl) return;
+  const glCtx = canvasEl.getContext("webgl", { premultipliedAlpha: false, antialias: true });
+  if (!glCtx) {
+    canvasEl.style.display = "none";
     return;
   }
+  const canvas: HTMLCanvasElement = canvasEl;
+  const gl: WebGLRenderingContext = glCtx;
 
   const vsSource = `
     attribute vec2 a_pos;
@@ -95,16 +97,21 @@ const initBlinkingAvatar = () => {
     }
   `;
 
-  const compileShader = (type, source) => {
+  const compileShader = (type: number, source: string): WebGLShader | null => {
     const s = gl.createShader(type);
+    if (!s) return null;
     gl.shaderSource(s, source);
     gl.compileShader(s);
     return s;
   };
 
   const prog = gl.createProgram();
-  gl.attachShader(prog, compileShader(gl.VERTEX_SHADER, vsSource));
-  gl.attachShader(prog, compileShader(gl.FRAGMENT_SHADER, fsSource));
+  const vs = compileShader(gl.VERTEX_SHADER, vsSource);
+  const fs = compileShader(gl.FRAGMENT_SHADER, fsSource);
+  if (!prog || !vs || !fs) return;
+
+  gl.attachShader(prog, vs);
+  gl.attachShader(prog, fs);
   gl.linkProgram(prog);
   gl.useProgram(prog);
 
@@ -137,7 +144,7 @@ const initBlinkingAvatar = () => {
     requestAnimationFrame(render);
   };
 
-  function render(now) {
+  function render(now: number): void {
     if (now > nextBlinkTime) {
       blinkStartTime = now;
       const isDoubleBlink = Math.random() < 0.22;

@@ -40,7 +40,7 @@ Este repositorio contiene el portafolio profesional interactivo y asistente de I
 - `src/layouts/MainLayout.astro` y `src/components/`:
   - Componentes Astro de la interfaz (Cabecera ejecutiva sticky `.hero-sticky-shell`, `SideBar.astro` con avatar 3D `/avatar-3d.jpg`, `Experience.astro`, `SeccionHabilidades.astro`, `Badges.astro`, `FloatingActions.astro`, `ui/ChatUI.astro`).
 - `src/scripts/`:
-  - Scripts del cliente (`floating-actions.js`, `chat-renderer.js`, `calendar-widget.js`, `calendar-flow.js`, `sidebar.js`).
+  - Scripts del cliente en TypeScript estricto (`floating-actions.ts`, `chat-renderer.ts`, `calendar-widget.ts`, `sidebar.ts`).
 
 ---
 
@@ -53,6 +53,6 @@ Este repositorio contiene el portafolio profesional interactivo y asistente de I
    - El botón **Descargar CV (PDF)** utiliza `window.print()`.
    - Cualquier elemento interactivo nuevo (botones de IA `.ask-ai-btn`, widgets flotantes, canvas interactivos `.avatar-canvas`) **debe ocultarse explícitamente en `@media print` (`display: none !important;`)** para preservar el diseño limpio de una sola hoja en PDF.
 3. **Persistencia Multi-Idioma del Chat:**
-   - El estado de apertura del chat se guarda en `sessionStorage` bajo `kener-chat-is-open` y el historial por idioma en `kener-chat-state-es` / `kener-chat-state-en` (solo cuando el usuario ya interactuó con ese idioma). No romper esta lógica en `src/scripts/chat-renderer.js`.
+   - El estado de apertura del chat se guarda en `sessionStorage` bajo `kener-chat-is-open` y el historial por idioma en `kener-chat-state-es` / `kener-chat-state-en` (solo cuando el usuario ya interactuó con ese idioma). No romper esta lógica en `src/scripts/chat-renderer.ts`.
 4. **Seguridad en Endpoints (`src/pages/api/*`):**
    - Mantener siempre las cabeceras `SECURITY_HEADERS` (`X-Content-Type-Options: nosniff`, `Strict-Transport-Security`), validación estricta de tipos de payload y mensajes de error sanitizados sin exponer trazas internas.
