@@ -46,7 +46,7 @@ navLinks.forEach((link) => {
 
 // --- Avatar 3D Estático con Único Efecto de Pestañeo Natural ---
 const initBlinkingAvatar = () => {
-  const canvas = document.getElementById("sidebar-avatar-canvas");
+  const canvas = document.getElementById("sidebar-avatar-canvas") as HTMLCanvasElement | null;
   if (!canvas) return;
   const gl = canvas.getContext("webgl", { premultipliedAlpha: false, antialias: true });
   if (!gl) {
@@ -95,8 +95,8 @@ const initBlinkingAvatar = () => {
     }
   `;
 
-  const compileShader = (type, source) => {
-    const s = gl.createShader(type);
+  const compileShader = (type: number, source: string) => {
+    const s = gl.createShader(type)!;
     gl.shaderSource(s, source);
     gl.compileShader(s);
     return s;
@@ -137,7 +137,7 @@ const initBlinkingAvatar = () => {
     requestAnimationFrame(render);
   };
 
-  function render(now) {
+  function render(now: number) {
     if (now > nextBlinkTime) {
       blinkStartTime = now;
       const isDoubleBlink = Math.random() < 0.22;
@@ -154,9 +154,11 @@ const initBlinkingAvatar = () => {
       }
     }
 
-    gl.viewport(0, 0, canvas.width, canvas.height);
-    gl.uniform1f(uBlink, blinkValue);
-    gl.drawArrays(gl.TRIANGLES, 0, 6);
+    if(gl && canvas) {
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.uniform1f(uBlink, blinkValue);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+    }
     requestAnimationFrame(render);
   }
 };

@@ -29,7 +29,7 @@ export function getChatTexts() {
   };
 }
 
-function escapeHtml(str) {
+function escapeHtml(str: string) {
   return str
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -41,7 +41,7 @@ function escapeHtml(str) {
  * Convierte texto Markdown ligero (**negrita**, enlaces https://..., viñetas y saltos de línea)
  * en HTML seguro y clicable.
  */
-export function formatRichText(rawText) {
+export function formatRichText(rawText: string) {
   if (!rawText) return "";
 
   let html = escapeHtml(rawText);
@@ -63,7 +63,7 @@ export function formatRichText(rawText) {
   // 2. Enlaces clicables (por ejemplo https://meet.google.com/...)
   html = html.replace(
     /(https?:\/\/[^\s<]+)/g,
-    (url) => {
+    (url: string) => {
       const cleanUrl = url.replace(/[.,;!?)]+$/, "");
       const trailing = url.slice(cleanUrl.length);
       return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="chat-link">${cleanUrl}</a>${trailing}`;
@@ -77,7 +77,7 @@ export function formatRichText(rawText) {
   return html.replace(/\n/g, "<br>");
 }
 
-export function renderizarFragmento(chunk, container, state) {
+export function renderizarFragmento(chunk: string, container: HTMLElement, state: any) {
   state.rawText = (state.rawText || "") + chunk;
   container.innerHTML = formatRichText(state.rawText);
 
@@ -87,7 +87,7 @@ export function renderizarFragmento(chunk, container, state) {
   }
 }
 
-export function simularStreamTexto(textoPlano, container, callbackAlTerminar) {
+export function simularStreamTexto(textoPlano: string, container: HTMLElement, callbackAlTerminar?: () => void) {
   const estadoEstatico = { rawText: "" };
   container.innerHTML = "";
 
@@ -107,7 +107,7 @@ export function simularStreamTexto(textoPlano, container, callbackAlTerminar) {
   }, 14);
 }
 
-export function persistChatState(chatMessages, chatWindow) {
+export function persistChatState(chatMessages: Element | null, chatWindow: Element | null) {
   try {
     const isOpen = chatWindow ? !chatWindow.classList.contains("hidden") : false;
     sessionStorage.setItem(chatOpenStorageKey, isOpen ? "true" : "false");
@@ -115,10 +115,10 @@ export function persistChatState(chatMessages, chatWindow) {
     if (!chatMessages) return;
 
     // Clonamos el contenedor y limpiamos widgets transitorios cuyos listeners no sobreviven a recargas
-    const clone = chatMessages.cloneNode(true);
+    const clone = chatMessages.cloneNode(true) as HTMLElement;
     clone
       .querySelectorAll(".appointment-actions, .calendar-wrapper, .loader-container")
-      .forEach((node) => {
+      .forEach((node: Element) => {
         const msgWrapper = node.closest(".message--assistant");
         if (msgWrapper && clone.querySelectorAll(".message").length > 1) {
           const prevMsg = msgWrapper.previousElementSibling;
@@ -136,7 +136,7 @@ export function persistChatState(chatMessages, chatWindow) {
     const hasInteracted = hasUserMessage || messageCount > 1;
 
     if (hasInteracted) {
-      clone.querySelectorAll(".quick-prompts-container").forEach((el) => el.remove());
+      clone.querySelectorAll(".quick-prompts-container").forEach((el: Element) => el.remove());
       sessionStorage.setItem(
         chatStateStorageKey,
         JSON.stringify({
@@ -152,7 +152,7 @@ export function persistChatState(chatMessages, chatWindow) {
   }
 }
 
-export function restoreChatState(chatMessages, chatWindow, floatingTriggers) {
+export function restoreChatState(chatMessages: Element | null, chatWindow: Element | null, floatingTriggers?: Element | null) {
   if (!chatMessages) return;
 
   try {
@@ -166,7 +166,7 @@ export function restoreChatState(chatMessages, chatWindow, floatingTriggers) {
     ) {
       chatMessages.innerHTML = savedState.messages;
       // Eliminar cualquier <template> antiguo guardado en sessionStorage para no duplicar IDs (#calendar-template)
-      chatMessages.querySelectorAll("template").forEach((tpl) => tpl.remove());
+      chatMessages.querySelectorAll("template").forEach((tpl: Element) => tpl.remove());
       requestAnimationFrame(() => {
         chatMessages.scrollTop = chatMessages.scrollHeight;
       });

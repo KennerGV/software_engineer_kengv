@@ -11,17 +11,17 @@ import {
   renderAppointmentPrompt,
 } from "./calendar-widget.js";
 
-const toggleChatBtn = document.getElementById("toggle-chat");
+const toggleChatBtn = document.getElementById("toggle-chat") as HTMLButtonElement | null;
 const chatWindow = document.getElementById("chat-window");
-const toggleMenuBtn = document.getElementById("toggle-menu");
+const toggleMenuBtn = document.getElementById("toggle-menu") as HTMLButtonElement | null;
 const submenuContainer = document.getElementById("submenu-links");
-const closeChatBtn = document.getElementById("close-chat-btn");
+const closeChatBtn = document.getElementById("close-chat-btn") as HTMLButtonElement | null;
 const floatingTriggers = document.querySelector(".floating-triggers");
 const chatContainer = document.getElementById("chat-container") || document.body;
 const chatMessages = document.getElementById("chat-messages");
-const chatForm = document.getElementById("chat-form");
-const chatInput = document.getElementById("chat-input");
-const chatSubmitBtn = chatForm?.querySelector('button[type="submit"]');
+const chatForm = document.getElementById("chat-form") as HTMLFormElement | null;
+const chatInput = document.getElementById("chat-input") as HTMLInputElement | null;
+const chatSubmitBtn = chatForm?.querySelector('button[type="submit"]') as HTMLButtonElement | null;
 const printCvStorageKey = "kener-print-cv-pending";
 
 // 1. Inicializar arrastre de cinta de días y restaurar sesión
@@ -32,7 +32,7 @@ restoreChatState(chatMessages, chatWindow, floatingTriggers);
 if (toggleChatBtn && chatWindow) {
   const isMobile = () => window.matchMedia("(max-width: 1024px)").matches;
 
-  const setTriggersVisibility = (visible) => {
+  const setTriggersVisibility = (visible: boolean) => {
     if (!floatingTriggers) return;
     if (isMobile()) {
       floatingTriggers.classList.toggle("hidden", !visible);
@@ -92,7 +92,7 @@ function openChatWidget() {
 }
 
 // Función auxiliar para disparar directamente el agendamiento de entrevista
-function triggerScheduleFlow(userLabel) {
+function triggerScheduleFlow(userLabel?: string) {
   openChatWidget();
   const quickPromptsEl = document.getElementById("quick-prompts");
   quickPromptsEl?.classList.add("hidden");
@@ -104,9 +104,11 @@ function triggerScheduleFlow(userLabel) {
 
   appendMessage(label, "user");
   const assistantMessageDiv = appendMessage("", "assistant");
-  simularStreamTexto(textos.promptAgenda, assistantMessageDiv, () => {
-    renderAppointmentPrompt(assistantMessageDiv, calendarCallbacks);
-  });
+  if (assistantMessageDiv) {
+    simularStreamTexto(textos.promptAgenda, assistantMessageDiv, () => {
+      renderAppointmentPrompt(assistantMessageDiv, calendarCallbacks);
+    });
+  }
 }
 
 // 3. Impresión de CV en PDF ( desde el submenú flotante o desde el botón del Hero )
@@ -119,13 +121,13 @@ const prepareForPrint = () => {
 
 window.onbeforeprint = prepareForPrint;
 
-function handlePrintCv(buttonEl) {
+function handlePrintCv(buttonEl?: HTMLElement | null) {
   const cvUrl = buttonEl?.dataset?.cvUrl;
   const cvPath = cvUrl
     ? new URL(cvUrl, window.location.origin).pathname
     : window.location.pathname;
 
-  if (window.location.pathname !== cvPath) {
+  if (cvUrl && window.location.pathname !== cvPath) {
     sessionStorage.setItem(printCvStorageKey, "true");
     window.location.assign(cvUrl);
     return;
@@ -147,7 +149,7 @@ heroChatBtn?.addEventListener("click", () => openChatWidget());
 const heroCalendarBtn = document.getElementById("hero-calendar-btn");
 heroCalendarBtn?.addEventListener("click", () => triggerScheduleFlow());
 
-const heroHeader = document.querySelector(".main-header.hero-card");
+const heroHeader = document.querySelector(".main-header.hero-card") as HTMLElement | null;
 const heroStickyShell = document.getElementById("hero-sticky-shell");
 if (heroHeader) {
   const syncHeroShellHeight = () => {
@@ -182,7 +184,7 @@ if (heroHeader) {
   window.addEventListener("resize", syncHeroShellHeight, { passive: true });
 }
 
-function triggerContextualQuestion(promptText) {
+function triggerContextualQuestion(promptText?: string) {
   if (!promptText) return;
   openChatWidget();
   document.getElementById("quick-prompts")?.classList.add("hidden");
@@ -197,8 +199,8 @@ function triggerContextualQuestion(promptText) {
   sendQueryToAI(promptText, true);
 }
 
-document.addEventListener("click", (e) => {
-  const triggerBtn = e.target.closest(".ask-ai-trigger");
+document.addEventListener("click", (e: MouseEvent) => {
+  const triggerBtn = (e.target as HTMLElement).closest(".ask-ai-trigger") as HTMLElement | null;
   if (!triggerBtn) return;
   const promptText = triggerBtn.dataset.aiPrompt?.trim();
   if (promptText) {
@@ -234,7 +236,7 @@ function habilitarChatInput() {
   if (chatSubmitBtn) chatSubmitBtn.disabled = false;
 }
 
-function appendMessage(text, role) {
+function appendMessage(text: string, role: string) {
   if (!chatMessages) return null;
 
   const quickPromptsEl = document.getElementById("quick-prompts");
@@ -257,7 +259,7 @@ function appendMessage(text, role) {
 const calendarCallbacks = {
   deshabilitarChatInput,
   habilitarChatInput,
-  onConfirmSlot: async (slotISO, fechaLegible, assistantMessageDiv) => {
+  onConfirmSlot: async (slotISO: string, fechaLegible: string, assistantMessageDiv: HTMLElement) => {
     const textos = getChatTexts();
     deshabilitarChatInput();
     const assistantLoaderDiv = mostrarLoaderSistema(
@@ -279,12 +281,12 @@ const calendarCallbacks = {
 };
 
 // Delegación de eventos para los chips de sugerencias rápidas (Quick Prompts)
-chatMessages?.addEventListener("click", async (e) => {
-  const chip = e.target.closest(".quick-prompt-chip");
+chatMessages?.addEventListener("click", async (e: MouseEvent) => {
+  const chip = (e.target as HTMLElement).closest(".quick-prompt-chip") as HTMLElement | null;
   if (!chip) return;
 
   const action = chip.dataset.action;
-  const message = chip.dataset.message || chip.textContent.trim();
+  const message = chip.dataset.message || chip.textContent?.trim();
 
   if (action === "schedule") {
     triggerScheduleFlow(chip.textContent.trim());
@@ -293,7 +295,7 @@ chatMessages?.addEventListener("click", async (e) => {
   }
 });
 
-chatForm?.addEventListener("submit", async (e) => {
+chatForm?.addEventListener("submit", async (e: Event) => {
   e.preventDefault();
   const messageText = chatInput?.value.trim();
   if (!messageText) return;
@@ -303,10 +305,10 @@ chatForm?.addEventListener("submit", async (e) => {
 });
 
 async function sendQueryToAI(
-  messageText,
-  showInUi = true,
-  bookingSlot = null,
-  existingTargetDiv = null
+  messageText: string,
+  showInUi: boolean = true,
+  bookingSlot: string | null = null,
+  existingTargetDiv: HTMLElement | null = null
 ) {
   if (!messageText) return;
   const textos = getChatTexts();
@@ -321,7 +323,7 @@ async function sendQueryToAI(
   let holdsInteractiveWidget = false;
 
   try {
-    const payload = { message: messageText };
+    const payload: { message: string; bookingSlot?: string } = { message: messageText };
     if (bookingSlot) {
       payload.bookingSlot = bookingSlot;
     }
@@ -353,16 +355,18 @@ async function sendQueryToAI(
         if (content.trim() === "[DONE]") {
           break;
         } else if (content.startsWith("❌")) {
-          assistantMessageDiv.textContent = textos.errorAgent;
+          if (assistantMessageDiv) assistantMessageDiv.textContent = textos.errorAgent;
         } else {
           if (content.startsWith("{") && content.endsWith("}")) {
             try {
               const jsonEvent = JSON.parse(content);
               if (jsonEvent.action === "SHOW_APPOINTMENT_PROMPT") {
                 holdsInteractiveWidget = true;
-                simularStreamTexto(textos.promptAgenda, assistantMessageDiv, () => {
-                  renderAppointmentPrompt(assistantMessageDiv, calendarCallbacks);
-                });
+                if (assistantMessageDiv) {
+                  simularStreamTexto(textos.promptAgenda, assistantMessageDiv, () => {
+                    renderAppointmentPrompt(assistantMessageDiv!, calendarCallbacks);
+                  });
+                }
                 return;
               }
             } catch {
@@ -372,11 +376,11 @@ async function sendQueryToAI(
 
           if (!firstChunkReceived) {
             firstChunkReceived = true;
-            assistantMessageDiv.innerHTML = "";
+            if (assistantMessageDiv) assistantMessageDiv.innerHTML = "";
           }
 
           const decodedChunk = content.replace(/\\n/g, "\n");
-          renderizarFragmento(decodedChunk, assistantMessageDiv, estadoIA);
+          if (assistantMessageDiv) renderizarFragmento(decodedChunk, assistantMessageDiv, estadoIA);
         }
       }
     }
