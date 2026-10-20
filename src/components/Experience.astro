@@ -13,31 +13,63 @@ interface Props {
         detalles: string[];
       }>;
     }>;
-    ui?: { experiencia?: string };
+    ui?: {
+      experiencia?: string;
+      askAiProject?: string;
+    };
   };
 }
 const { cv } = Astro.props;
 const { experiencia = [] } = cv;
 const seccionTitulo = cv.ui?.experiencia || 'Professional Experience';
+const isEs = Astro.currentLocale === 'es' || seccionTitulo.includes('Experiencia');
+const askAiLabel = cv.ui?.askAiProject || (isEs ? 'Preguntar a la IA' : 'Ask AI');
 ---
 
 <section class="experience-section">
   <h2>{seccionTitulo}</h2>
   {experiencia.map((job) => (
-    <div class="job-card">
-      <div class="header">
-        <h3>{job.puesto}</h3>
-        <span>{job.periodo}</span>
+    <div class="timeline-block">
+      <div class="timeline-company-row">
+        <span class="timeline-node-dot" aria-hidden="true"></span>
+        <div class="timeline-company-info">
+          <strong class="company">{job.empresa}</strong>
+          <span class="company-period">({job.periodo})</span>
+          <span class="company-role"> • {job.puesto}</span>
+        </div>
       </div>
-      <p class="company">{job.empresa}</p>
-      <ul>
+
+      <div class="timeline-projects">
         {job.proyectos.map((proyecto) => (
-          <>
-            <h4 class="cliente">{proyecto.cliente} {proyecto.periodo}</h4>
-            <ul>{proyecto.detalles.map(item => <li>{item}</li>)}</ul>
-          </>
+          <div class="project-card">
+            <div class="project-card-header">
+              <h4 class="cliente">{proyecto.cliente}</h4>
+              <div class="project-header-actions">
+                <button
+                  type="button"
+                  class="ask-ai-btn ask-ai-trigger"
+                  data-ai-prompt={
+                    isEs
+                      ? `Cuéntame en detalle sobre la experiencia y logros de Kener en el proyecto ${proyecto.cliente} (${proyecto.periodo}) en ${job.empresa}.`
+                      : `Tell me in detail about Kener's experience and achievements in the ${proyecto.cliente} (${proyecto.periodo}) project at ${job.empresa}.`
+                  }
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z" />
+                  </svg>
+                  <span>{askAiLabel}</span>
+                </button>
+                <span class="project-period-badge">{proyecto.periodo}</span>
+              </div>
+            </div>
+            <ul class="project-details">
+              {proyecto.detalles.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   ))}
 </section>

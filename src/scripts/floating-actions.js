@@ -29,10 +29,11 @@ initRibbonDrag(chatContainer);
 restoreChatState(chatMessages, chatWindow, floatingTriggers);
 
 // 2. Control de botones flotantes (FAB) y ventana de chat
-if (toggleChatBtn && chatWindow && toggleMenuBtn && submenuContainer && floatingTriggers) {
+if (toggleChatBtn && chatWindow) {
   const isMobile = () => window.matchMedia("(max-width: 1024px)").matches;
 
   const setTriggersVisibility = (visible) => {
+    if (!floatingTriggers) return;
     if (isMobile()) {
       floatingTriggers.classList.toggle("hidden", !visible);
     } else {
@@ -50,13 +51,13 @@ if (toggleChatBtn && chatWindow && toggleMenuBtn && submenuContainer && floating
       container.classList.toggle("is-chat-open", isOpen);
     }
     persistChatState(chatMessages, chatWindow);
-    submenuContainer.classList.remove("open");
-    toggleMenuBtn.classList.remove("active");
+    submenuContainer?.classList.remove("open");
+    toggleMenuBtn?.classList.remove("active");
   });
 
-  toggleMenuBtn.addEventListener("click", () => {
-    submenuContainer.classList.toggle("open");
-    toggleMenuBtn.classList.toggle("active");
+  toggleMenuBtn?.addEventListener("click", () => {
+    submenuContainer?.classList.toggle("open");
+    toggleMenuBtn?.classList.toggle("active");
     chatWindow.classList.add("hidden");
     setTriggersVisibility(true);
     persistChatState(chatMessages, chatWindow);
@@ -67,7 +68,48 @@ if (toggleChatBtn && chatWindow && toggleMenuBtn && submenuContainer && floating
   });
 }
 
-// 3. Impresión de CV en PDF
+document.querySelectorAll(".lang-switch-link").forEach((link) => {
+  link.addEventListener("click", () => {
+    persistChatState(chatMessages, chatWindow);
+    if (window.location.hash) {
+      const baseHref = link.getAttribute("href") || "/";
+      if (!baseHref.includes("#")) {
+        link.setAttribute("href", `${baseHref}${window.location.hash}`);
+      }
+    }
+  });
+});
+
+// Función auxiliar para abrir el chat garantizando estado visible
+function openChatWidget() {
+  if (!chatWindow || !toggleChatBtn) return;
+  if (chatWindow.classList.contains("hidden")) {
+    toggleChatBtn.click();
+  }
+  setTimeout(() => {
+    chatInput?.focus();
+  }, 150);
+}
+
+// Función auxiliar para disparar directamente el agendamiento de entrevista
+function triggerScheduleFlow(userLabel) {
+  openChatWidget();
+  const quickPromptsEl = document.getElementById("quick-prompts");
+  quickPromptsEl?.classList.add("hidden");
+
+  const textos = getChatTexts();
+  const label =
+    userLabel ||
+    (textos.isEnglish ? "📅 Schedule an interview" : "📅 Agendar una entrevista");
+
+  appendMessage(label, "user");
+  const assistantMessageDiv = appendMessage("", "assistant");
+  simularStreamTexto(textos.promptAgenda, assistantMessageDiv, () => {
+    renderAppointmentPrompt(assistantMessageDiv, calendarCallbacks);
+  });
+}
+
+// 3. Impresión de CV en PDF ( desde el submenú flotante o desde el botón del Hero )
 const prepareForPrint = () => {
   const detailsContact = document.querySelector(".contact-accordion");
   const detailsEducation = document.querySelector(".education-accordion");
@@ -77,9 +119,8 @@ const prepareForPrint = () => {
 
 window.onbeforeprint = prepareForPrint;
 
-const printCvBtn = document.getElementById("print-cv-btn");
-printCvBtn?.addEventListener("click", () => {
-  const cvUrl = printCvBtn.dataset.cvUrl;
+function handlePrintCv(buttonEl) {
+  const cvUrl = buttonEl?.dataset?.cvUrl;
   const cvPath = cvUrl
     ? new URL(cvUrl, window.location.origin).pathname
     : window.location.pathname;
@@ -92,6 +133,77 @@ printCvBtn?.addEventListener("click", () => {
 
   prepareForPrint();
   window.print();
+}
+
+const printCvBtn = document.getElementById("print-cv-btn");
+printCvBtn?.addEventListener("click", () => handlePrintCv(printCvBtn));
+
+const heroPdfBtn = document.getElementById("hero-pdf-btn");
+heroPdfBtn?.addEventListener("click", () => handlePrintCv(heroPdfBtn));
+
+const heroChatBtn = document.getElementById("hero-chat-btn");
+heroChatBtn?.addEventListener("click", () => openChatWidget());
+
+const heroCalendarBtn = document.getElementById("hero-calendar-btn");
+heroCalendarBtn?.addEventListener("click", () => triggerScheduleFlow());
+
+const heroHeader = document.querySelector(".main-header.hero-card");
+const heroStickyShell = document.getElementById("hero-sticky-shell");
+if (heroHeader) {
+  const syncHeroShellHeight = () => {
+    if (heroStickyShell && !heroHeader.classList.contains("is-scrolled")) {
+      heroStickyShell.style.minHeight = `${heroHeader.offsetHeight}px`;
+    }
+  };
+  syncHeroShellHeight();
+
+  let scrollTicking = false;
+  const handleHeroScroll = () => {
+    const y = window.scrollY;
+    if (y > 45 && !heroHeader.classList.contains("is-scrolled")) {
+      syncHeroShellHeight();
+      heroHeader.classList.add("is-scrolled");
+    } else if (y < 10 && heroHeader.classList.contains("is-scrolled")) {
+      heroHeader.classList.remove("is-scrolled");
+    }
+    scrollTicking = false;
+  };
+  handleHeroScroll();
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!scrollTicking) {
+        scrollTicking = true;
+        window.requestAnimationFrame(handleHeroScroll);
+      }
+    },
+    { passive: true }
+  );
+  window.addEventListener("resize", syncHeroShellHeight, { passive: true });
+}
+
+function triggerContextualQuestion(promptText) {
+  if (!promptText) return;
+  openChatWidget();
+  document.getElementById("quick-prompts")?.classList.add("hidden");
+
+  if (chatInput?.disabled) {
+    chatMessages
+      ?.querySelectorAll(".appointment-actions, .calendar-wrapper")
+      .forEach((el) => el.remove());
+    habilitarChatInput();
+  }
+
+  sendQueryToAI(promptText, true);
+}
+
+document.addEventListener("click", (e) => {
+  const triggerBtn = e.target.closest(".ask-ai-trigger");
+  if (!triggerBtn) return;
+  const promptText = triggerBtn.dataset.aiPrompt?.trim();
+  if (promptText) {
+    triggerContextualQuestion(promptText);
+  }
 });
 
 if (sessionStorage.getItem(printCvStorageKey) === "true") {
@@ -102,7 +214,7 @@ if (sessionStorage.getItem(printCvStorageKey) === "true") {
   }, 0);
 }
 
-// 4. Control de Input y Mensajes del Chat
+// 4. Control de Input, Quick Prompts y Mensajes del Chat
 function deshabilitarChatInput() {
   const textos = getChatTexts();
   if (chatInput) {
@@ -124,6 +236,9 @@ function habilitarChatInput() {
 
 function appendMessage(text, role) {
   if (!chatMessages) return null;
+
+  const quickPromptsEl = document.getElementById("quick-prompts");
+  quickPromptsEl?.classList.add("hidden");
 
   const msgDiv = document.createElement("div");
   msgDiv.classList.add("message", `message--${role}`);
@@ -162,6 +277,21 @@ const calendarCallbacks = {
     }
   },
 };
+
+// Delegación de eventos para los chips de sugerencias rápidas (Quick Prompts)
+chatMessages?.addEventListener("click", async (e) => {
+  const chip = e.target.closest(".quick-prompt-chip");
+  if (!chip) return;
+
+  const action = chip.dataset.action;
+  const message = chip.dataset.message || chip.textContent.trim();
+
+  if (action === "schedule") {
+    triggerScheduleFlow(chip.textContent.trim());
+  } else if (message) {
+    await sendQueryToAI(message, true);
+  }
+});
 
 chatForm?.addEventListener("submit", async (e) => {
   e.preventDefault();

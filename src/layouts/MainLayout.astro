@@ -13,7 +13,28 @@ const {
 const { currentLocale } = Astro;
 const textosAsistente = cvData?.asistente || {};
 const politicaData = cvData?.politicaPrivacidad || {};
+const heroData = cvData?.ui?.hero || {
+  status: currentLocale === "es" ? "Disponible / Montevideo, UY" : "Available / Montevideo, UY",
+  roleHighlight: "Software Engineer (.NET, Cloud & AI)",
+  btnAi: currentLocale === "es" ? "Hablar con mi Gemelo IA" : "Talk to my AI Twin",
+  btnCalendar: currentLocale === "es" ? "Agendar Entrevista" : "Schedule Interview",
+  btnPdf: currentLocale === "es" ? "Descargar CV (PDF)" : "Download CV (PDF)",
+};
 const privacyPath = currentLocale === "es" ? "/es/privacy" : "/privacy";
+const cvUrl = currentLocale === "es" ? "/es/" : "/";
+
+const rawPath = Astro.url.pathname || "/";
+let targetLangUrl = "/";
+if (currentLocale === "es") {
+  // Strip leading /es or /es/
+  const stripped = rawPath.replace(/^\/es(\/|$)/, "/");
+  targetLangUrl = stripped || "/";
+} else {
+  // Prefix with /es
+  targetLangUrl = rawPath === "/" ? "/es/" : `/es${rawPath}`;
+}
+const langSwitchText = currentLocale === "es" ? "EN" : "ES";
+const langSwitchTitle = currentLocale === "es" ? "Switch to English" : "Cambiar a Español";
 ---
 
 <!DOCTYPE html>
@@ -28,11 +49,60 @@ const privacyPath = currentLocale === "es" ? "/es/privacy" : "/privacy";
   <body>
     <div class="app-container">
       <Sidebar cv={cvData} />
-      <header class="main-header">
-        <h1>{cvData.nombre}</h1>
-        <p>{cvData.puesto} | {cvData.ubicacion}</p>
-      </header>
       <main>
+        <div class="hero-sticky-shell" id="hero-sticky-shell">
+          <header class="main-header hero-card">
+            <div class="hero-top-row">
+              <div class="hero-status-pill">
+                <span class="hero-status-dot"></span>
+                <span>{heroData.status}</span>
+              </div>
+              <a href={targetLangUrl} class="hero-lang-switch lang-switch-link" title={langSwitchTitle}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                <span>{langSwitchText}</span>
+              </a>
+            </div>
+            <h1 class="hero-title">
+              <span class="hero-name">{cvData.nombre}</span>
+              <span class="hero-role"> — {heroData.roleHighlight}</span>
+            </h1>
+            <div class="hero-actions">
+              <button type="button" id="hero-chat-btn" class="hero-btn hero-btn--primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>
+                  <path d="M20 3v4"></path>
+                  <path d="M22 5h-4"></path>
+                </svg>
+                <span>{heroData.btnAi}</span>
+              </button>
+
+              <button type="button" id="hero-calendar-btn" class="hero-btn hero-btn--outline">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span>{heroData.btnCalendar}</span>
+              </button>
+
+              <button type="button" id="hero-pdf-btn" class="hero-btn hero-btn--outline" data-cv-url={cvUrl}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="12" y1="18" x2="12" y2="12"></line>
+                  <polyline points="9 15 12 18 15 15"></polyline>
+                </svg>
+                <span>{heroData.btnPdf}</span>
+              </button>
+            </div>
+          </header>
+        </div>
+
         <div id="view-main" class="layout-view active">
           <slot />
         </div>
@@ -46,7 +116,7 @@ const privacyPath = currentLocale === "es" ? "/es/privacy" : "/privacy";
           </footer>
         )}
         
-        <FloatingActions ui={cvData.ui} transition:persist />
+        <FloatingActions ui={cvData.ui} />
       </main>      
     </div>
     <script define:vars={{ textosAsistente }}>

@@ -10,18 +10,27 @@ const googleClientId =
 
 const seccionMensajeInicial =
   ui.mensajeInicial ||
-  "¡Hola! Soy el asistente IA de Kener. ¿En qué puedo ayudarte hoy?";
+  "¡Hola! 👋 Soy el Gemelo Digital de Kener. Puedo responder sobre su experiencia técnica o agendar una entrevista directamente en su Google Calendar.";
 const tituloSeccionMensajeInicial = ui.titulo || "Asistente IA de Kener";
 const tituloEnline = ui.estado || "En línea";
 const gemeloDigital = ui.subtitulo || "Gemelo Digital";
-const textLabel = ui.placeholder || "Escribe tu mensaje...";
+const textLabel = ui.placeholder || "Pregúntale a KenerAI o agenda una cita...";
 const loaderSubtext = ui.loaderSubtext || "Esto tomará solo un momento...";
+const googleAuthBtn = ui.googleAuthBtn || "Continuar con Google Calendar";
+const availableLabel = ui.availableLabel || "disp.";
+const quickPrompts = ui.quickPrompts || [
+  { icon: "📅", label: "Agendar una entrevista", action: "schedule" },
+  { icon: "💻", label: "Experiencia en .NET y Azure", message: "¿Cuál es la experiencia de Kener en .NET y Azure?" },
+  { icon: "🚀", label: "Proyectos en CR Atesa", message: "Háblame de los proyectos de Kener en CR Atesa Software." },
+];
 ---
 
 <div
   class="chat-container hidden"
   id="chat-window"
   data-google-client-id={googleClientId}
+  data-google-auth-btn={googleAuthBtn}
+  data-available-label={availableLabel}
 >
   <!-- Templates fuera de #chat-messages para que sessionStorage nunca los sobrescriba -->
   <template id="calendar-template">
@@ -31,11 +40,19 @@ const loaderSubtext = ui.loaderSubtext || "Esto tomará solo un momento...";
       style="display: none;"
       hidden
     >
-      <h3 id="calendar-title" class="calendar-title"></h3>
+      <div class="calendar-top-bar">
+        <div class="calendar-month-group">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <h3 id="calendar-title" class="calendar-title"></h3>
+          <div class="calendar-nav-arrows">
+            <button type="button" class="cal-arrow-btn cal-arrow-prev" aria-label="Anterior">&lsaquo;</button>
+            <button type="button" class="cal-arrow-btn cal-arrow-next" aria-label="Siguiente">&rsaquo;</button>
+          </div>
+        </div>
+        <span class="calendar-tz-badge"></span>
+      </div>
+
       <div id="days-ribbon" class="days-ribbon"></div>
-      <hr
-        style="border: 0; border-top: 1px solid #f3f4f6; margin: 12px 0;"
-      />
       <div id="hours-container" class="hours-container"></div>
 
       <div class="calendar-footer">
@@ -73,10 +90,16 @@ const loaderSubtext = ui.loaderSubtext || "Esto tomará solo un momento...";
 
   <div class="chat-header">
     <div class="header-info">
-      <span class="status-dot"></span>
-      <div>
-        <h4>{tituloSeccionMensajeInicial}</h4>
-        <p>{tituloEnline} • {gemeloDigital}</p>
+      <div class="chat-avatar-badge">
+        <img src="/favicon.svg" alt="KG" class="chat-avatar-logo" width="28" height="28" />
+        <span class="status-dot"></span>
+      </div>
+      <div class="header-title-block">
+        <div class="header-title-row">
+          <h4>{tituloSeccionMensajeInicial}</h4>
+          <span class="header-online-dot"></span>
+        </div>
+        <span class="header-subtitle-pill">{gemeloDigital} • {tituloEnline}</span>
       </div>
     </div>
     <button
@@ -93,19 +116,34 @@ const loaderSubtext = ui.loaderSubtext || "Esto tomará solo un momento...";
         {seccionMensajeInicial}
       </div>
     </div>
+    <div class="quick-prompts-container" id="quick-prompts">
+      {quickPrompts.map((item: { icon: string; label: string; action?: string; message?: string }) => (
+        <button
+          type="button"
+          class="quick-prompt-chip"
+          data-action={item.action || "message"}
+          data-message={item.message || item.label}
+        >
+          <span class="quick-prompt-icon">{item.icon}</span>
+          <span>{item.label}</span>
+        </button>
+      ))}
+    </div>
   </div>
 
   <form id="chat-form" class="chat-form">
-    <input
-      type="text"
-      id="chat-input"
-      placeholder={textLabel}
-      required
-      autocomplete="off"
-    />
-    <button type="submit" aria-label="Enviar mensaje">
-      <slot name="send-icon" />
-    </button>
+    <div class="chat-input-pill">
+      <input
+        type="text"
+        id="chat-input"
+        placeholder={textLabel}
+        required
+        autocomplete="off"
+      />
+      <button type="submit" aria-label="Enviar mensaje">
+        <slot name="send-icon" />
+      </button>
+    </div>
   </form>
 </div>
 <script src="https://accounts.google.com/gsi/client" async defer></script>

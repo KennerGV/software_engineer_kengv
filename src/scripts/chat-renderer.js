@@ -1,6 +1,6 @@
 const chatLocale = document.documentElement.lang === "es" ? "es" : "en";
-const chatStateStorageKey = `kener-chat-state-${chatLocale}`;
-const legacyChatStateStorageKey = "kener-chat-state";
+const chatStateStorageKey = "kener-chat-state-" + chatLocale;
+const chatOpenStorageKey = "kener-chat-is-open";
 
 export function getChatTexts() {
   const i18n = window.ChatI18n || {};
@@ -108,9 +108,12 @@ export function simularStreamTexto(textoPlano, container, callbackAlTerminar) {
 }
 
 export function persistChatState(chatMessages, chatWindow) {
-  if (!chatMessages) return;
-
   try {
+    const isOpen = chatWindow ? !chatWindow.classList.contains("hidden") : false;
+    sessionStorage.setItem(chatOpenStorageKey, isOpen ? "true" : "false");
+
+    if (!chatMessages) return;
+
     // Clonamos el contenedor y limpiamos widgets transitorios cuyos listeners no sobreviven a recargas
     const clone = chatMessages.cloneNode(true);
     clone
@@ -118,19 +121,32 @@ export function persistChatState(chatMessages, chatWindow) {
       .forEach((node) => {
         const msgWrapper = node.closest(".message--assistant");
         if (msgWrapper && clone.querySelectorAll(".message").length > 1) {
+          const prevMsg = msgWrapper.previousElementSibling;
+          if (prevMsg && prevMsg.classList.contains("message--user")) {
+            prevMsg.remove();
+          }
           msgWrapper.remove();
         } else {
           node.remove();
         }
       });
 
-    sessionStorage.setItem(
-      chatStateStorageKey,
-      JSON.stringify({
-        messages: clone.innerHTML,
-        isOpen: chatWindow ? !chatWindow.classList.contains("hidden") : false,
-      })
-    );
+    const hasUserMessage = clone.querySelectorAll(".message--user").length > 0;
+    const messageCount = clone.querySelectorAll(".message").length;
+    const hasInteracted = hasUserMessage || messageCount > 1;
+
+    if (hasInteracted) {
+      clone.querySelectorAll(".quick-prompts-container").forEach((el) => el.remove());
+      sessionStorage.setItem(
+        chatStateStorageKey,
+        JSON.stringify({
+          hasInteracted: true,
+          messages: clone.innerHTML,
+        })
+      );
+    } else {
+      sessionStorage.removeItem(chatStateStorageKey);
+    }
   } catch (error) {
     console.warn("Unable to persist chat state", error);
   }
@@ -140,13 +156,14 @@ export function restoreChatState(chatMessages, chatWindow, floatingTriggers) {
   if (!chatMessages) return;
 
   try {
-    const storedState =
-      sessionStorage.getItem(chatStateStorageKey) ||
-      (chatLocale === "en" ? sessionStorage.getItem(legacyChatStateStorageKey) : null);
-    const savedState = JSON.parse(storedState || "null");
-    if (!savedState) return;
+    const savedState = JSON.parse(sessionStorage.getItem(chatStateStorageKey) || "null");
 
-    if (typeof savedState.messages === "string" && savedState.messages.trim()) {
+    if (
+      savedState &&
+      savedState.hasInteracted &&
+      typeof savedState.messages === "string" &&
+      savedState.messages.trim()
+    ) {
       chatMessages.innerHTML = savedState.messages;
       // Eliminar cualquier <template> antiguo guardado en sessionStorage para no duplicar IDs (#calendar-template)
       chatMessages.querySelectorAll("template").forEach((tpl) => tpl.remove());
@@ -155,7 +172,11 @@ export function restoreChatState(chatMessages, chatWindow, floatingTriggers) {
       });
     }
 
-    if (chatWindow && savedState.isOpen) {
+    const isOpenGlobal =
+      sessionStorage.getItem(chatOpenStorageKey) === "true" ||
+      (savedState && savedState.isOpen);
+
+    if (chatWindow && isOpenGlobal) {
       chatWindow.classList.remove("hidden");
       document.querySelector(".app-container")?.classList.add("is-chat-open");
       if (window.matchMedia("(max-width: 1024px)").matches) {

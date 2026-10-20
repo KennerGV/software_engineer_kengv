@@ -2,7 +2,7 @@
 /* src/styles/global.css */
 :root {
   --primary-color: #4da4af;
-  --sidebar-width: 300px;
+  --sidebar-width: 280px;
 }
 
 * {
@@ -17,7 +17,9 @@ html {
 }
 
 body {
-    background-color: #ffffff;
+    background: linear-gradient(180deg, #eff5f8 0%, #f8fafc 100%);
+    color: #0f172a;
+    min-height: 100vh;
 }
 
 strong,
@@ -32,8 +34,8 @@ b {
 
 main {
     margin-left: var(--sidebar-width);
-    padding: 40px;
-    max-width: 1000px; /* Para que el texto no sea infinitamente ancho */
+    padding: 36px 40px 60px 40px;
+    max-width: 1040px;
     transition: margin-left 0.4s ease;
 }
 
@@ -41,7 +43,7 @@ main {
 @media (max-width: 1024px) {
     main {
         margin-left: 0;
-        padding: 20px;
+        padding: 72px 20px 40px 20px;
     }
 }
 

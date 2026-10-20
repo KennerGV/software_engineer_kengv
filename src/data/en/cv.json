@@ -150,40 +150,70 @@
     "sobreMi": "About Me",
     "experiencia": "Professional Experience",
     "habilidades": "Technical Skills",
-    "badges": "Badges",
+    "badges": "Certifications & Badges",
+    "askAiProject": "Ask AI",
+    "hero": {
+      "status": "Available / Montevideo, UY",
+      "roleHighlight": "Software Engineer (.NET, Cloud & AI)",
+      "btnAi": "Talk to my AI Twin",
+      "btnCalendar": "Schedule Interview",
+      "btnPdf": "Download CV (PDF)"
+    },
     "categoriasHabilidades": {
-      "backend": "Backend Technologies",
+      "backend": "Backend .NET",
       "frontend": "Frontend & UI",
       "basesDeDatos": "Databases",
-      "herramientas": "Tools & DevOps"
+      "herramientas": "DevOps & AI"
     },
     "sidebar": {
       "nivelUniversitario": "University",
       "contacto": "Contact Information",
       "educacion": "Education",
       "habilidades": "Skills",
+      "certificaciones": "Certifications",
       "correo": "Email",
       "celular": "Mobile",
       "casa": "Home",
       "navegacion": "Navigation",
       "sobreMi": "About Me",
       "experiencia": "Experience",
-      "ubicacion": "Location"
+      "ubicacion": "Location",
+      "roleBadge": "Software Engineer\n(.NET / Cloud / AI)"
     },
     "floating": {
       "langText": "ES",
       "langTitle": "Cambiar a Español",
       "pdfTitle": "Generate CV PDF",
       "moreOptions": "More options",
-      "openChat": "Open AI Chat"
+      "openChat": "Ask KenerAI",
+      "chatPill": "Ask KenerAI"
     },
     "chat": {
       "titulo": "KenerAI Assistant",
       "estado": "Online",
       "subtitulo": "Digital Twin",
-      "mensajeInicial": "Hello! I am Kener's AI assistant. How can I help you today?",
-      "placeholder": "Type your message...",
-      "loaderSubtext": "This will only take a moment..."
+      "mensajeInicial": "Hello! 👋 I'm Kener's Digital Twin. I can answer questions about his technical background or schedule an interview directly on his Google Calendar.",
+      "placeholder": "Ask KenerAI or book a meeting...",
+      "loaderSubtext": "This will only take a moment...",
+      "googleAuthBtn": "Continue with Google Calendar",
+      "availableLabel": "avail.",
+      "quickPrompts": [
+        {
+          "icon": "📅",
+          "label": "Schedule an interview",
+          "action": "schedule"
+        },
+        {
+          "icon": "💻",
+          "label": "Experience in .NET & Azure",
+          "message": "What is Kener's experience with .NET and Azure?"
+        },
+        {
+          "icon": "🚀",
+          "label": "Projects at CR Atesa",
+          "message": "Tell me about Kener's projects at CR Atesa Software (AyA and Davivienda Bank)."
+        }
+      ]
     }
   },
   "politicaPrivacidad": {

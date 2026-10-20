@@ -5,16 +5,17 @@
   left: 0;
   width: 280px; /* Coincide con el translateX de global.css */
   height: 100vh;
-  background-color: #4da4af;
-  border-right: 1px solid rgba(255,255,255,0.1);
+  background: linear-gradient(180deg, #4da4af 0%, #266b77 52%, #134b57 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
   flex-direction: column;
   z-index: 1000;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 4px 0 24px rgba(15, 23, 42, 0.08);
 }
 
 .sidebar-content {
-  padding: 2.5rem 1.5rem;
+  padding: 2rem 1.35rem 1.5rem 1.35rem;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -23,24 +24,67 @@
 }
 
 /* --- PERFIL --- */
-.avatar {
-  width: 130px;
-  height: 130px;
+.avatar-wrapper {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  margin: 0 auto 1.1rem;
   border-radius: 50%;
-  border: 4px solid rgba(255,255,255,0.3);
-  margin: 0 auto 1.5rem;
+  padding: 4px;
+  background: linear-gradient(135deg, #67e8f9 0%, #2dd4bf 50%, #0b79d0 100%);
+  box-shadow: 0 0 22px rgba(103, 232, 249, 0.45);
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid #1e4e5a;
   display: block;
   object-fit: cover;
 }
 
+.avatar-status-dot {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #4ade80;
+  border: 2.5px solid #1e5a65;
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+}
+
 .profile-section { text-align: center; }
-.profile-section h2 { font-size: 1.3rem; color: white; margin: 0; font-weight: 700; line-height: 1.2; }
-.profile-section p { font-size: 0.9rem; color: rgba(255,255,255,0.9); margin-top: 8px; }
+.profile-section h2 { font-size: 1.35rem; color: white; margin: 0; font-weight: 700; line-height: 1.22; }
+.profile-age { font-size: 0.8rem; color: rgba(255, 255, 255, 0.8); font-weight: 500; margin-top: 4px; }
+
+.role-badge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  padding: 6px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.role-badge-sub {
+  font-size: 0.73rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
 
 .separator {
   border: 0;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  margin: 1.5rem 0;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  margin: 1rem 0;
 }
 
 /* --- ETIQUETAS DE SECCIÓN --- */
@@ -49,8 +93,8 @@
   font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 1.2px;
-  color: rgba(255, 255, 255, 0.6);
-  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.68);
+  margin-bottom: 8px;
   font-weight: 800;
 }
 
@@ -58,24 +102,33 @@
 .nav-links {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.35rem;
   flex-grow: 1;
 }
 
 .nav-item {
-  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 9px 14px;
   text-decoration: none;
   color: rgba(255,255,255,0.9);
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: 9999px;
+  font-size: 0.9rem;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
 }
 
-.nav-item:hover {
-  background: rgba(255,255,255,0.15);
-  padding-left: 20px;
-  color: white;
+.nav-item svg {
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  font-weight: 600;
 }
 
 /* --- BOTÓN HAMBURGUESA (El Viajero) --- */
@@ -240,18 +293,31 @@
   margin-top: auto;
   padding-top: 1rem;
   display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.sidebar-footer a.sidebar-social-btn {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 15px;
-}
-
-.sidebar-footer a {
-  color: rgba(255,255,255,0.6);
+  width: 100%;
+  padding: 0.55rem 1rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
   text-decoration: none;
-  font-size: 0.8rem;
-  transition: color 0.3s;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
-.sidebar-footer a:hover { color: white; }
+.sidebar-footer a.sidebar-social-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: #ffffff;
+  transform: translateY(-1px);
+}
 
 /* En tu sidebar.css o dentro del @media print de global.css */
 @media print {
@@ -331,4 +397,29 @@
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+
+.avatar-canvas {
+  position: absolute;
+  inset: 4px;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+  border-radius: 50%;
+  border: 3px solid #1e4e5a;
+  display: block;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.avatar-status-dot {
+  z-index: 3;
+}
+
+@media print {
+  .avatar-canvas {
+    display: none !important;
+  }
 }

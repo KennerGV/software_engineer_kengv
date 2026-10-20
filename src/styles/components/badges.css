@@ -2,14 +2,27 @@
 /* src/styles/components/badges.css */
 .badge-section {
   display: block;
+  max-width: 850px;
+  margin: 2.25rem auto;
+}
+
+.badge-section h2 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 1.15rem;
 }
 
 .badges-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: 20px;
   justify-content: flex-start;
-  margin-top: 1rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 6px 20px -4px rgba(15, 23, 42, 0.05);
 }
 
 .badge-item {

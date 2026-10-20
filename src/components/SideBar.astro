@@ -35,6 +35,7 @@ const nivel = sb.nivelUniversitario || 'Universitario';
 const tituloContacto = sb.contacto || 'Datos de contacto';
 const tituloEducacion = sb.educacion || 'Educación';
 const tituloHabilidades = sb.habilidades || 'Habilidades';
+const tituloCertificaciones = sb.certificaciones || 'Certificaciones';
 const tituloEmail = sb.correo || 'Correo';
 const tituloCelular = sb.celular || 'Celular';
 const tituloCasa = sb.casa || 'Casa';
@@ -42,6 +43,10 @@ const tituloNavegacion = sb.navegacion || 'Navegación';
 const tituloSobreMi = sb.sobreMi || 'Sobre Mí';
 const tituloExperiencia = sb.experiencia || 'Experiencia';
 const tituloUbicacion = sb.ubicacion || 'Ubicación';
+const isEs = Astro.currentLocale === 'es' || Astro.url.pathname.startsWith('/es');
+const homeBase = isEs ? '/es/' : '/';
+const isPrivacyPage = Astro.url.pathname.includes('/privacy');
+const navPrefix = isPrivacyPage ? homeBase : '';
 ---
 
 <button id="menu-toggle" class="menu-btn" aria-label="Abrir menú">
@@ -55,57 +60,77 @@ const tituloUbicacion = sb.ubicacion || 'Ubicación';
 <header class="sidebar" id="sidebar">
   <div class="sidebar-content" id="sidebar-content">
     <div class="profile-section">
-      <img
-        src="/FotoPerfil.jpg"
-        alt={cv.nombre}
-        class="avatar"
-      />
+      <div class="avatar-wrapper">
+        <img
+          src="/avatar-3d.jpg"
+          alt={cv.nombre}
+          class="avatar"
+        />
+        <canvas id="sidebar-avatar-canvas" class="avatar-canvas" width="320" height="320" aria-hidden="true"></canvas>
+        <span class="avatar-status-dot" title="Online"></span>
+      </div>
       <h2>{cv.nombre}</h2>
-      <h4>{cv.edad}</h4>
-      <p>{cv.puesto}</p>
+      <h4 class="profile-age">{cv.edad}</h4>
+      <div class="role-badge">
+        <span>Software Engineer</span>
+        <span class="role-badge-sub">(.NET / Cloud / AI)</span>
+      </div>
     </div>
 
     <hr class="separator" />
-      <div class="info-section">
-    <details class="contact-accordion" id="contact-details">
-    <summary class="sidebar-label">
-      {tituloContacto}
-      <svg class="chevronContact" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-    </summary>
-    <div class="accordion-content">
-      <p><strong>{tituloEmail}:</strong> {cv.correo}</p>
-      <p><strong>{tituloCelular}:</strong> {cv.telefono}</p>
-      <p><strong>{tituloCasa}:</strong> {cv.telefonoCasa}</p>
-    </div>
-    </details>
+    <div class="info-section">
+      <details class="contact-accordion" id="contact-details">
+        <summary class="sidebar-label">
+          {tituloContacto}
+          <svg class="chevronContact" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </summary>
+        <div class="accordion-content">
+          <p><strong>{tituloEmail}:</strong> {cv.correo}</p>
+          <p><strong>{tituloCelular}:</strong> {cv.telefono}</p>
+          <p><strong>{tituloCasa}:</strong> {cv.telefonoCasa}</p>
+        </div>
+      </details>
     </div>
     <hr class="separator" />
     <div class="info-section">
-    <details class="education-accordion" id="education-details">
-    <summary class="sidebar-label">
-      {tituloEducacion}
-      <svg class="chevronEducation" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-    </summary>
-    <div class="accordion-content">
-      {
-          cv.educacion
-            .filter((item) => item.nivel === nivel)
-            .map((item) => (
-              <p>
-                {item.titulo} - {item.institución}
-              </p>
-            ))
-        }
-    </div>
-    </details>
+      <details class="education-accordion" id="education-details">
+        <summary class="sidebar-label">
+          {tituloEducacion}
+          <svg class="chevronEducation" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </summary>
+        <div class="accordion-content">
+          {
+            cv.educacion
+              .filter((item) => item.nivel === nivel)
+              .map((item) => (
+                <p>
+                  {item.titulo} - {item.institución}
+                </p>
+              ))
+          }
+        </div>
+      </details>
     </div>
     <hr class="separator" />
       
     <nav class="nav-links desktop-nav">
       <span class="sidebar-label">{tituloNavegacion}</span>
-      <a href="#sobre-mi" class="nav-item">{tituloSobreMi}</a>
-      <a href="#experiencia" class="nav-item">{tituloExperiencia}</a>
-      <a href="#habilidades" class="nav-item">{tituloHabilidades}</a>
+      <a href={`${navPrefix}#sobre-mi`} data-section="sobre-mi" class={isPrivacyPage ? "nav-item" : "nav-item active"}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <span>{tituloSobreMi}</span>
+      </a>
+      <a href={`${navPrefix}#experiencia`} data-section="experiencia" class="nav-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+        <span>{tituloExperiencia}</span>
+      </a>
+      <a href={`${navPrefix}#habilidades`} data-section="habilidades" class="nav-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+        <span>{tituloHabilidades}</span>
+      </a>
+      <a href={`${navPrefix}#certificaciones`} data-section="certificaciones" class="nav-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <span>{tituloCertificaciones}</span>
+      </a>
     </nav>
 
     <div class="mobile-info">
@@ -128,11 +153,17 @@ const tituloUbicacion = sb.ubicacion || 'Ubicación';
     </div>
 
     <div class="sidebar-footer">
-      <a href="https://github.com/KennerGV" target="_blank">GitHub</a>
+      <a href="https://github.com/KennerGV" target="_blank" rel="noopener noreferrer" class="sidebar-social-btn">
+        GitHub
+      </a>
       <a
         href="https://linkedin.com/in/kener-gutierrez-vasquez-3b0479174"
-        target="_blank">LinkedIn</a
-      >
+        target="_blank"
+        rel="noopener noreferrer"
+        class="sidebar-social-btn">
+        LinkedIn
+      </a>
+      <a href="https://wa.me/50687355106" target="_blank" rel="noopener noreferrer" class="sidebar-social-btn">WhatsApp</a>
     </div>
   </div>
 </header>
