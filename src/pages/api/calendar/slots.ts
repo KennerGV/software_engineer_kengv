@@ -6,6 +6,11 @@ const DURACION_REUNION_MINUTOS = 30;
 const DIAS_A_FUTURO = 9;
 const DEFAULT_OWNER_TIMEZONE = 'America/Montevideo';
 
+const SECURITY_HEADERS = {
+  'X-Content-Type-Options': 'nosniff',
+  'Strict-Transport-Security': 'max-age=63072000; includeSubDomains'
+};
+
 const CONFIGURACION_HORARIOS: Record<number, { inicio: { h: number, m: number }, fin: { h: number, m: number } } | null> = {
     1: { inicio: { h: 9, m: 0 }, fin: { h: 19, m: 30 } }, // Lunes
     2: { inicio: { h: 9, m: 0 }, fin: { h: 19, m: 30 } }, // Martes
@@ -19,10 +24,13 @@ const CONFIGURACION_HORARIOS: Record<number, { inicio: { h: number, m: number },
 export const POST: APIRoute = async ({ request, cookies }) => {
     try {
         const { code } = await request.json();
-        if (!code) {
-            return new Response(JSON.stringify({ error: 'Código de autorización faltante.' }), {
+        if (!code || typeof code !== 'string' || code.trim() === '') {
+            return new Response(JSON.stringify({ error: 'Código de autorización faltante o inválido.' }), {
                 status: 400,
-                headers: { 'Content-Type': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...SECURITY_HEADERS
+                }
             });
         }
 
@@ -99,15 +107,19 @@ export const POST: APIRoute = async ({ request, cookies }) => {
             status: 200,
             headers: {
                 'Content-Type': 'application/json',
-                'Cache-Control': 'no-store, max-age=0'
+                'Cache-Control': 'no-store, max-age=0',
+                ...SECURITY_HEADERS
             }
         });
 
     } catch (error: any) {
-        console.error('Error al procesar el calendario del dueño:', error);
-        return new Response(JSON.stringify({ error: 'No se pudo recuperar la disponibilidad del calendario.' }), {
+        console.error('Error interno al procesar el calendario del dueño:', error);
+        return new Response(JSON.stringify({ error: 'No se pudo recuperar la disponibilidad del calendario temporalmente. Inténtelo más tarde.' }), {
             status: 500,
-            headers: { 'Content-Type': 'application/json' }
+            headers: {
+                'Content-Type': 'application/json',
+                ...SECURITY_HEADERS
+            }
         });
     }
 };

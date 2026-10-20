@@ -7,11 +7,17 @@ interface IncomingRequest {
   bookingSlot?: string;
 }
 
+const SECURITY_HEADERS = {
+  'X-Content-Type-Options': 'nosniff',
+  'Strict-Transport-Security': 'max-age=63072000; includeSubDomains'
+};
+
 const SSE_HEADERS = {
   'Content-Type': 'text/event-stream; charset=utf-8',
   'Cache-Control': 'no-cache, no-transform',
   'Connection': 'keep-alive',
-  'X-Accel-Buffering': 'no'
+  'X-Accel-Buffering': 'no',
+  ...SECURITY_HEADERS
 };
 
 export const POST: APIRoute = async ({ request, cookies }) => {
@@ -21,8 +27,24 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     const referer = request.headers.get('referer') || '';
     const currentLang = referer.includes('/es/') ? 'es' : 'en';
 
-    if (!body || !body.message) {
-      return new Response(JSON.stringify({ error: 'Mensaje requerido.' }), { status: 400 });
+    if (!body || typeof body.message !== 'string' || body.message.trim() === '') {
+      return new Response(JSON.stringify({ error: 'Mensaje requerido y debe ser texto.' }), {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+          ...SECURITY_HEADERS
+        }
+      });
+    }
+
+    if (body.bookingSlot !== undefined && typeof body.bookingSlot !== 'string') {
+      return new Response(JSON.stringify({ error: 'El formato del horario no es válido.' }), {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+          ...SECURITY_HEADERS
+        }
+      });
     }
 
     const sanitizedMessage = sanitizeInput(body.message);
@@ -72,12 +94,30 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       })
     });
 
+    if (!azureResponse.ok) {
+        console.error('Azure function returned an error status:', azureResponse.status);
+        return new Response(JSON.stringify({ error: 'No se pudo procesar la solicitud en este momento.' }), {
+          status: 502,
+          headers: {
+            'Content-Type': 'application/json',
+            ...SECURITY_HEADERS
+          }
+        });
+    }
+
     return new Response(azureResponse.body, {
       status: 200,
       headers: SSE_HEADERS
     });
 
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Error interno.' }), { status: 500 });
+    console.error('Unhandled error in chat endpoint:', error);
+    return new Response(JSON.stringify({ error: 'Ocurrió un error interno. Inténtelo más tarde.' }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        ...SECURITY_HEADERS
+      }
+    });
   }
 };
