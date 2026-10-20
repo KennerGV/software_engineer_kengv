@@ -18,7 +18,7 @@ const chatPillText = floating.chatPill || openChatTitle;
   </ChatUI>
 
   <div class="floating-triggers">
-    <button class="chat-fab" id="toggle-chat" title={openChatTitle}>
+    <button class="chat-fab" id="toggle-chat" title={openChatTitle} aria-label={openChatTitle}>
       <span class="chat-fab-online-dot" aria-hidden="true"></span>
       <img src="/favicon.svg" alt="KG" class="chat-fab-logo" width="22" height="22" />
       <span class="chat-fab-label">{chatPillText}</span>
